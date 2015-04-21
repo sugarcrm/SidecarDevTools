@@ -1,11 +1,11 @@
 {
   "manifest_version": 2,
-  "name": "Backbone Developer Tools",
+  "name": "Sidecar Debugger Tool",
   "version": "0.1",
-  "description": "Helps in debugging Backbone-based web applications",
+  "description": "Sidecar Debugger Tool extension helps you debugging Sugar7, for a better productivity and faster development.",
 
   "icons": {
-    "128": "img/app_icon.png"
+    "128": "img/sugarcube.png"
   },
 
   "devtools_page": "html/devtools.html",
