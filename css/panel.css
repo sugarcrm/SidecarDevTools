@@ -77,8 +77,7 @@ h1 {
   margin: 0.8em 0 0.5em 0;
 }
 
-label, p, li {
-  font-size: 1.3em;
+label, p {
   line-height: 1.3em;
 }
 
@@ -124,7 +123,6 @@ table .timestamp {
   max-width: 84px;
 }
 
-table .object,
 table .event,
 table .element,
 table .type,
@@ -132,6 +130,12 @@ table .method {
   min-width: 200px;
   width: 200px;
   max-width: 200px;
+}
+
+table .object {
+    min-width: 400px;
+    width: 400px;
+    max-width: 400px;
 }
 
 th {
@@ -208,4 +212,9 @@ td.method {
 
 #toolbar button.clear {
   background-image: url(../img/clear_icon.png);
+}
+
+.general {
+    font-size: 1.3em;
+    line-height: 1.5em;
 }
