@@ -6,7 +6,7 @@
 
     create: function() {
       chrome.devtools.panels.create(
-        "Backbone", "img/panel_icon.png", "html/panel.html",
+        'SugarDebug', 'img/dark_cube.png', 'html/panel.html',
         function(panel) {
 
         }

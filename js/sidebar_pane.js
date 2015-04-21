@@ -6,12 +6,12 @@
   
     update: function(sidebar) {
       var functionDef = BDT.page.getBackboneViews.toString();
-      sidebar.setExpression("(" + functionDef + ")()");
+      sidebar.setExpression('(' + functionDef + ')()');
     },
 
     create: function() {
       chrome.devtools.panels.elements.createSidebarPane(
-        "Backbone Views",
+        'Sugar Components',
         function(sidebar) {
           BDT.sidebarPane.update(sidebar);
           chrome.devtools.panels.elements.onSelectionChanged.addListener(
@@ -20,7 +20,6 @@
         }
       );
     }
-  
   };
 
 })();

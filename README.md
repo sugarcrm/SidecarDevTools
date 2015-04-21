@@ -1,20 +1,9 @@
-Backbone Developer Tools
+Sidecar Debugger Tool
 ========================
-
-BDT is an extension for Chrome Developer Tools which helps in debugging Backbone-based apps.
-It's been developed by [Tomasz Szczęśniak-Szlagowski][1] and released under the [MIT License][2].
-It makes use of [Backbone.Debug][3] by Andrew Terris.
-
-Pull requests are welcome!
+This is an Google Chrome devtools extension that will help you to debug Sugar 7.
 
 Installing
 ----------
-
-### Web Store
-
-BDT is yet to be released, so you need to install it manually.
-
-### Manually
 
 1. Clone this repo
 2. Go to *Tools -> Extensions* in Google Chrome
@@ -22,27 +11,24 @@ BDT is yet to be released, so you need to install it manually.
 4. Choose the cloned repo directory
 
 Features
---------
+----------
 
-* $view console variable after inspecting a DOM Element (points to the closest View instance)
-* Containing Views Hierarchy in Elements panel
-* Logs in Backbone Panel:
-  * Events
-  * Syncs
-  * View-DOM Binding
-  * Instantiated Objects
+* $view console variable after inspecting a DOM Element (it points to the closest View instance object).
+* In *Elements* panel, you'll find a **Sugar Components** sidebar which give you access to the View object corresponding to the selected DOM element as well as its parent Layouts.
+* In **SugarDebug Panel**, you will find:
+  * ***Events:*** You get a real-time list of events that are triggered, showing for each event its name and information on the Sugar component which triggered it.
+  * ***Instanciated Objects :*** The list of instanciated Sugar Beans and Bean collections.
+  * ***View-DOM Binding:*** The of components present on the page with their corresponding DOM element.
+  * ***Sync:*** 
+  * ***Structure:*** A hierarchical tree representing the Sugar components of the current page.
 
-Known Limitations
------------------
+Features to implement
+---------------------------
 
-By default, Backbone Developer Tools require *window.Backbone* to be available on DOMContentLoaded. We have a fallback method for asynchronously loaded Backbone that seems to work pretty well, too.
+* Metadata: Ability to see the metadata for a given View or Layout.
+* Contexts: Ability to display contexts on the inspected page, for example by coloring the elements.
 
-If neither the default nor the fallback succeed in injecting Backbone Developer Tools, you can modify *js/inject/attach.js* to meet your specific requirements.
+Notes
+-------
 
-You could also try modifying *js/inject/logger.js* and *js/inject/backbone.debug.js* and including them by yourself.
-Note that unless you alter the extension itself, you'll need to expose the logger at *window.Backbone.debug.logger*.
-
-
-[1]: http://github.com/spect88
-[2]: http://www.opensource.org/licenses/MIT
-[3]: http://github.com/aterris/backbone.debug
+This extension is based on the [backbone-devtools](https://github.com/spect88/backbone-devtools) extension.
