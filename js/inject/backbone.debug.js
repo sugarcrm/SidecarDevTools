@@ -161,19 +161,19 @@
 
     Debug.prototype._onNewInstance = function(type, method, object) {
       var name;
-      name = this._prettyInstanceName(object, type);
+//      name = this._prettyInstanceName(object, type);
       this._objects[type][name] = object;
       if (this._options['log:instances']) {
-        return this.logger.log('instance', name, type);
+        return this.logger.log('instance', object, type);
       }
     };
 
     Debug.prototype._onViewBinding = function(type, method, object) {
       var name;
       object.$el.data('_backbone_view', object);
-      name = this._prettyInstanceName(object, type);
+//      name = this._prettyInstanceName(object, type);
       if (this._options['log:views']) {
-        return this.logger.log('view', name, object.el);
+        return this.logger.log('view', object, object.el);
       }
     };
 

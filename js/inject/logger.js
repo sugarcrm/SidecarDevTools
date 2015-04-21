@@ -19,7 +19,7 @@
         if (object instanceof SUGAR.App.BeanCollection) return 'Data.BeanCollection';
         if (object instanceof SUGAR.App.MixedBeanCollection) return 'Data.MixedBeanCollection';
         if (object === SUGAR.App.data) return 'Data.Manager';
-        if (object instanceof SUGAR.App.utils.FilterOptions) return 'Utils.FilterOptions';
+        if (_.isFunction(SUGAR.App.utils.FilterOptions) && object instanceof SUGAR.App.utils.FilterOptions) return 'Utils.FilterOptions';
         if (object === SUGAR.App.user) return 'Core.User';
     };
 
@@ -80,7 +80,7 @@
         log: function(type, object, details) {
             this.data[type].push({
                 t: Date.now(),
-                c1: (type === 'event') || (type === 'sync') ? prettyInstanceName(object) : object,
+                c1: prettyInstanceName(object),
                 c2: type === 'view' ? prettyElementName(details) : details
             });
         },
