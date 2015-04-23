@@ -1,10 +1,12 @@
-<ul class="accordion panel-accordion" data-accordion>
-    <li class="accordion-navigation panel-accordion-navigation">
-        <a href="#{{comp.cid}}" class="comp-link" name="{{comp.cid}}">
-            <span class="name">{{comp.name}}</span>
-            <span class="name">- type: {{comp.type}}</span>
-        </a>
-    </li>
-</ul>
-
-<h3>{{component.name}}</h3>
+<div class="tabs-content">
+    <div class="content active" id="layout">
+        <div class="button-bar panel-layout-button-bar">
+            <ul class="button-group round">
+                <li><a id="expandAll" class="button tiny">Expand all</a></li>
+                <li><a id="collapseAll" class="button tiny">Collapse all</a></li>
+            </ul>
+        </div>
+        <ul class="accordion panel-accordion" data-accordion>
+        </ul>
+    </div>
+</div>
