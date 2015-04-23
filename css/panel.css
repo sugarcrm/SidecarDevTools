@@ -4,7 +4,7 @@ html, body {
   width: 100%;
   height: 100%;
   font-family: "Lucida Grande", sans-serif;
-  font-size: 10px;
+  font-size: 12px;
   line-height: 100%;
 }
 
@@ -28,7 +28,7 @@ aside ul {
 }
 
 aside li {
-  font-size: 1.2em;
+  font-size: 1em;
   line-height: 2em;
   display: block;
   cursor: normal;
@@ -77,13 +77,13 @@ h1 {
   margin: 0.8em 0 0.5em 0;
 }
 
-label, p, li {
-  font-size: 1.3em;
+label, p {
   line-height: 1.3em;
 }
 
-ul {
-  padding: 0.4em 0 1.4em 2.4em;
+.general ul {
+    padding-top: 0.4em;
+    padding-right: 1.4em;
 }
 
 table {
@@ -124,7 +124,6 @@ table .timestamp {
   max-width: 84px;
 }
 
-table .object,
 table .event,
 table .element,
 table .type,
@@ -132,6 +131,12 @@ table .method {
   min-width: 200px;
   width: 200px;
   max-width: 200px;
+}
+
+table .object {
+    min-width: 400px;
+    width: 400px;
+    max-width: 400px;
 }
 
 th {
@@ -208,4 +213,9 @@ td.method {
 
 #toolbar button.clear {
   background-image: url(../img/clear_icon.png);
+}
+
+.general {
+    font-size: 1.3em;
+    line-height: 1.5em;
 }
