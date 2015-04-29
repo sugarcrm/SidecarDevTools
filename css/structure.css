@@ -1,0 +1,35 @@
+.panel-accordion .panel-accordion-navigation {
+  background-color: transparent;
+  position: relative; }
+  .panel-accordion .panel-accordion-navigation > a {
+    padding: 0.2em; }
+    .panel-accordion .panel-accordion-navigation > a > .name {
+      font-weight: bold; }
+  .panel-accordion .panel-accordion-navigation.layout {
+    border-left: 1px solid forestgreen; }
+    .panel-accordion .panel-accordion-navigation.layout > a > .name {
+      color: forestgreen; }
+  .panel-accordion .panel-accordion-navigation.view {
+    border-left: 1px solid orange; }
+    .panel-accordion .panel-accordion-navigation.view > a > .name {
+      color: orange; }
+  .panel-accordion .panel-accordion-navigation > .content {
+    padding: 0.5em;
+    padding-right: 0; }
+
+.panel-layout-button-bar {
+  margin-left: 1.1em; }
+
+.structure {
+  padding-top: 0.4em;
+  padding-right: 1.4em; }
+
+.comp-checkbox {
+  position: absolute;
+  right: 6px;
+  top: 6px; }
+
+#toggleAllCtx {
+  float: right; }
+
+/*# sourceMappingURL=structure.css.map */

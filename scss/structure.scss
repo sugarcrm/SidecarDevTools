@@ -1,0 +1,47 @@
+.panel-accordion {
+  .panel-accordion-navigation {
+    background-color: transparent;
+    position: relative;
+    > a {
+      padding: 0.2em;
+      > .name {
+        font-weight: bold;
+      }
+    }
+    &.layout {
+      border-left: 1px solid forestgreen;
+      > a > .name {
+        color: forestgreen;
+      }
+    }
+    &.view {
+      border-left: 1px solid orange;
+      > a > .name {
+        color: orange;
+      }
+    }
+    > .content {
+      padding: 0.5em;
+      padding-right: 0;
+    }
+  }
+}
+
+.panel-layout-button-bar {
+  margin-left: 1.1em;
+}
+
+.structure {
+  padding-top: 0.4em;
+  padding-right: 1.4em;
+}
+
+.comp-checkbox {
+  position: absolute;
+  right: 6px;
+  top: 6px;
+}
+
+#toggleAllCtx {
+  float: right;
+}

@@ -23,6 +23,7 @@
       '#views':       BDT.views.Views,
       '#syncs':       BDT.views.Syncs,
       '#instances':   BDT.views.Instances,
+      '#structure':   BDT.views.Structure
     },
 
     displayView: function(href) {

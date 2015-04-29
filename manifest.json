@@ -1,28 +1,40 @@
 {
-  "manifest_version": 2,
-  "name": "Backbone Developer Tools",
-  "version": "0.1",
-  "description": "Helps in debugging Backbone-based web applications",
+    "manifest_version": 2,
+    "name": "Sidecar Debugger Tool",
+    "version": "0.1",
+    "description": "Sidecar Debugger Tool extension helps you debugging Sugar7, for a better productivity and faster development.",
 
-  "icons": {
-    "128": "img/app_icon.png"
-  },
+    "icons": {
+        "128": "img/sugarcube.png"
+    },
 
-  "devtools_page": "html/devtools.html",
+    "devtools_page": "html/devtools.html",
 
-  "content_scripts": [
-    {
-      "matches": ["<all_urls>"],
-      "js": ["js/inject/content_script.js"],
-      "run_at": "document_start"
-    }
-  ],
+    "permissions": [
+        "tabs"
+    ],
 
-  "web_accessible_resources": [
-    "js/inject/attach.js",
-    "js/inject/backbone.debug.js",
-    "js/inject/logger.js"
-  ],
+    "background": {
+        "scripts": ["js/background.js"]
+    },
 
-  "minimum_chrome_version": "20.0.1132.57"
+    "content_scripts": [
+        {
+            "matches": ["<all_urls>"],
+            "css": ["css/inject/injected.css"],
+            "js": [
+                "lib/jquery-1.9.1.js",
+                "js/inject/content_script.js"
+            ],
+            "run_at": "document_start"
+        }
+    ],
+
+    "web_accessible_resources": [
+        "js/inject/attach.js",
+        "js/inject/backbone.debug.js",
+        "js/inject/logger.js"
+    ],
+
+    "minimum_chrome_version": "20.0.1132.57"
 }
