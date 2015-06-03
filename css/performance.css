@@ -1,0 +1,12 @@
+.performance select {
+  width: 40%;
+  margin-top: 1em; }
+.performance #simulate, .performance #simulateAll {
+  margin-bottom: 2em;
+  margin-right: 2em; }
+.performance #results-table {
+  width: 90%; }
+.performance .result-label {
+  margin-bottom: 1em; }
+
+/*# sourceMappingURL=performance.css.map */

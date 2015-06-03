@@ -62,6 +62,24 @@
       window.$view = $($0).backbone('closest');
     },
 
+      measureRenderTime: function(fieldType, iterations, template) {
+          var times = [], model, view, def, f, start, end, sum, average;
+
+          model = App.controller.context.get('model');
+          view = App.view.createView({model: model, name: 'list'});
+          for (var runs = 0; runs < iterations; runs++) {
+              start = window.performance.now();
+              def = {type: fieldType, viewName: template};
+              f = App.view.createField({def: def, model: model, view: view});
+              f.render();
+              end = window.performance.now();
+              times.push(end-start);
+          }
+          sum = times.reduce(function(a, b) { return a + b; });
+          average = sum / times.length;
+          return average;
+      },
+
     isBackboneDebugReachable: function() {
       return window.Backbone && window.Backbone.debug && true;
     },

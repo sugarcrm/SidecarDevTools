@@ -1,0 +1,51 @@
+<h3>Measure fields render duration:</h3>
+<label>Choose field type:</label>
+<select name="fieldType">
+    {{#each fields}}
+        <option value="{{this}}">{{this}}</option>
+    {{/each}}
+</select>
+
+<label>Number of simulated 'render' calls to calculate the average time:</label>
+<select name="iterations">
+    <option value="10">10</option>
+    <option value="20">20</option>
+    <option value="50">50</option>
+    <option value="100">100</option>
+</select>
+
+<label>Template to use:</label>
+<select name="template">
+    <option value="detail">detail</option>
+    <option value="list">list</option>
+    <option value="edit">edit</option>
+</select>
+<div>
+    <input id="simulate" type="button" value="Simulate render">
+</div>
+<label class="result-label"><strong>Average time (ms): </strong><span id="render-result"></span></label>
+<hr>
+<div>
+    <input id="simulateAll" type="button" value="Simulate render all fields">
+    <input id="clearAll" type="button" value="clear results">
+</div>
+<table id="results-table" class="tablesorter">
+    <thead>
+    <tr>
+        <th>
+            Field type
+        </th>
+        <th>
+            Average time
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    {{#each rows}}
+    <tr>
+        <td>{{fieldType}}</td>
+        <td>{{result}}</td>
+    </tr>
+    {{/each}}
+    </tbody>
+</table>
