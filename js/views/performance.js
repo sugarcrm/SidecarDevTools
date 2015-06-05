@@ -6,8 +6,8 @@
         className: 'performance',
         template: BDT.templates['performance'],
         events: {
-            'click #simulate': 'getRenderTime',
-            'click #simulateAll': 'getAllRenderTimes',
+            'click #simulate': 'simulateRenderTime',
+            'click #simulateAll': 'simulateAllRenderTimes',
             'click #clearAll': 'clearTable'
         },
 
@@ -46,32 +46,50 @@
             return this;
         },
 
-        getRenderTime: function(field) {
+        /**
+         * Simulates a render for the selected field and prints the duration of
+         * rendering in the table.
+         */
+        simulateRenderTime: function() {
+          var fieldType = this.$('select[name=fieldType]').val();
+          this.getRenderTime(fieldType);
+        },
+
+        /**
+         * Gets the time to render and prints it in the table.
+         * @param field
+         */
+        getRenderTime: function(fieldType) {
             var result;
             var self = this;
-            var fieldType = typeof field === 'string' ? field : this.$('select[name=fieldType]').val();
             var iterations = this.$('select[name=iterations]').val();
             var template = this.$('select[name=template]').val();
-            BDT.page.eval('measureRenderTime', [fieldType, iterations, template], function(average, isException) {
+            BDT.page.eval('measureRenderTime', [fieldType, iterations, template], function(totalTime, isException) {
                 if (isException) {
                 }
                 else {
-                    if (average) {
-                        result = {fieldType: fieldType, average: (Math.round( average * 10 ) / 10)};
+                    if (totalTime) {
+                        result = {fieldType: fieldType, totalTime: totalTime, averageTime: (Math.round((totalTime/iterations) * 10 ) / 10)};
                         self.rows.push(result);
-                        self.$('#results-table tbody').append('<tr><td>' + result.fieldType + '</td><td>' + result.average + '</td></tr>');
+                        self.$('#results-table tbody').append('<tr><td>' + result.fieldType + '</td><td>' + result.totalTime + '</td><td>' + result.averageTime + '</td></tr>');
                         $("#results-table").tablesorter();
                     }
                 }
             });
         },
 
-        getAllRenderTimes: function() {
+        /**
+         * Simulate render for every available fields and prints the durations.
+         */
+        simulateAllRenderTimes: function() {
             for (var i = 0; i < this.fields.length; i++) {
                 this.getRenderTime(this.fields[i]);
             }
         },
 
+        /**
+         * Clears the table.
+         */
         clearTable: function() {
             this.rows = [];
             this.render();

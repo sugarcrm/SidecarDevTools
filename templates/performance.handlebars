@@ -12,6 +12,7 @@
     <option value="20">20</option>
     <option value="50">50</option>
     <option value="100">100</option>
+    <option value="200">200</option>
 </select>
 
 <label>Template to use:</label>
@@ -36,6 +37,9 @@
             Field type
         </th>
         <th>
+            Total time
+        </th>
+        <th>
             Average time
         </th>
     </tr>
@@ -44,7 +48,8 @@
     {{#each rows}}
     <tr>
         <td>{{fieldType}}</td>
-        <td>{{result}}</td>
+        <td>{{totalTime}}</td>
+        <td>{{averageTime}}</td>
     </tr>
     {{/each}}
     </tbody>

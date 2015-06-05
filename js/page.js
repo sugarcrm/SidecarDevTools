@@ -76,8 +76,7 @@
               times.push(end-start);
           }
           sum = times.reduce(function(a, b) { return a + b; });
-          average = sum / times.length;
-          return average;
+          return sum;
       },
 
     isBackboneDebugReachable: function() {
