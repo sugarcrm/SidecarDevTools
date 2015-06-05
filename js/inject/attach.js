@@ -42,7 +42,9 @@
 
     injectScript("backbone.debug.js", function() {
       injectScript("logger.js", function() {
-        console.log('[Backbone Dev Tools] Injected Backbone.Debug');
+        injectScript("pageStructureHelper.js", function() {
+          console.log('[Sidecar Dev Tools] Injected debug scripts.');
+        });
       });
     });
   };

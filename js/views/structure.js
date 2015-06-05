@@ -49,7 +49,7 @@
 
             var self = this;
             chrome.devtools.inspectedWindow.eval(
-                'App.controller.layout.printStructure()',
+                'App.controller.layout.getComponentInfo()',
                 function(result, isException) {
                     if (isException) {
                     }
