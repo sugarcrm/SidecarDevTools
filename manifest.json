@@ -33,8 +33,8 @@
     "web_accessible_resources": [
         "js/inject/attach.js",
         "js/inject/backbone.debug.js",
-        "js/inject/logger.js",
-        "js/inject/pageStructureHelper.js"
+        "js/inject/sidecar.debug.js",
+        "js/inject/logger.js"
     ],
 
     "minimum_chrome_version": "20.0.1132.57",
