@@ -49,7 +49,7 @@
 
             var self = this;
             chrome.devtools.inspectedWindow.eval(
-                'App.controller.layout.printStructure()',
+                'App.controller.layout.getComponentInfo()',
                 function(result, isException) {
                     if (isException) {
                     }
@@ -61,6 +61,11 @@
                     }
                 }
             );
+
+            // Listening to messages from the content script.
+            this.backgroundPageConnection.onMessage.addListener(_.bind(function(msg, port) {
+                // Do something.
+            }, this));
         },
 
         /**

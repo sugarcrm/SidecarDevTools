@@ -59,7 +59,19 @@
       // Backbone jQuery extension is required
       if (typeof $.fn.backbone != 'function') return;
 
-      window.$view = $($0).backbone('closest');
+      var sidecarDomElement = $($0).closest('[data-debug-cid]');
+      var cid  = sidecarDomElement.data('debug-cid');
+      var sidecarComponent = App.debug.getComponent(cid);
+      window.$view = sidecarComponent;
+        console.log('*****Sidecar: Current Component*****');
+        console.log('* cid: '+ sidecarComponent.cid);
+        console.log('* component type: '+ sidecarComponent.debugType);
+        console.log('* Name: '+ sidecarComponent.name);
+        if (sidecarComponent.type) {
+            console.log('* Type: '+ sidecarComponent.type);
+        }
+        console.log('$view = ', sidecarComponent);
+        console.log('***********************');
     },
 
       measureRenderTime: function(fieldType, iterations, template) {

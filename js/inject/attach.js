@@ -40,11 +40,13 @@
       return;
     }
 
-    injectScript("backbone.debug.js", function() {
-      injectScript("logger.js", function() {
-        console.log('[Backbone Dev Tools] Injected Backbone.Debug');
+      injectScript("backbone.debug.js", function() {
+          injectScript("logger.js", function() {
+              injectScript("sidecar.debug.js", function() {
+                  console.log('[Sidecar Dev Tools] Injected debug scripts.');
+              });
+          });
       });
-    });
   };
 
   var tryInject = function () {
