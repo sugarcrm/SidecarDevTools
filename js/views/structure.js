@@ -61,6 +61,11 @@
                     }
                 }
             );
+
+            // Listening to messages from the content script.
+            this.backgroundPageConnection.onMessage.addListener(_.bind(function(msg, port) {
+                // Do something.
+            }, this));
         },
 
         /**

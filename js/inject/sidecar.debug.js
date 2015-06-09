@@ -46,9 +46,14 @@
 
     Sidecar.Debug = (function() {
 
-        function Debug() {
+        var _components = {};
 
-            this._hookPrototype('view.Component', 'initialize', this._addCidAttr);
+        function Debug() {
+            this._hookPrototype('view.Field', 'initialize', this._onHookFieldInitialize);
+            this._hookPrototype('view.View', 'initialize', this._onHookViewInitialize);
+            this._hookPrototype('view.Layout', 'initialize', this._onHookLayoutInitialize);
+            this._hookPrototype('view.Component', 'dispose', this._removeField);
+
         };
 
         /**
@@ -83,7 +88,34 @@
 
         Debug.prototype._addCidAttr = function() {
             this.$el.attr('data-debug-cid', this.cid);
+            _components[this.cid] = this;
+        };
+
+        Debug.prototype._onHookLayoutInitialize = function() {
+            this.$el.attr('data-debug-cid', this.cid);
+            this.debugType = 'layout';
+            _components[this.cid] = this;
         }
+
+        Debug.prototype._onHookViewInitialize = function() {
+            this.$el.attr('data-debug-cid', this.cid);
+            this.debugType = 'view';
+            _components[this.cid] = this;
+        }
+
+        Debug.prototype._onHookFieldInitialize = function() {
+            this.$el.attr('data-debug-cid', this.cid);
+            this.debugType = 'field';
+            _components[this.cid] = this;
+        }
+
+        Debug.prototype._removeField = function() {
+            delete _components[this.cid];
+        };
+
+        Debug.prototype.getComponent = function(cid) {
+            return _components[cid];
+        };
         return Debug;
 
     })();
