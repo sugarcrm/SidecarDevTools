@@ -1,0 +1,65 @@
+<h3>Measure method time:</h3>
+<div class="left-block">
+    <label>Select a component type:</label>
+    <select name="Type">
+        {{#each types}}
+            <option value="{{type}}"{{#if selected}} selected="selected"{{/if}}>{{type}}</option>
+        {{/each}}
+    </select>
+</div>
+<div class="right-block">
+    <label>Select the component:</label>
+    <select name="Component">
+        {{#each components}}
+            <option value="{{name}}"{{#if selected}} selected="selected"{{/if}}>{{name}}</option>
+        {{/each}}
+    </select>
+</div>
+<div class="right-block">
+    <label>Select the method:</label>
+    <select name="Method">
+        {{#each methods}}
+            <option value="{{name}}">{{name}}</option>
+        {{/each}}
+    </select>
+</div>
+
+<label>Number of simulated 'render' calls to calculate the average time:</label>
+<select name="iterations">
+    <option value="10">10</option>
+    <option value="20">20</option>
+    <option value="50">50</option>
+    <option value="100">100</option>
+    <option value="200">200</option>
+</select>
+<div style="float: left; margin-right: 20px;">
+    <input id="simulate" type="button" value="Simulate render">
+</div>
+<div>
+    <input id="clearAll" type="button" value="clear results">
+</div>
+<hr>
+<table id="results-table" class="tablesorter">
+    <thead>
+    <tr>
+        <th>
+            Field type
+        </th>
+        <th>
+            Total time
+        </th>
+        <th>
+            Average time
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    {{#each rows}}
+        <tr>
+            <td>{{fieldType}}</td>
+            <td>{{totalTime}}</td>
+            <td>{{averageTime}}</td>
+        </tr>
+    {{/each}}
+    </tbody>
+</table>

@@ -25,7 +25,8 @@
       '#instances':   BDT.views.Instances,
       '#structure':   BDT.views.Structure,
       '#performance':   BDT.views.Performance,
-      '#generate':   BDT.views.Generate
+      '#generate':   BDT.views.Generate,
+      '#breakpoints':   BDT.views.Breakpoints
     },
 
     displayView: function(href) {

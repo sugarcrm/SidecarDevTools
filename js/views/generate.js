@@ -7,7 +7,7 @@
         template: BDT.templates['generate'],
         events: {
             'click input[name=submitGenerate]' : 'generateRecords',
-            'click input[name=currentContext]' : 'setCurrentContext'
+            'click input[id=currentContext]' : 'setCurrentContext'
         },
 
         /**

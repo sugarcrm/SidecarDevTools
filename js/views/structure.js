@@ -100,6 +100,7 @@
                     '<span class="name">' + comp.name + '</span>' +
                     ' - type: ' + comp.type +
                     ' - context: ' + comp.contextId +
+                    ' - cid: ' + comp.cid +
                     '</a>' +
                     '<input type="checkbox" class="comp-checkbox" name="' + comp.cid + '" data-context-id="' + comp.contextId + '" data-type="' + comp.compType + '" data-action="toggle-context">');
 
