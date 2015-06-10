@@ -1,10 +1,22 @@
-.generate select {
-  display: block; }
-.generate .format-help {
-  font-size: 9px;
-  color: grey;
-  margin-bottom: 0;
-  white-space: pre;
-  margin-top: 2px; }
+.generate {
+  padding-right: 1.6em; }
+  .generate select {
+    display: block; }
+  .generate .format-help {
+    font-size: 9px;
+    color: grey;
+    margin-bottom: 0;
+    white-space: pre;
+    margin-top: 2px; }
+  .generate .left-block {
+    display: inline-block;
+    width: 222px; }
+    .generate .left-block select {
+      width: 90%; }
+  .generate .right-block {
+    width: 222px;
+    display: inline-block; }
+    .generate .right-block select {
+      width: 90%; }
 
 /*# sourceMappingURL=generate.css.map */

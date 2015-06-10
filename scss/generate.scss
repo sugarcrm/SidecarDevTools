@@ -1,4 +1,5 @@
 .generate {
+  padding-right: 1.6em;
   select {
     display: block;
   }
@@ -8,5 +9,19 @@
     margin-bottom: 0;
     white-space: pre;
     margin-top: 2px;
+  }
+  .left-block {
+    display: inline-block;
+    width: 222px;
+    select {
+      width: 90%;
+    }
+  }
+  .right-block {
+    width: 222px;
+    display: inline-block;
+    select {
+      width: 90%;
+    }
   }
 }

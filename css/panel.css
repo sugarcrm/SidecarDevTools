@@ -173,7 +173,7 @@ table {
   line-height: 1.5em; }
 
 select, input[type="number"], textarea {
-  width: 40%;
+  width: 200px;
   margin-top: 1em; }
 
 /*# sourceMappingURL=panel.css.map */

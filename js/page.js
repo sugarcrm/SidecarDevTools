@@ -91,15 +91,48 @@
             return sum;
         },
 
-        generateRecords: function(module, attributes, options, numberOfRecords) {
-            var attributes = _.isEmpty(attributes) ? [] : JSON.parse(attributes);
-            var options = _.isEmpty(options) ? [] : JSON.parse(options);
+        generateRecords: function(module, attributes, numberOfRecords, options, addToCollection) {
             var bean;
+            var collection = App.controller.context.get('collection');
+            attributes = _.isEmpty(attributes) ? [] : JSON.parse(attributes);
+            options = _.isEmpty(options) ? [] : JSON.parse(options);
             for (var i = 0; i < numberOfRecords; i++) {
-                bean = App.data.createBean(module, options[i]);
-                bean.save(attributes[i]);
+                bean = App.data.createBean(module, attributes[i], options[i]);
+                bean.save();
                 console.log(bean);
+                if (addToCollection) {
+                    App.controller.context.get('collection').add(bean);
+                }
             }
+        },
+
+        generateRelatedRecords: function(module, subpanel, attributes, numberOfRecords) {
+            var bean;
+            var context = App.controller.context;
+            var model = context.get('model');
+            var collection = model._relatedCollections[subpanel];
+            var link = context.get('model')._relatedCollections[subpanel].link.name;
+            var options = {relate: true};
+            attributes = _.isEmpty(attributes) ? [] : JSON.parse(attributes);
+            for (var i = 0; i < numberOfRecords; i++) {
+                _.isUndefined(attributes[i]) ? {} : attributes[i];
+                bean = App.data.createRelatedBean(model, null, link, attributes[i]);
+                bean.save({}, options);
+                collection.add(bean);
+                context.trigger('panel-top:refresh', link);
+            }
+        },
+
+        getSubpanels: function(module) {
+            var subpanels = App.utils.getSubpanelList(module);
+
+            return subpanels;
+        },
+
+        getCurrentModule: function() {
+            var currentModule = App.controller.context.get('module');
+
+            return currentModule;
         },
 
         isBackboneDebugReachable: function() {

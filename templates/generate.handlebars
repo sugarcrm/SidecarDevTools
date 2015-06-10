@@ -1,12 +1,26 @@
 <h3>Generate records:</h3>
 
-<label>Choose a module :</label>
-<select name="Module">
-    {{#each modules}}
-        <option value="{{this}}">{{this}}</option>
-    {{/each}}
-</select>
+<input type="checkbox" name="currentContext"{{#if useCurrentContext}} checked{{/if}}>
+<label>Generate records in current context</label>
+<hr>
 
+<div class="left-block">
+    <label>Choose a module :</label>
+    <select name="Module" {{#if useCurrentContext}} disabled="disabled" value="{{../currentModule}}"{{/if}}>
+        {{#each modules}}
+            <option value="{{this}}">{{this}}</option>
+        {{/each}}
+    </select>
+</div>
+<div class="right-block">
+    <label>Choose a subpanel :</label>
+    <select name="Subpanel"{{#unless useCurrentContext}} disabled="disabled"{{/unless}}>
+        <option value="">No subpanel</option>
+        {{#each subpanels}}
+            <option value="{{this}}">{{this}}</option>
+        {{/each}}
+    </select>
+</div>
 <label>How many records to generate?</label>
 <input type="number" name="numberOfRecords" value="1">
 
