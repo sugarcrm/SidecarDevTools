@@ -1,132 +1,143 @@
 (function() {
 
-  var BDT = window.BDT;
+    var BDT = window.BDT;
 
-  BDT.page = {
-  
-    // helpers for evaluating JS code in the context of inspected page
+    BDT.page = {
 
-    eval: function(scriptName, args, callback) {
-      args = args || [];
-      var paramsString = args.map(JSON.stringify).join(",")
+        // helpers for evaluating JS code in the context of inspected page
 
-      chrome.devtools.inspectedWindow.eval(
-        "(" + BDT.page[scriptName].toString() + ")(" + paramsString + ")",
-        callback
-      );
-    },
+        eval: function(scriptName, args, callback) {
+            args = args || [];
+            var paramsString = args.map(JSON.stringify).join(",")
 
-    // functions to be executed in the context of inspected page
+            chrome.devtools.inspectedWindow.eval(
+                "(" + BDT.page[scriptName].toString() + ")(" + paramsString + ")",
+                callback
+            );
+        },
 
-    getBackboneViews: function() {
-      var tree = { __proto__: null };
+        // functions to be executed in the context of inspected page
 
-      // get jQuery/Zepto
-      var $ = window.Backbone && window.Backbone.$ || window.jQuery || window.Zepto;
-      if (!($ && $0)) return tree;
+        getBackboneViews: function() {
+            var tree = { __proto__: null };
 
-      // Backbone jQuery extension is required
-      if (typeof $.fn.backbone != 'function') return tree;
+            // get jQuery/Zepto
+            var $ = window.Backbone && window.Backbone.$ || window.jQuery || window.Zepto;
+            if (!($ && $0)) return tree;
 
-      // display elemens as eg. div#todoapp
-      function pretty(elem) {
-        return elem.tagName.toLowerCase() + (elem.id && ("#" + elem.id));
-      }
+            // Backbone jQuery extension is required
+            if (typeof $.fn.backbone != 'function') return tree;
 
-      // we need to prefix element names if we want to preserve the order
-      var index = 0;
+            // display elemens as eg. div#todoapp
+            function pretty(elem) {
+                return elem.tagName.toLowerCase() + (elem.id && ("#" + elem.id));
+            }
 
-      // start with currently selected DOM Element
-      var elem = $($0);
-      tree[index + ' ' + pretty(elem[0])] = elem.backbone();
+            // we need to prefix element names if we want to preserve the order
+            var index = 0;
 
-      // go up the Backbone Views tree
-      while (true) {
-        var parentView = elem.backbone('parent')
-        if (!parentView) break;
-        elem = parentView.$el;
-        tree[++index + ' ' + pretty(elem[0])] = parentView;
-      }
+            // start with currently selected DOM Element
+            var elem = $($0);
+            tree[index + ' ' + pretty(elem[0])] = elem.backbone();
 
-      return tree;
-    },
+            // go up the Backbone Views tree
+            while (true) {
+                var parentView = elem.backbone('parent')
+                if (!parentView) break;
+                elem = parentView.$el;
+                tree[++index + ' ' + pretty(elem[0])] = parentView;
+            }
 
-    set$view: function() {
-      // get jQuery/Zepto
-      var $ = window.Backbone && window.Backbone.$ || window.jQuery || window.Zepto;
-      if (!($ && $0)) return;
+            return tree;
+        },
 
-      // Backbone jQuery extension is required
-      if (typeof $.fn.backbone != 'function') return;
+        set$view: function() {
+            // get jQuery/Zepto
+            var $ = window.Backbone && window.Backbone.$ || window.jQuery || window.Zepto;
+            if (!($ && $0)) return;
 
-      var sidecarDomElement = $($0).closest('[data-debug-cid]');
-      var cid  = sidecarDomElement.data('debug-cid');
-      var sidecarComponent = App.debug.getComponent(cid);
-      window.$view = sidecarComponent;
-        console.log('*****Sidecar: Current Component*****');
-        console.log('* cid: '+ sidecarComponent.cid);
-        console.log('* component type: '+ sidecarComponent.debugType);
-        console.log('* Name: '+ sidecarComponent.name);
-        if (sidecarComponent.type) {
-            console.log('* Type: '+ sidecarComponent.type);
+            // Backbone jQuery extension is required
+            if (typeof $.fn.backbone != 'function') return;
+
+            var sidecarDomElement = $($0).closest('[data-debug-cid]');
+            var cid  = sidecarDomElement.data('debug-cid');
+            var sidecarComponent = App.debug.getComponent(cid);
+            window.$view = sidecarComponent;
+            console.log('*****Sidecar: Current Component*****');
+            console.log('* cid: '+ sidecarComponent.cid);
+            console.log('* component type: '+ sidecarComponent.debugType);
+            console.log('* Name: '+ sidecarComponent.name);
+            if (sidecarComponent.type) {
+                console.log('* Type: '+ sidecarComponent.type);
+            }
+            console.log('$view = ', sidecarComponent);
+            console.log('***********************');
+        },
+
+        measureRenderTime: function(fieldType, iterations, template) {
+            var times = [], model, view, def, f, start, end, sum, average;
+
+            model = App.controller.context.get('model');
+            view = App.view.createView({model: model, name: 'list'});
+            for (var runs = 0; runs < iterations; runs++) {
+                start = window.performance.now();
+                def = {type: fieldType, viewName: template};
+                f = App.view.createField({def: def, model: model, view: view});
+                f.render();
+                end = window.performance.now();
+                times.push(end-start);
+            }
+            sum = times.reduce(function(a, b) { return a + b; });
+            return sum;
+        },
+
+        generateRecords: function(module, attributes, options, numberOfRecords) {
+            var attributes = _.isEmpty(attributes) ? [] : JSON.parse(attributes);
+            var options = _.isEmpty(options) ? [] : JSON.parse(options);
+            var bean;
+            for (var i = 0; i < numberOfRecords; i++) {
+                bean = App.data.createBean(module, options[i]);
+                bean.save(attributes[i]);
+                console.log(bean);
+            }
+        },
+
+        isBackboneDebugReachable: function() {
+            return window.Backbone && window.Backbone.debug && true;
+        },
+
+        isLoggerReachable: function() {
+            return typeof window.Backbone.debug.logger.getData === 'function';
+        },
+
+        getData: function(type, fromIndex, limit) {
+            return window.Backbone.debug.logger.getData(type, fromIndex, limit);
+        },
+
+        clearData: function(type) {
+            window.Backbone.debug.logger.clearData(type);
+        },
+
+        enableInjection: function() {
+            window.sessionStorage['_backbone_debug_injection'] = 'enabled';
+        },
+
+        disableInjection: function() {
+            window.sessionStorage.removeItem('_backbone_debug_injection');
+        },
+
+        isInjectionEnabled: function() {
+            return window.sessionStorage['_backbone_debug_injection'] === 'enabled';
+        },
+
+        updateTimeout: function(ms) {
+            window.sessionStorage['_backbone_debug_injection_timeout'] = String(ms);
+        },
+
+        getTimeout: function() {
+            return window.sessionStorage['_backbone_debug_injection_timeout'];
         }
-        console.log('$view = ', sidecarComponent);
-        console.log('***********************');
-    },
 
-      measureRenderTime: function(fieldType, iterations, template) {
-          var times = [], model, view, def, f, start, end, sum, average;
-
-          model = App.controller.context.get('model');
-          view = App.view.createView({model: model, name: 'list'});
-          for (var runs = 0; runs < iterations; runs++) {
-              start = window.performance.now();
-              def = {type: fieldType, viewName: template};
-              f = App.view.createField({def: def, model: model, view: view});
-              f.render();
-              end = window.performance.now();
-              times.push(end-start);
-          }
-          sum = times.reduce(function(a, b) { return a + b; });
-          return sum;
-      },
-
-    isBackboneDebugReachable: function() {
-      return window.Backbone && window.Backbone.debug && true;
-    },
-
-    isLoggerReachable: function() {
-      return typeof window.Backbone.debug.logger.getData === 'function';
-    },
-
-    getData: function(type, fromIndex, limit) {
-      return window.Backbone.debug.logger.getData(type, fromIndex, limit);
-    },
-
-    clearData: function(type) {
-      window.Backbone.debug.logger.clearData(type);
-    },
-
-    enableInjection: function() {
-      window.sessionStorage['_backbone_debug_injection'] = 'enabled';
-    },
-
-    disableInjection: function() {
-      window.sessionStorage.removeItem('_backbone_debug_injection');
-    },
-
-    isInjectionEnabled: function() {
-      return window.sessionStorage['_backbone_debug_injection'] === 'enabled';
-    },
-
-    updateTimeout: function(ms) {
-      window.sessionStorage['_backbone_debug_injection_timeout'] = String(ms);
-    },
-
-    getTimeout: function() {
-      return window.sessionStorage['_backbone_debug_injection_timeout'];
-    }
-
-  };
+    };
 
 })();

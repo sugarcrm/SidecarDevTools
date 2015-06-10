@@ -1,0 +1,23 @@
+<h3>Generate records:</h3>
+
+<label>Choose a module :</label>
+<select name="Module">
+    {{#each modules}}
+        <option value="{{this}}">{{this}}</option>
+    {{/each}}
+</select>
+
+<label>How many records to generate?</label>
+<input type="number" name="numberOfRecords" value="1">
+
+<label>Add your own attributes:</label>
+<p class="format-help">It should be an array of objects. Each object being the attributes of a record to be created.
+It should respect JSON format with double quotes.</p>
+<textarea name="attributes"></textarea>
+
+<label>Add options:</label>
+<p class="format-help">It should be an array of objects. Each object being the attributes of a record to be created.
+It should respect JSON format with double quotes.</p>
+<textarea name="options"></textarea>
+
+<input type="button" name="submitGenerate" value="Generate!">
