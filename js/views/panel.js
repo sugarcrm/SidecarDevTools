@@ -26,7 +26,8 @@
       '#structure':   BDT.views.Structure,
       '#performance':   BDT.views.Performance,
       '#generate':   BDT.views.Generate,
-      '#metrics':   BDT.views.Metrics
+      '#metrics':   BDT.views.Metrics,
+      '#appstream':   BDT.views.AppStream
     },
 
     displayView: function(href) {

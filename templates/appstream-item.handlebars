@@ -1,0 +1,25 @@
+<table>
+  <tr data-role="itemset" data-date="{{date}}" class="activities-date">
+    <td colspan="5">{{date}}</td>
+  </tr>
+    {{#each items}}
+    <tr data-type="{{type}}">
+      <td class="td-label">
+        <span
+            class="label radius secondary label-{{label_class}}">{{type}}</span>
+      </td>
+        <td class="td-time{{#unless is0ms}} td-has-time{{/unless}}">
+          {{#if hasPerformance}}({{performance}}ms){{else}}&nbsp;{{/if}}
+      </td>
+      <td class="td-text {{css_class}}">
+          {{label}}
+      </td>
+      <td class="td-args">
+          {{#if instance}}<a data-consolecomp="{{id}}">component</a>{{/if}}
+      </td>
+      <td class="td-args">
+          {{#if args}}<a data-console="{{id}}">arguments</a>{{/if}}
+      </td>
+    {{/each}}
+</tr>
+</table>

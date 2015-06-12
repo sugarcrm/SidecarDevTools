@@ -40,12 +40,8 @@
       return;
     }
 
-      injectScript("backbone.debug.js", function() {
-          injectScript("logger.js", function() {
-              injectScript("sidecar.debug.js", function() {
-                  console.log('[Sidecar Dev Tools] Injected debug scripts.');
-              });
-          });
+      injectScript("sidecar.debug.js", function() {
+          console.log('[Sidecar Dev Tools] Injected debug scripts.');
       });
   };
 

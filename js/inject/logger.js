@@ -102,5 +102,68 @@
 
     };
 
-    window.Backbone.debug.logger = BDTLogger;
+    function formatDate(date) {
+        var hours = date.getHours();
+        var minutes = date.getMinutes();
+        var seconds = date.getSeconds();
+        var ampm = hours >= 12 ? 'pm' : 'am';
+        hours = hours % 12;
+        hours = hours ? hours : 12; // the hour '0' should be '12'
+        minutes = minutes < 10 ? '0'+minutes : minutes;
+        seconds = seconds < 10 ? '0'+seconds : seconds;
+        var strTime = hours + ':' + minutes + ':' + seconds;
+        return strTime;
+        return date.getMonth()+1 + "/" + date.getDate() + "/" + date.getFullYear() + "  " + strTime;
+    }
+
+    var SDTLog = Backbone.Model.extend({
+        initialize: function(attributes) {
+            var now = new Date();
+            this.set('_createdAt', now.getTime(), {silent: true});
+            this.createdAt = formatDate(now);
+        },
+
+        trigger: $.noop(),
+
+        toJSON: function() {
+            var orig = Backbone.Model.prototype.toJSON.call(this);
+            orig.createdAt = this.createdAt;
+            return orig;
+        }
+    });
+
+    var SDTLogger = Backbone.Collection.extend({
+        model: SDTLog,
+
+        trigger: $.noop(),
+
+        getByType: function(type) {
+            var models = this.where({type: type});
+            return _.map(models, function(model){ return model.toJSON(); });
+        },
+
+        getAll: function() {
+            return this.models;
+        },
+
+        log: function(type, object, details) {
+            var attrs = {};
+            attrs.type = type;
+            if (object) {
+                attrs.c1 = prettyInstanceName(object);
+                attrs.c2 = type === 'view' ? prettyElementName(details) : details;
+            }
+            this.add();
+        }
+    });
+
+    //window.Backbone.debug.logger = new SDTLogger();
+    //
+    //BDTLogger.log = _.wrap(BDTLogger.log, function(log, type, object, details) {
+    //    log(type,object,details);
+    //    var attrs = _.last(this.data[type]);
+    //    window.SUGAR.App.debug.logger.log(attrs);
+    //
+    //});
+
 })();

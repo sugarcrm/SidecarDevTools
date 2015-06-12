@@ -19,7 +19,7 @@
         // functions to be executed in the context of inspected page
 
         getBackboneViews: function() {
-            var tree = { __proto__: null };
+            var tree = {__proto__: null};
 
             // get jQuery/Zepto
             var $ = window.Backbone && window.Backbone.$ || window.jQuery || window.Zepto;
@@ -60,15 +60,15 @@
             if (typeof $.fn.backbone != 'function') return;
 
             var sidecarDomElement = $($0).closest('[data-debug-cid]');
-            var cid  = sidecarDomElement.data('debug-cid');
+            var cid = sidecarDomElement.data('debug-cid');
             var sidecarComponent = App.debug.getComponent(cid);
             window.$view = sidecarComponent;
             console.log('*****Sidecar: Current Component*****');
-            console.log('* cid: '+ sidecarComponent.cid);
-            console.log('* component type: '+ sidecarComponent.debugType);
-            console.log('* Name: '+ sidecarComponent.name);
+            console.log('* cid: ' + sidecarComponent.cid);
+            console.log('* component type: ' + sidecarComponent.debugType);
+            console.log('* Name: ' + sidecarComponent.name);
             if (sidecarComponent.type) {
-                console.log('* Type: '+ sidecarComponent.type);
+                console.log('* Type: ' + sidecarComponent.type);
             }
             console.log('$view = ', sidecarComponent);
             console.log('***********************');
@@ -85,9 +85,11 @@
                 f = App.view.createField({def: def, model: model, view: view});
                 f.render();
                 end = window.performance.now();
-                times.push(end-start);
+                times.push(end - start);
             }
-            sum = times.reduce(function(a, b) { return a + b; });
+            sum = times.reduce(function(a, b) {
+                return a + b;
+            });
             return sum;
         },
 
@@ -205,6 +207,20 @@
 
         getTimeout: function() {
             return window.sessionStorage['_backbone_debug_injection_timeout'];
+        },
+
+        console: function(data) {
+            console.log(data);
+        },
+
+        consoleActivityArgs: function(id) {
+            var act = window.SUGAR.App.debug.AppStream.get(id);
+            console.log(act.get('args'));
+        },
+
+        consoleActivityComponent: function(id) {
+            var act = window.SUGAR.App.debug.AppStream.get(id);
+            console.log(act.get('instance'));
         }
 
     };
