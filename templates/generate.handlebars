@@ -1,7 +1,7 @@
 <h3>Generate records:</h3>
 
-<input type="checkbox" name="currentContext"{{#if useCurrentContext}} checked{{/if}}>
-<label>Generate records in current context</label>
+<input type="checkbox" id="currentContext" {{#if useCurrentContext}} checked{{/if}}>
+<label for="currentContext">Generate records in current context</label>
 <hr>
 
 <div class="left-block">
@@ -26,12 +26,14 @@
 
 <label>Add your own attributes:</label>
 <p class="format-help">It should be an array of objects. Each object being the attributes of a record to be created.
-It should respect JSON format with double quotes.</p>
+It should respect JSON format with double quotes.
+If it's an object instead of an array, it will be use for all the records.</p>
 <textarea name="attributes"></textarea>
 
 <label>Add options:</label>
 <p class="format-help">It should be an array of objects. Each object being the attributes of a record to be created.
-It should respect JSON format with double quotes.</p>
+It should respect JSON format with double quotes.
+If it's an object instead of an array, it will be use for all the records.</p>
 <textarea name="options"></textarea>
 
 <input type="button" name="submitGenerate" value="Generate!">

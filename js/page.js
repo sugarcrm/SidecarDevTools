@@ -75,7 +75,7 @@
         },
 
         measureRenderTime: function(fieldType, iterations, template) {
-            var times = [], model, view, def, f, start, end, sum, average;
+            var times = [], model, view, def, f, start, end, sum;
 
             model = App.controller.context.get('model');
             view = App.view.createView({model: model, name: 'list'});
@@ -92,12 +92,30 @@
         },
 
         generateRecords: function(module, attributes, numberOfRecords, options, addToCollection) {
-            var bean;
+            var bean, isAttributesArray, isOptionsArray, attrs, opts;
             var collection = App.controller.context.get('collection');
             attributes = _.isEmpty(attributes) ? [] : JSON.parse(attributes);
-            options = _.isEmpty(options) ? [] : JSON.parse(options);
+            if (attributes.length > 0) {
+                numberOfRecords = attributes.length;
+            }
+            isAttributesArray = _.isArray(attributes);
+
+            options = _.isEmpty(options) ? {} : JSON.parse(options);
+            isOptionsArray = _.isArray(options);
+
             for (var i = 0; i < numberOfRecords; i++) {
-                bean = App.data.createBean(module, attributes[i], options[i]);
+                if (isAttributesArray) {
+                    attrs = _.isUndefined(attributes[i]) ? {} : attributes[i];
+                    if (isOptionsArray) {
+                        opts = _.isUndefined(options[i]) ? {} : options[i];
+                    }
+                } else {
+                    attrs = attributes;
+                    opts = options;
+                }
+
+                bean = App.data.createBean(module, attrs, opts);
+
                 bean.save();
                 console.log(bean);
                 if (addToCollection) {
@@ -107,20 +125,38 @@
         },
 
         generateRelatedRecords: function(module, subpanel, attributes, numberOfRecords) {
-            var bean;
+            var bean, isAttributesArray, attrs;
             var context = App.controller.context;
             var model = context.get('model');
             var collection = model._relatedCollections[subpanel];
             var link = context.get('model')._relatedCollections[subpanel].link.name;
             var options = {relate: true};
             attributes = _.isEmpty(attributes) ? [] : JSON.parse(attributes);
+            isAttributesArray = _.isArray(attributes);
+
             for (var i = 0; i < numberOfRecords; i++) {
-                _.isUndefined(attributes[i]) ? {} : attributes[i];
-                bean = App.data.createRelatedBean(model, null, link, attributes[i]);
+
+                if (isAttributesArray) {
+                    attrs = _.isUndefined(attributes[i]) ? {} : attributes[i];
+                    bean = App.data.createRelatedBean(model, null, link, attributes[i]);
+                } else {
+                    attrs = attributes;
+                }
+                bean = App.data.createRelatedBean(model, null, link, attrs);
                 bean.save({}, options);
                 collection.add(bean);
-                context.trigger('panel-top:refresh', link);
             }
+            context.trigger('panel-top:refresh', link);
+        },
+
+        getComponentMethods: function(type, compClassName) {
+            var methods = [];
+            _.each(App.view[type][compClassName].prototype, function(prop, key) {
+                if (_.isFunction(prop)) {
+                    methods.push(key);
+                }
+            });
+            return methods;
         },
 
         getSubpanels: function(module) {

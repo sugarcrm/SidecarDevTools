@@ -10,7 +10,7 @@
 <select name="iterations">
     <option value="10">10</option>
     <option value="20">20</option>
-    <option value="50">50</option>
+    <option value="50" selected="selected">50</option>
     <option value="100">100</option>
     <option value="200">200</option>
 </select>
@@ -24,7 +24,6 @@
 <div>
     <input id="simulate" type="button" value="Simulate render">
 </div>
-<label class="result-label"><strong>Average time (ms): </strong><span id="render-result"></span></label>
 <hr>
 <div>
     <input id="simulateAll" type="button" value="Simulate render all fields">
@@ -37,10 +36,10 @@
             Field type
         </th>
         <th>
-            Total time
+            Total time (ms)
         </th>
         <th>
-            Average time
+            Average time (ms)
         </th>
     </tr>
     </thead>

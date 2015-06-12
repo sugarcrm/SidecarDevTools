@@ -52,7 +52,8 @@ aside {
   overflow-x: hidden;
   overflow-y: auto; }
   #main > div {
-    padding-left: 1.6em; }
+    padding-left: 1.6em;
+    padding-right: 1.6em; }
 
 h1 {
   font-size: 1.6em;
