@@ -1,6 +1,6 @@
 Sidecar Debugger Tool
 ========================
-This is an Google Chrome devtools extension that will help you to debug Sugar 7.
+This is an Google Chrome devtools extension that will help you to be more productive when developing on SugarCRM 7.x.
 
 Installing
 ----------
@@ -10,23 +10,23 @@ Installing
 3. Check *Developer mode* and click *Load unpacked extension*
 4. Choose the cloned repo directory
 
+Using
+-----
+1. Once in your SugarCRM instance, open Chrome devtools.
+2. Click on the new tab called SugarDebug.
+3. Check the checkbox "Start Sidecar Debug Mode" in the "Settings tab".
+4. Enjoy!
+
 Features
 ----------
 
-* $view console variable after inspecting a DOM Element (it points to the closest View instance object).
-* In *Elements* panel, you'll find a **Sugar Components** sidebar which give you access to the View object corresponding to the selected DOM element as well as its parent Layouts.
-* In **SugarDebug Panel**, you will find:
-  * ***Events:*** You get a real-time list of events that are triggered, showing for each event its name and information on the Sugar component which triggered it.
-  * ***Instanciated Objects :*** The list of instanciated Sugar Beans and Bean collections.
-  * ***View-DOM Binding:*** The of components present on the page with their corresponding DOM element.
-  * ***Sync:*** 
+* $view console variable after inspecting a DOM Element (it points to the closest parent Sidecar Component).
+* In **SugarDebug Panel**, you will find different several tabs:
+  * ***Application Stream:*** A timeline of what is happening in the app. It shows the methods that are called and the events that are triggered. For each of them, you have access to the passed arguments and the component object.
   * ***Structure:*** A hierarchical tree representing the Sugar components of the current page.
-
-Features to implement
----------------------------
-
-* Metadata: Ability to see the metadata for a given View or Layout.
-* Contexts: Ability to display contexts on the inspected page, for example by coloring the elements.
+  * ***Render times:*** Allows you to measure the render duration of the different fields.
+  * ***Metrics:*** Allows you to track any method of any sugar component to capture its duration and detect performance lacks.
+  * ***Generate records:*** An easy way to generate records in your SugarCRM instance.
 
 Notes
 -------
