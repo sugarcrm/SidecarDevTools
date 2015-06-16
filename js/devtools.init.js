@@ -8,8 +8,6 @@
     chrome.devtools.panels.elements.onSelectionChanged.addListener(
         function() {
             BDT.page.eval('set$view');
-            chrome.devtools.inspectedWindow.eval("setSelectedElement($0)",
-                { useContentScriptContext: true });
         }
     );
 

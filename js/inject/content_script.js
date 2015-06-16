@@ -34,8 +34,3 @@
 
 })();
 
-function setSelectedElement(el) {
-    var cid  = $(el).closest('[data-debug-cid]').data('debug-cid');
-    chrome.runtime.sendMessage({cid: cid});
-}
-
