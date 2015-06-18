@@ -7,12 +7,19 @@
         template: BDT.templates['appstream'],
 
         events: {
-            'click button[data-action=clear]': 'clear'
+            'click button[data-action=clear]': 'clear',
+            'click i[data-action=toggleHelp]': 'toggleHelpPanel'
         },
 
         initialize: function() {
             this.setCollections();
             this.tableView = new BDT.views.AppStreamTable();
+            /**
+             * Indicates if we should show the help panel or not.
+             *
+             * @property {boolean} displayHelp
+             */
+            this.displayHelp = false;
         },
 
         setCollections: function(activities) {
@@ -52,7 +59,7 @@
             // Fetch and render activities every 100ms.
             this.polling = window.setInterval(function() {
                 self.fetchActivities({success: _.bind(self._onFetchSuccess, self)});
-            }, 100);
+            }, 500);
 
             this.$el.html(this.template(this));
 
@@ -83,6 +90,16 @@
             this.updateViews();
         },
 
+        /**
+         * Toggles the help panel.
+         *
+         * @param {Event} The `click` event.
+         */
+        toggleHelpPanel: function(event) {
+            this.$('[data-panel=help]').toggle();
+            this.displayHelp = !this.displayHelp;
+            $(event.currentTarget).toggleClass('open', this.displayHelp);
+        },
 
         /**
          * Gets the activity stream from the inspected window.

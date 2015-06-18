@@ -8,7 +8,8 @@
         events: {
             'click #simulate': 'simulateRenderTime',
             'click #simulateAll': 'simulateAllRenderTimes',
-            'click #clearAll': 'clearTable'
+            'click #clearAll': 'clearTable',
+            'click i[data-action=toggleHelp]': 'toggleHelpPanel'
         },
 
         /**
@@ -17,6 +18,12 @@
         initialize: function() {
             this.fields = [];
             this.rows = [];
+            /**
+             * Indicates if we should show the help panel or not.
+             *
+             * @property {boolean} displayHelp
+             */
+            this.displayHelp = false;
 
             var self = this;
             chrome.devtools.inspectedWindow.eval(
@@ -87,6 +94,16 @@
             }
         },
 
+        /**
+         * Toggles the help panel.
+         *
+         * @param {Event} The `click` event.
+         */
+        toggleHelpPanel: function(event) {
+            this.$('[data-panel=help]').toggle();
+            this.displayHelp = !this.displayHelp;
+            $(event.currentTarget).toggleClass('open', this.displayHelp);
+        },
         /**
          * Clears the table.
          */

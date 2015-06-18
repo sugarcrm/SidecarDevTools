@@ -1,4 +1,10 @@
-<h3>Measure method time:</h3>
+<h3 class="text-center">Measure method time<i class="fi-lightbulb help-button" data-action="toggleHelp"></i></h3>
+
+<div class="panel callout radius"{{#unless displayHelp}} style="display: none;"{{/unless}} data-panel="help">
+    This panel allows you to track any method of any sugar component to capture its duration and detect performance lacks.
+    Everytime the tracked method is called, it will be logged in the table with its duration.
+</div>
+
 <div class="left-block">
     <label>Select a component type:</label>
     <select name="Type">

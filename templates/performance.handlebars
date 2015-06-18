@@ -1,4 +1,10 @@
-<h3>Measure fields render duration:</h3>
+<h3 class="text-center">Render times<i class="fi-lightbulb help-button" data-action="toggleHelp"></i></h3>
+
+<div class="panel callout radius"{{#unless displayHelp}} style="display: none;"{{/unless}} data-panel="help">
+    This panel allows you to measure the render time of any field. Simply choose a field type, the number of simulations and the template to use and click on 'simulate render'.
+    'Simulate render all fields' will measure the render time for each available field and will log all results in the table.
+</div>
+
 <label>Choose field type:</label>
 <select name="fieldType">
     {{#each fields}}

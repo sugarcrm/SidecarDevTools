@@ -7,7 +7,8 @@
         template: BDT.templates['generate'],
         events: {
             'click input[name=submitGenerate]' : 'generateRecords',
-            'click input[id=currentContext]' : 'setCurrentContext'
+            'click input[id=currentContext]' : 'setCurrentContext',
+            'click i[data-action=toggleHelp]': 'toggleHelpPanel'
         },
 
         /**
@@ -17,6 +18,12 @@
             this.modules = [];
             this.subpanels = [];
             this.useCurrentContext = false;
+            /**
+             * Indicates if we should show the help panel or not.
+             *
+             * @property {boolean} displayHelp
+             */
+            this.displayHelp = false;
 
             var self = this;
             chrome.devtools.inspectedWindow.eval(
@@ -116,6 +123,17 @@
                     }
                 }
             });
+        },
+
+        /**
+         * Toggles the help panel.
+         *
+         * @param {Event} The `click` event.
+         */
+        toggleHelpPanel: function(event) {
+            this.$('[data-panel=help]').toggle();
+            this.displayHelp = !this.displayHelp;
+            $(event.currentTarget).toggleClass('open', this.displayHelp);
         },
 
         getSubpanels: function(module) {

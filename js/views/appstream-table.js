@@ -12,6 +12,38 @@
             'click [type="checkbox"]': 'toggleActivityType'
         },
 
+        filters: {
+            'appevents': {
+                display: true,
+                label: 'Global app events'
+            },
+            'initialize': {
+                display: true,
+                label: 'Components initializing'
+            },
+            'render': {
+                display: true,
+                label: 'Components rendering'
+            },
+            'trigger': {
+                display: true,
+                label: 'Events triggered by components'
+            }
+        },
+
+        activityTypeFilter: {
+            'app.event': 'appevents',
+            'layout.initialize': 'initialize',
+            'view.initialize': 'initialize',
+            'field.initialize': 'initialize',
+            'layout.render': 'render',
+            'view.render': 'render',
+            'field.render': 'render',
+            'layout.trigger': 'trigger',
+            'view.trigger': 'trigger',
+            'field.trigger': 'trigger'
+        },
+
         /**
          * @inheritDoc
          */
@@ -25,7 +57,9 @@
             var afterData = this._data = activities._byDate;
             this.types = _.keys(activities._byType);
             var diff = _.omit(afterData, _.keys(beforeData));
-            this._renderActivities(diff);
+            if (!_.isEmpty(diff)) {
+                this._renderActivities(diff);
+            }
         },
 
         /**
@@ -37,7 +71,23 @@
             var $tableList = this.$('[data-role=tablelist]');
             _.each(activities, function(activity, key) {
                 activity.reverse();
-                $tableList.prepend(this.itemTemplate({date: key, items: activity}));
+                $tableList.prepend(this.itemTemplate({date: key, items: this._addDisplayFlag(activity)}));
+            }, this);
+        },
+
+        /**
+         * Adds a flag on every item to know if we should show it or not.
+         *
+         * @param items
+         * @return {Object[]}
+         * @private
+         */
+        _addDisplayFlag: function(items) {
+            return _.map(items, function(item) {
+                var filterType = this.activityTypeFilter[item.type];
+                item.display = filterType && (_.isUndefined(this.filters[filterType]) || this.filters[filterType].display);
+                item.filterType = filterType;
+                return item;
             }, this);
         },
 
@@ -63,26 +113,10 @@
 
         toggleActivityType: function(event) {
             var $el = $(event.currentTarget);
-            var type = $el.attr('name');
-            switch(type) {
-                case 'toggle-app-events':
-                    this.$('[data-type="app.event"]').toggle();
-                    break;
-                case 'toggle-initialize':
-                    this.$('[data-type="field.initialize"]').toggle();
-                    this.$('[data-type="view.initialize"]').toggle();
-                    this.$('[data-type="layout.initialize"]').toggle();
-                    break;
-                case 'toggle-render':
-                    this.$('[data-type="field.render"]').toggle();
-                    this.$('[data-type="view.render"]').toggle();
-                    this.$('[data-type="layout.render"]').toggle();
-                    break;
-                case 'toggle-trigger':
-                    this.$('[data-type="field.trigger"]').toggle();
-                    this.$('[data-type="view.trigger"]').toggle();
-                    this.$('[data-type="layout.trigger"]').toggle();
-                    break;
+            var type = $el.attr('name').substr(7);
+            if (this.filters[type]) {
+                this.$('[data-filterType="' + type + '"]').toggle();
+                this.filters[type].display = !this.filters[type].display;
             }
         }
     });

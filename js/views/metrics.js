@@ -8,7 +8,8 @@
             'click #trackMethod': 'trackMethodTime',
             'click #clearAll': 'clearTable',
             'change select[name=Type]': 'selectType',
-            'change select[name=Component]': 'selectComponent'
+            'change select[name=Component]': 'selectComponent',
+            'click i[data-action=toggleHelp]': 'toggleHelpPanel'
         },
 
         /**
@@ -19,6 +20,12 @@
             this.components = [];
             this.methods = [];
             this.rows = [];
+            /**
+             * Indicates if we should show the help panel or not.
+             *
+             * @property {boolean} displayHelp
+             */
+            this.displayHelp = false;
         },
 
         /**
@@ -117,6 +124,16 @@
             BDT.page.eval('trackMethodTime', [component])
         },
 
+        /**
+         * Toggles the help panel.
+         *
+         * @param {Event} The `click` event.
+         */
+        toggleHelpPanel: function(event) {
+            this.$('[data-panel=help]').toggle();
+            this.displayHelp = !this.displayHelp;
+            $(event.currentTarget).toggleClass('open', this.displayHelp);
+        },
 
         /**
          * Clears the table.

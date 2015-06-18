@@ -2,7 +2,8 @@
 
     var BDT = window.BDT;
 
-    BDT.sidebarPane.create();
+    // We currently don't use the sidebarPane so let's comment it.
+//    BDT.sidebarPane.create();
     BDT.panel.create();
 
     chrome.devtools.panels.elements.onSelectionChanged.addListener(

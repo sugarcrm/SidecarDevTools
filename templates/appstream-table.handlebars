@@ -1,8 +1,8 @@
-<div data-role="selection">
-  <label><input type="checkbox" name="toggle-app-events" checked="checked"> app events</label>
-  <label><input type="checkbox" name="toggle-initialize" checked="checked"> initialize</label>
-  <label><input type="checkbox" name="toggle-render" checked="checked"> render</label>
-  <label><input type="checkbox" name="toggle-trigger" checked="checked"> trigger</label>
+<div class="panel filters-panel" data-role="selection">
+    <p><strong>Filters</strong></p>
+    {{#each filters}}
+        <label><input type="checkbox" name="toggle-{{@key}}"{{#if display}} checked="checked"{{/if}}> {{label}}</label>
+    {{/each}}
 </div>
 <div data-role="tablelist">
  </div>

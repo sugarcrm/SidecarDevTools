@@ -9,7 +9,8 @@
             'click #expandAll': 'expandAll',
             'click #collapseAll': 'collapseAll',
             'click #toggleAllCtx': 'toggleAllContexts',
-            'click [data-action=toggle-context]': 'toggleContext'
+            'click [data-action=toggle-context]': 'toggleContext',
+            'click i[data-action=toggleHelp]': 'toggleHelpPanel'
         },
 
         initialize: function() {
@@ -36,6 +37,13 @@
              * @property {Object}
              */
             this.component = {};
+
+            /**
+             * Indicates if we should show the help panel or not.
+             *
+             * @property {boolean} displayHelp
+             */
+            this.displayHelp = false;
 
             /**
              * A port with background page for continuous message communication.
@@ -197,6 +205,17 @@
                 color += letters[Math.floor(Math.random() * 16)];
             }
             return color;
+        },
+
+        /**
+         * Toggles the help panel.
+         *
+         * @param {Event} The `click` event.
+         */
+        toggleHelpPanel: function(event) {
+            this.$('[data-panel=help]').toggle();
+            this.displayHelp = !this.displayHelp;
+            $(event.currentTarget).toggleClass('open', this.displayHelp);
         }
     });
 })();

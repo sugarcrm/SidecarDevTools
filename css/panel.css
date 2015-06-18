@@ -45,7 +45,7 @@ aside {
 
 #main {
   position: absolute;
-  top: 0;
+  top: 0.4em;
   right: 0;
   bottom: 0;
   left: 200px;
@@ -174,7 +174,14 @@ table {
   line-height: 1.5em; }
 
 select, input[type="number"], textarea {
-  width: 200px;
+  width: 300px;
   margin-top: 1em; }
+
+.help-button {
+  padding-left: 10px; }
+  .help-button:hover {
+    color: #b6edff; }
+  .help-button.open {
+    color: #b6edff; }
 
 /*# sourceMappingURL=panel.css.map */
