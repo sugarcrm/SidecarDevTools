@@ -6,9 +6,9 @@ module.exports = function(grunt) {
             dist: {
                 files:  [{
                     expand: true,
-                    cwd: 'scss',
+                    cwd: 'src/scss',
                     src: ['**/*.scss'],
-                    dest: 'css',
+                    dest: 'src/css',
                     ext: '.css'
                 }]
             }
@@ -18,22 +18,34 @@ module.exports = function(grunt) {
                 options: {
                     namespace: "Handlebars.templates",
                     processName: function(filePath) {
-                        return filePath.slice(filePath.indexOf('/')+1, filePath.indexOf('.'));
+                        // The filePath follows this structure: `src/templates/[templateName]`.
+                        // We parse it below in order to return only the template name.
+                        return filePath.slice(filePath.indexOf('/', 4)+1, filePath.indexOf('.'));
                     }
                 },
                 files: {
-                    "templates/templates.js": ["templates/*.handlebars"]
+                    "src/templates/templates.js": ["src/templates/*.handlebars"]
                 }
             }
         },
         watch: {
             sass: {
-                files: ['scss/*.scss'],
+                files: ['src/scss/*.scss'],
                 tasks: ['sass']
             },
             hbs: {
-                files: ['templates/*.handlebars'],
+                files: ['src/templates/*.handlebars'],
                 tasks: ['handlebars']
+            }
+        },
+        crx: {
+            sidecarDevTools: {
+                "src": [
+                    "src/",
+                    "!.{git,svn}"
+                ],
+                "dest": "dist/crx/SidecarDevTools.1.0.alpha.crx",
+                "privateKey": "~/.ssh/sidecarDevTools.pem"
             }
         }
     });
@@ -41,6 +53,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-sass');
     grunt.loadNpmTasks('grunt-contrib-handlebars');
+    grunt.loadNpmTasks('grunt-crx');
 
     grunt.registerTask('default', ['watch']);
 };

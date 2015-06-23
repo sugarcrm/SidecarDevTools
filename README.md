@@ -7,7 +7,7 @@ This is an Google Chrome devtools extension that will help you to be more produc
 1. Clone this repo
 2. Go to *Tools -> Extensions* in Google Chrome
 3. Check *Developer mode* and click *Load unpacked extension*
-4. Choose the cloned repo directory
+4. Go to the cloned repo directory and choose the 'src' folder.
 
 ## Using
 
