@@ -74,11 +74,11 @@
             console.log('**************************************');
         },
 
-        measureRenderTime: function(fieldType, iterations, template) {
+        measureRenderTime: function(module, fieldType, iterations, template) {
             var times = [], model, view, def, f, start, end, sum;
 
             model = App.controller.context.get('model');
-            view = App.view.createView({model: model, name: 'list'});
+            view = App.view.createView({model: model, name: 'list', module: module});
             for (var runs = 0; runs < iterations; runs++) {
                 start = window.performance.now();
                 def = {type: fieldType, viewName: template};

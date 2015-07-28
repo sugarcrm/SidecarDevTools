@@ -193,7 +193,19 @@ this["Handlebars"]["templates"]["metrics"] = Handlebars.template({"1":function(d
 
 this["Handlebars"]["templates"]["performance"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
     return " style=\"display: none;\"";
-},"3":function(depth0,helpers,partials,data) {
+},"3":function(depth0,helpers,partials,data,blockParams,depths) {
+    var stack1, alias1=this.lambda, alias2=this.escapeExpression;
+
+  return "        <option value=\""
+    + alias2(alias1(depth0, depth0))
+    + "\" "
+    + ((stack1 = (helpers.eq || (depth0 && depth0.eq) || helpers.helperMissing).call(depth0,(depths[1] != null ? depths[1].module : depths[1]),depth0,{"name":"eq","hash":{},"fn":this.program(4, data, 0, blockParams, depths),"inverse":this.noop,"data":data})) != null ? stack1 : "")
+    + ">"
+    + alias2(alias1(depth0, depth0))
+    + "</option>\n";
+},"4":function(depth0,helpers,partials,data) {
+    return " selected=\"selected\" ";
+},"6":function(depth0,helpers,partials,data) {
     var alias1=this.lambda, alias2=this.escapeExpression;
 
   return "        <option value=\""
@@ -201,7 +213,7 @@ this["Handlebars"]["templates"]["performance"] = Handlebars.template({"1":functi
     + "\">"
     + alias2(alias1(depth0, depth0))
     + "</option>\n";
-},"5":function(depth0,helpers,partials,data) {
+},"8":function(depth0,helpers,partials,data) {
     var helper, alias1=helpers.helperMissing, alias2="function", alias3=this.escapeExpression;
 
   return "    <tr>\n        <td>"
@@ -211,17 +223,19 @@ this["Handlebars"]["templates"]["performance"] = Handlebars.template({"1":functi
     + "</td>\n        <td>"
     + alias3(((helper = (helper = helpers.averageTime || (depth0 != null ? depth0.averageTime : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"averageTime","hash":{},"data":data}) : helper)))
     + "</td>\n    </tr>\n";
-},"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
+},"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data,blockParams,depths) {
     var stack1;
 
   return "<h3 class=\"text-center\">Render times<i class=\"fi-lightbulb help-button\" data-action=\"toggleHelp\"></i></h3>\n\n<div class=\"panel callout radius\""
-    + ((stack1 = helpers.unless.call(depth0,(depth0 != null ? depth0.displayHelp : depth0),{"name":"unless","hash":{},"fn":this.program(1, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "")
-    + " data-panel=\"help\">\n    This panel allows you to measure the render time of any field. Simply choose a field type, the number of simulations and the template to use and click on 'simulate render'.\n    'Simulate render all fields' will measure the render time for each available field and will log all results in the table.\n</div>\n\n<label>Choose field type:</label>\n<select name=\"fieldType\">\n"
-    + ((stack1 = helpers.each.call(depth0,(depth0 != null ? depth0.fields : depth0),{"name":"each","hash":{},"fn":this.program(3, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers.unless.call(depth0,(depth0 != null ? depth0.displayHelp : depth0),{"name":"unless","hash":{},"fn":this.program(1, data, 0, blockParams, depths),"inverse":this.noop,"data":data})) != null ? stack1 : "")
+    + " data-panel=\"help\">\n    This panel allows you to measure the render time of any field. Simply choose a field type, the number of simulations and the template to use and click on 'simulate render'.\n    'Simulate render all fields' will measure the render time for each available field and will log all results in the table.\n</div>\n\n<label>Choose module:</label>\n<select name=\"module\" data-action=\"selectModule\">\n"
+    + ((stack1 = helpers.each.call(depth0,(depth0 != null ? depth0.modules : depth0),{"name":"each","hash":{},"fn":this.program(3, data, 0, blockParams, depths),"inverse":this.noop,"data":data})) != null ? stack1 : "")
+    + "</select>\n\n<label>Choose field type:</label>\n<select name=\"fieldType\" data-action=\"selectField\">\n"
+    + ((stack1 = helpers.each.call(depth0,(depth0 != null ? depth0.fields : depth0),{"name":"each","hash":{},"fn":this.program(6, data, 0, blockParams, depths),"inverse":this.noop,"data":data})) != null ? stack1 : "")
     + "</select>\n\n<label>Number of simulated 'render' calls to calculate the average time:</label>\n<select name=\"iterations\">\n    <option value=\"10\">10</option>\n    <option value=\"20\">20</option>\n    <option value=\"50\" selected=\"selected\">50</option>\n    <option value=\"100\">100</option>\n    <option value=\"200\">200</option>\n</select>\n\n<label>Template to use:</label>\n<select name=\"template\">\n    <option value=\"detail\">detail</option>\n    <option value=\"list\">list</option>\n    <option value=\"edit\">edit</option>\n</select>\n<div>\n    <input id=\"simulate\" type=\"button\" value=\"Simulate render\">\n</div>\n<hr>\n<div>\n    <input id=\"simulateAll\" type=\"button\" value=\"Simulate render all fields\">\n    <input id=\"clearAll\" type=\"button\" value=\"clear results\">\n</div>\n<table id=\"results-table\" class=\"tablesorter\">\n    <thead>\n    <tr>\n        <th>\n            Field type\n        </th>\n        <th>\n            Total time (ms)\n        </th>\n        <th>\n            Average time (ms)\n        </th>\n    </tr>\n    </thead>\n    <tbody>\n"
-    + ((stack1 = helpers.each.call(depth0,(depth0 != null ? depth0.rows : depth0),{"name":"each","hash":{},"fn":this.program(5, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers.each.call(depth0,(depth0 != null ? depth0.rows : depth0),{"name":"each","hash":{},"fn":this.program(8, data, 0, blockParams, depths),"inverse":this.noop,"data":data})) != null ? stack1 : "")
     + "    </tbody>\n</table>\n";
-},"useData":true});
+},"useData":true,"useDepths":true});
 
 this["Handlebars"]["templates"]["sidebar"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
     return "<ul>\n  <li class=\"selected\"><a href=\"#general\">Settings</a></li>\n  <li><a href=\"#appstream\">Application Stream</a></li>\n  <li><a href=\"#structure\">Structure</a></li>\n  <li><a href=\"#performance\">Render times</a></li>\n  <!--<li><a href=\"#metrics\">Metrics</a></li>-->\n  <li><a href=\"#generate\">Generate records</a></li>\n</ul>\n";

@@ -5,8 +5,15 @@
     'Simulate render all fields' will measure the render time for each available field and will log all results in the table.
 </div>
 
+<label>Choose module:</label>
+<select name="module" data-action="selectModule">
+    {{#each modules}}
+        <option value="{{this}}" {{#eq ../module this}} selected="selected" {{/eq}}>{{this}}</option>
+    {{/each}}
+</select>
+
 <label>Choose field type:</label>
-<select name="fieldType">
+<select name="fieldType" data-action="selectField">
     {{#each fields}}
         <option value="{{this}}">{{this}}</option>
     {{/each}}
