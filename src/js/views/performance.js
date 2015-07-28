@@ -27,7 +27,8 @@
 
             var self = this;
             chrome.devtools.inspectedWindow.eval(
-                'Object.keys(App.metadata.get().fields)',
+                'Object.keys(_.isFunction(App.metadata.get) ? ' +
+                'App.metadata.get().fields : App.metadata.getStrings(\'fields\'))',
                 function(result, isException) {
                     if (isException) {
                     }
