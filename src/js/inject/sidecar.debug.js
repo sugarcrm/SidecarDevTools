@@ -251,6 +251,15 @@
                     action: this.action
                 }
             });
+            // add view info widget
+            var tooltip_html = '<h5>' + this.cid + '</h5>';
+
+            tooltip_html += '<ul class="unstyled">';
+            tooltip_html += '<li>Name: '+ this.name + '</li>';
+            tooltip_html += '<li>Action: '+ this.action + '</li>';
+            tooltip_html += '<li>Model: '+ ( (_.isUndefined(this.model)) ? 'none' : this.model.module + '/' + this.model.id) + '</li>';
+            tooltip_html += '</ul>';
+            this.$el.tooltip({html: true, title: tooltip_html, viewport: 'div[data-debug-cid=' + this.layout.cid + ']'});
         };
 
         Debug.prototype._onHookFieldRender = function(performance) {
@@ -266,6 +275,34 @@
                     action: this.action
                 }
             });
+
+            // add field info widget
+            var tooltip_html = '<h5>' + this.cid + '</h5>';
+
+            tooltip_html += '<ul class="unstyled">';
+
+            var attributes = _.pick(this.def, 'name', 'type');
+
+            switch(this.type)
+            {
+                default:
+                    break;
+                case 'relate':
+                    attributes = _.extend(attributes, _.pick(this.def, 'link', 'id_name', 'module'));
+                    break;
+                case 'currency':
+                    attributes = _.extend(attributes, _.pick(this.model.attributes || {}, 'currency_id', 'base_rate'));
+                    break;
+                case 'enum':
+                    attributes = _.extend(attributes, _.pick(this.def, 'options', 'isMultiSelect'));
+                    break;
+            }
+            _.each(attributes, function(value, key) {
+                tooltip_html += '<li>' + key + ': ' + value + '</li>';
+            });
+            tooltip_html += '<li>Model: '+ ( (_.isUndefined(this.model)) ? 'none' : this.model.module + '/' + this.model.id) + '</li>';
+            tooltip_html += '</ul>';
+            this.$el.tooltip({html: true, title: tooltip_html, viewport: 'div[data-debug-cid=' + this.view.cid + ']'});
         };
 
         Debug.prototype._onHookComponentTrigger = function() {
