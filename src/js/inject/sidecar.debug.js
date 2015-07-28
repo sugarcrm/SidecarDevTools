@@ -247,6 +247,7 @@
         };
 
         Debug.prototype._onHookFieldRender = function(performance) {
+            this.$el.attr('data-debug-cid', this.cid);
             Sidecar.debug.AppStream.add({
                 'type': 'field.render',
                 instance: this,
