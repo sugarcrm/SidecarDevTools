@@ -279,6 +279,18 @@
             return window.sessionStorage['_backbone_debug_injection'] === 'enabled';
         },
 
+        enableTooltips: function() {
+            window.sessionStorage['_backbone_debug_tooltips'] = 'enabled';
+        },
+
+        disableTooltips: function() {
+            window.sessionStorage.removeItem('_backbone_debug_tooltips');
+        },
+
+        areTooltipsEnabled: function() {
+            return window.sessionStorage['_backbone_debug_tooltips'] === 'enabled';
+        },
+
         updateTimeout: function(ms) {
             window.sessionStorage['_backbone_debug_injection_timeout'] = String(ms);
         },
