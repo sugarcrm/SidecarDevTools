@@ -108,7 +108,14 @@
             //Sidecar.app.on('app:sync:complete', this._onSyncComplete, this);
             Sidecar.events.trigger = _.wrap(Sidecar.events.trigger, function(trigger) {
                 var args = Array.prototype.slice.call(arguments, 1);
-                Sidecar.debug.AppStream.add({'event': args[0], 'type': 'app.event', args: _.clone(args)});
+                Sidecar.debug.AppStream.add(
+                    {
+                        'event': args[0],
+                        'operation': args[1] || '',
+                        'type': 'app.event',
+                        args: _.clone(args)
+                    }
+                );
                 var result = trigger.apply(Sidecar.events, args);
                 return result;
             });
