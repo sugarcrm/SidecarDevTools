@@ -173,6 +173,13 @@
             return currentModule;
         },
 
+        renderComponent: function(cid) {
+            var comp = App.debug.getComponent(cid);
+            comp.render();
+
+            return App.debug.getComponentRenderTimes(cid);
+        },
+
         isBackboneDebugReachable: function() {
             return window.Backbone && window.Backbone.debug && true;
         },

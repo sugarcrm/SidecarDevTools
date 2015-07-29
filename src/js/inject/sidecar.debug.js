@@ -11,6 +11,7 @@
      *   page.
      */
     Sidecar.view.Layout.prototype.getComponentInfo = function() {
+        var renderTime = App.debug.getComponentRenderTime(this.cid);
         var def = {
             cid: this.cid,
             name: this.name,
@@ -18,6 +19,7 @@
             contextId: this.context.cid,
             context: JSON.stringify(this.context),
             compType: 'layout',
+            performance: renderTime,
             components: _.map(this._components, function(comp) {
                 return comp.getComponentInfo();
             })
@@ -33,13 +35,15 @@
      *   view.
      */
     Sidecar.view.View.prototype.getComponentInfo = function() {
+        var renderTime = App.debug.getComponentRenderTime(this.cid);
         var def = {
             cid: this.cid,
             contextId: this.context.cid,
             context: JSON.stringify(this.context),
             name: this.name,
             type: this.type,
-            compType: 'view'
+            compType: 'view',
+            performance: renderTime
         };
         return def;
     }
@@ -47,6 +51,7 @@
     Sidecar.Debug = (function() {
 
         var _components = {};
+        var renderTimes;
         var _stream = {};
 
         function Debug() {
@@ -107,38 +112,6 @@
             };
         };
 
-        Debug.prototype._hookMethod = function(objectName, method, action) {
-            var elems = objectName.split('.');
-            var object = Sidecar;
-            try {
-                elems.every(function(elem) {
-                    object = object[elem];
-                    if (_.isUndefined(object)) {
-                        throw "Wrong name."
-                        return false;
-                    }
-                    return true;
-                });
-            } catch(err) {
-                console.log('The component you\'re trying to hook doesn\'t exist.');
-                return;
-            }
-
-            var original;
-            original = object[method];
-            return object[method] = function() {
-                var ret;
-                ret = original.apply(this, arguments);
-                action.apply(this, arguments);
-                return ret;
-            };
-        };
-
-        Debug.prototype._addCidAttr = function() {
-            this.$el.attr('data-debug-cid', this.cid);
-            _components[this.cid] = this;
-        };
-
         Debug.prototype._onHookLayoutInitialize = function(options, performance) {
             this.$el.attr('data-debug-cid', this.cid);
             this.debugType = 'layout';
@@ -187,11 +160,13 @@
         };
 
 
-        Debug.prototype._onHookLayoutRender = function(performance) {
+        Debug.prototype._onHookLayoutRender = function() {
+            var performance = Array.prototype.slice.call(arguments, -1).pop();
+            _components[this.cid].performance = performance;
             Sidecar.debug.AppStream.add({
                 'type': 'layout.render',
                 instance: this,
-                performance: Array.prototype.slice.call(arguments, -1).pop(),
+                performance: performance,
                 'layout': {
                     name: this.name,
                     type: this.type,
@@ -200,11 +175,13 @@
             });
         };
 
-        Debug.prototype._onHookViewRender = function(performance) {
+        Debug.prototype._onHookViewRender = function() {
+            var performance = Array.prototype.slice.call(arguments, -1).pop();
+            _components[this.cid].performance = performance;
             Sidecar.debug.AppStream.add({
                 'type': 'view.render',
                 instance: this,
-                performance: Array.prototype.slice.call(arguments, -1).pop(),
+                performance: performance,
                 'view': {
                     name: this.name,
                     type: this.type,
@@ -261,6 +238,40 @@
 
         Debug.prototype.getComponent = function(cid) {
             return _components[cid];
+        };
+
+        /**
+         * Gets the the render time of the component as well as the time of
+         * its nested components.
+         *
+         * @param {string} cid The cid of the component.
+         * @param {Object} resultObject
+         * @return {Object} The parsed object containing all the render times.
+         */
+        Debug.prototype.getComponentRenderTimes = function(cid, resultObject) {
+            var component = _components[cid];
+            if (!resultObject) {
+                var resultObject = renderTimes = {};
+            }
+            resultObject[cid] = {renderTime: component.performance};
+            if (component._components && component._components.length >= 0) {
+                resultObject[cid].components = {};
+                _.each(component._components, function(component) {
+                     this.getComponentRenderTimes(component.cid, resultObject[cid].components);
+                }, this);
+            }
+
+            return renderTimes;
+        };
+
+        /**
+         * Gets the renderTime of a component given its cid.
+         *
+         * @param {string} cid The component's cid.
+         * @return {number} The time that the component took to render.
+         */
+        Debug.prototype.getComponentRenderTime = function(cid) {
+            return _components[cid].performance;
         };
 
         function formatDate(date) {

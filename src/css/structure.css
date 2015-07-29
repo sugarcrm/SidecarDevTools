@@ -2,7 +2,8 @@
   background-color: transparent;
   position: relative; }
   .panel-accordion .panel-accordion-navigation > a {
-    padding: 0.2em; }
+    padding: 0.2em;
+    padding-right: 105px; }
     .panel-accordion .panel-accordion-navigation > a > .name {
       font-weight: bold; }
   .panel-accordion .panel-accordion-navigation.layout {
@@ -16,9 +17,15 @@
   .panel-accordion .panel-accordion-navigation > .content {
     padding: 0.5em;
     padding-right: 0; }
+  .panel-accordion .panel-accordion-navigation .render-block {
+    position: absolute;
+    top: 2px;
+    right: 5px; }
+    .panel-accordion .panel-accordion-navigation .render-block .time {
+      margin-right: 5px; }
 
 .panel-layout-button-bar {
-  margin-left: 1.1em; }
+  margin-left: 1em; }
 
 .comp-checkbox {
   position: absolute;

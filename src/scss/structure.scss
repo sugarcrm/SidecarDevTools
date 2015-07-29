@@ -4,6 +4,7 @@
     position: relative;
     > a {
       padding: 0.2em;
+      padding-right: 105px;
       > .name {
         font-weight: bold;
       }
@@ -24,11 +25,19 @@
       padding: 0.5em;
       padding-right: 0;
     }
+    .render-block {
+      position: absolute;
+      top: 2px;
+      right: 5px;
+      .time {
+        margin-right: 5px;
+      }
+    }
   }
 }
 
 .panel-layout-button-bar {
-  margin-left: 1.1em;
+  margin-left: 1em;
 }
 
 .comp-checkbox {

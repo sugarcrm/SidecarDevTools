@@ -10,7 +10,8 @@
             'click #collapseAll': 'collapseAll',
             'click #toggleAllCtx': 'toggleAllContexts',
             'click [data-action=toggle-context]': 'toggleContext',
-            'click i[data-action=toggleHelp]': 'toggleHelpPanel'
+            'click i[data-action=toggleHelp]': 'toggleHelpPanel',
+            'click .render-block': 'renderComponent'
         },
 
         initialize: function() {
@@ -102,10 +103,14 @@
                 .append('<a href="#' + comp.cid + '" class="comp-link" name="' + comp.cid + '">' +
                     '<span class="name">' + comp.name + '</span>' +
                     ' - type: ' + comp.type +
-                    ' - context: ' + comp.contextId +
+                    ' - ctx: ' + comp.contextId +
                     ' - cid: ' + comp.cid +
                     '</a>' +
-                    '<input type="checkbox" class="comp-checkbox" name="' + comp.cid + '" data-context-id="' + comp.contextId + '" data-type="' + comp.compType + '" data-action="toggle-context">');
+//                    '<input type="checkbox" class="comp-checkbox" name="' + comp.cid + '" data-context-id="' + comp.contextId + '" data-type="' + comp.compType + '" data-action="toggle-context">');
+                    '<div class="render-block" data-cid="' + comp.cid + '">' +
+                        '<span class="time" data-performance="renderTime">(' + comp.performance + 'ms)</span>' +
+                        '<input name="render" type="button" value="render">' +
+                    '</div>');
 
             if (comp.compType === 'layout') {
                 $el.addClass('layout');
@@ -216,6 +221,46 @@
             this.$('[data-panel=help]').toggle();
             this.displayHelp = !this.displayHelp;
             $(event.currentTarget).toggleClass('open', this.displayHelp);
+        },
+
+        /**
+         * Renders a component.
+         *
+         * @param {Event} evt The `click` event.
+         */
+        renderComponent: function(evt) {
+            var self = this;
+            var element = $(evt.currentTarget);
+            var cid = element.data('cid');
+            BDT.page.eval('renderComponent', [cid], function(renderTimesObj, isException) {
+                if (isException) {
+                    var error = 'console.error("The element couldn\'t be re-rendered")';
+                    BDT.page.eval('console', [error]);
+                } else {
+                    if (renderTimesObj) {
+                        self.updateRenderTime(element, renderTimesObj[cid]);
+                    }
+                }
+            });
+        },
+
+        /**
+         * Updates the render time of the component and its nested components
+         * on the template.
+         *
+         * @param {jQuery} element The jQuery DOM element.
+         * @param {Object} renderTimesObj The object containing the render times
+         * of the current component and its nested components.
+         */
+        updateRenderTime : function(element, renderTimesObj) {
+            element.children('[data-performance=renderTime]').text('(' + renderTimesObj.renderTime + 'ms)');
+
+            if (renderTimesObj.components) {
+                _.each(renderTimesObj.components, function(component, key) {
+                    element = $('[data-cid=' + key + ']');
+                        this.updateRenderTime(element, component, key);
+                }, this);
+            }
         }
     });
 })();
