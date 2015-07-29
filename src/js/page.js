@@ -94,9 +94,11 @@
         },
 
         generateRecords: function(module, attributes, numberOfRecords, options, addToCollection) {
-            var bean, isAttributesArray, isOptionsArray, attrs, opts;
+            var bean, isAttributesArray, isOptionsArray, attrs, opts, isIterator, strReplace, leadZ, strReplace, newNumber;
             var collection = App.controller.context.get('collection');
-            attributes = _.isEmpty(attributes) ? [] : JSON.parse(attributes);
+			var splitter = "|";
+			attributes = _.isEmpty(attributes) ? [] : JSON.parse(attributes);
+			
             if (attributes.length > 0) {
                 numberOfRecords = attributes.length;
             }
@@ -104,15 +106,41 @@
 
             options = _.isEmpty(options) ? {} : JSON.parse(options);
             isOptionsArray = _.isArray(options);
-
+				
             for (var i = 0; i < numberOfRecords; i++) {
+					
                 if (isAttributesArray) {
                     attrs = _.isUndefined(attributes[i]) ? {} : attributes[i];
                     if (isOptionsArray) {
                         opts = _.isUndefined(options[i]) ? {} : options[i];
                     }
                 } else {
-                    attrs = attributes;
+					attrs = $.extend(true,{},attributes);
+				
+					for(var item in attrs){						
+						
+						isIterator = attributes[item].lastIndexOf(splitter);
+						if(isIterator >= 0){
+							leadZ = attributes[item].substr(isIterator+1);
+							strReplace = attributes[item].substr(isIterator);
+							leadZ = leadZ === '' ? NaN : leadZ;
+							
+							if (isNaN(leadZ)){
+								strReplace = splitter;
+								newNumber = i;
+							}else{
+								var zeros = "";
+								for (var j = leadZ; j > String(i).length ; j--)
+									zeros += "0";
+								zeros += i;
+								newNumber = zeros;
+							}
+							
+							attrs[item] = attrs[item].replace(strReplace, newNumber);
+						}						
+					}
+					
+                    //attrs = attributes;
                     opts = options;
                 }
 
@@ -127,12 +155,13 @@
         },
 
         generateRelatedRecords: function(module, subpanel, attributes, numberOfRecords) {
-            var bean, isAttributesArray, attrs;
+            var bean, isAttributesArray, attrs, isIterator, strReplace, leadZ, strReplace, newNumber;
             var context = App.controller.context;
             var model = context.get('model');
             var collection = model._relatedCollections[subpanel];
             var link = context.get('model')._relatedCollections[subpanel].link.name;
             var options = {relate: true};
+			var splitter = "|";
             attributes = _.isEmpty(attributes) ? [] : JSON.parse(attributes);
             isAttributesArray = _.isArray(attributes);
 
@@ -142,11 +171,40 @@
                     attrs = _.isUndefined(attributes[i]) ? {} : attributes[i];
                     bean = App.data.createRelatedBean(model, null, link, attributes[i]);
                 } else {
-                    attrs = attributes;
+					
+					attrs = $.extend(true,{},attributes);
+				
+					for(var item in attrs){						
+						
+						isIterator = attributes[item].lastIndexOf(splitter);
+						if(isIterator >= 0){
+							leadZ = attributes[item].substr(isIterator+1);
+							strReplace = attributes[item].substr(isIterator);
+							leadZ = leadZ === '' ? NaN : leadZ;
+							
+							if (isNaN(leadZ)){
+								strReplace = splitter;
+								newNumber = i;
+							}else{
+								var zeros = "";
+								for (var j = leadZ; j > String(i).length ; j--)
+									zeros += "0";
+								zeros += i;
+								newNumber = zeros;
+							}
+							
+							attrs[item] = attrs[item].replace(strReplace, newNumber);
+							
+						}						
+					}
+                    //attrs = attributes;
+					
+					
                 }
                 bean = App.data.createRelatedBean(model, null, link, attrs);
                 bean.save({}, options);
                 collection.add(bean);
+				console.log(bean);
             }
             context.trigger('panel-top:refresh', link);
         },
@@ -228,8 +286,8 @@
         consoleActivityComponent: function(id) {
             var act = window.SUGAR.App.debug.AppStream.get(id);
             console.log(act.get('instance'));
-        }
-
+        },
+		
     };
 
 })();
