@@ -256,10 +256,12 @@
                 // add view info widget
                 var tooltip_html = '<h5>' + this.cid + '</h5>';
 
+                var attributes = _.pick(this, 'name', 'action', 'module');
+
                 tooltip_html += '<ul class="unstyled">';
-                tooltip_html += '<li>Name: ' + this.name + '</li>';
-                tooltip_html += '<li>Action: ' + this.action + '</li>';
-                tooltip_html += '<li>Module: ' + this.module + '</li>';
+                _.each(attributes, function (value, key) {
+                    tooltip_html += '<li><strong>' + key + ':</strong> ' + value + '</li>';
+                });
                 tooltip_html += '</ul>';
 
                 var $parent = $('div[data-debug-cid=' + this.layout.cid + ']');
@@ -288,15 +290,60 @@
 
                 tooltip_html += '<ul class="unstyled">';
 
-                var attributes = _.pick(this.def, 'name', 'type');
+                var attributes = _.extend({},
+                    _.pick(this.def, 'name', 'vname', 'type'),
+                    {
+                        module: this.module,
+                        model: ( (_.isUndefined(this.model.id)) ? 'none' : this.model.module + '/' + this.model.id)
+                    }
+                );
+
+                // check for all sugar action types (*action)
+                if(/(action|button)/.test(this.type)) {
+                    attributes = _.extend(attributes, _.pick(this.def, 'action', 'event', 'tooltip', 'acl_action'))
+                }
+
+                // get value if it exists on the model
+                if(!_.isUndefined(this.model.attributes[this.name])) {
+                    var value = this.model.attributes[this.name];
+
+                    attributes = _.extend(attributes, {value: value});
+                }
 
                 // filter relevant attributes from different field types
                 switch (this.type) {
                     default:
                         break;
-                    case 'relate':
+                    case 'teamset':
+                        var team_ids = [];
+                        var primary_team = false;
+                        if(value instanceof Array) {
+                            _.each(value, function(team) {
+                                team_ids.push(team.id);
+                                if(team.primary) {
+                                    primary_team = team.id;
+                                }
+                            });
+                        }
+                        attributes.value = '[' + team_ids.join(', ') + ']';
+                        if(primary_team) {
+                            attributes = _.extend(attributes, {primary_team: primary_team});
+                        }
+                        break;
+                    case 'relate': // relate and relationship fields
                         attributes = _.extend(attributes, _.pick(this.def, 'link', 'id_name', 'module'),
-                            {'link_record': this.model.get(this.def.id_name)});
+                            {
+                                'link_module': this.def.module,
+                                'link_record': this.model.get(this.def.id_name)
+                            }
+                        );
+                        break;
+                    case 'parent': // flex relate
+                        var type_name = this.def.type_name,
+                            id_name = this.def.id_name;
+                        attributes = _.extend(attributes, _.pick(this.def, 'options'));
+                        attributes[type_name] = this.model.get(this.def.type_name);
+                        attributes[id_name] = this.model.get(this.def.id_name);
                         break;
                     case 'currency':
                         // show currencies in a
@@ -311,12 +358,8 @@
                         break;
                 }
                 _.each(attributes, function (value, key) {
-                    tooltip_html += '<li>' + key + ': ' + value + '</li>';
+                    tooltip_html += '<li><strong>' + key + ':</strong> ' + value + '</li>';
                 });
-
-                tooltip_html += '<li>Module: ' + this.module + '</li>';
-
-                tooltip_html += '<li>Model: ' + ( (_.isUndefined(this.model.id)) ? 'none' : this.model.module + '/' + this.model.id) + '</li>';
 
                 tooltip_html += '</ul>';
 
@@ -398,11 +441,11 @@
                         offset = $(element).offset(),
                         placement = 'auto top';
 
-                    if(position.left > ($parent.width() / 2)) {
+                    if(position.left > ($parent.width() / 2) && offset.top < window.innerWidth * 0.8) {
                         placement = 'left';
                     }
 
-                    if(position.top < ($parent.height() / 2)) {
+                    if(position.top < ($parent.height() / 2) && offset.top < window.innerWidth * 0.8) {
                         placement = 'bottom';
                     }
 

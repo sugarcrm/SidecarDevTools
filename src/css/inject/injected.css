@@ -10,3 +10,7 @@
 .sdt-tooltip {
     z-index: 100000 !important;
 }
+
+.sdt-tooltip .tooltip-inner {
+    text-align: left;
+}
