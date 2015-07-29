@@ -12,7 +12,7 @@ aside {
   background: #d6dde5;
   border-right: 1px solid #a3a3a3;
   overflow-x: hidden;
-  width: 199px;
+  width: 130px;
   height: 100%;
   -webkit-user-select: none;
   &:focus {
@@ -33,7 +33,6 @@ aside {
     &.selected {
       color: #fff;
       text-shadow: rgba(0, 0, 0, 0.33) 0 1px 0;
-      font-weight: bold;
       background-image: -webkit-gradient(linear, left top, left bottom, from(#5c93d5), to(#1553aa));
       border-top: 1px solid #4480C8;
     }
@@ -55,7 +54,7 @@ aside {
   top: 0.4em;
   right: 0;
   bottom: 0;
-  left: 200px;
+  left: 130px;
   overflow-x: hidden;
   overflow-y: auto;
   > div {

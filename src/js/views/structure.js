@@ -10,7 +10,8 @@
             'click #collapseAll': 'collapseAll',
             'click #toggleAllCtx': 'toggleAllContexts',
             'click [data-action=toggle-context]': 'toggleContext',
-            'click i[data-action=toggleHelp]': 'toggleHelpPanel'
+            'click i[data-action=toggleHelp]': 'toggleHelpPanel',
+            'click input[name=render]': 'renderComponent'
         },
 
         initialize: function() {
@@ -55,21 +56,24 @@
                     name: "communication"
                 });
 
+            this.updateStructure();
+        },
+
+        updateStructure: function() {
             var self = this;
-            chrome.devtools.inspectedWindow.eval(
-                'App.controller.layout.getComponentInfo()',
-                function(result, isException) {
-                    if (isException) {
-                    }
-                    else {
-                        if (result) {
-                            self.component = result;
-                            self.render();
-                        }
+            BDT.page.eval('getLayoutStructure', null, function(result, isException) {
+                if (isException) {
+                }
+                else {
+                    if (result) {
+                        self.component = result;
+                        self.render();
+                        self.expandAll();
                     }
                 }
-            );
+            });
         },
+
 
         /**
          * Renders the view printing the structure.
@@ -102,10 +106,14 @@
                 .append('<a href="#' + comp.cid + '" class="comp-link" name="' + comp.cid + '">' +
                     '<span class="name">' + comp.name + '</span>' +
                     ' - type: ' + comp.type +
-                    ' - context: ' + comp.contextId +
+                    ' - ctx: ' + comp.contextId +
                     ' - cid: ' + comp.cid +
                     '</a>' +
-                    '<input type="checkbox" class="comp-checkbox" name="' + comp.cid + '" data-context-id="' + comp.contextId + '" data-type="' + comp.compType + '" data-action="toggle-context">');
+//                    '<input type="checkbox" class="comp-checkbox" name="' + comp.cid + '" data-context-id="' + comp.contextId + '" data-type="' + comp.compType + '" data-action="toggle-context">');
+                    '<div class="render-block">' +
+                        '<span class="time" data-performance="renderTime">(' + comp.performance + ' ms)</span>' +
+                        '<input name="render" type="button" value="render" data-cid="' + comp.cid + '">' +
+                    '</div>');
 
             if (comp.compType === 'layout') {
                 $el.addClass('layout');
@@ -216,6 +224,24 @@
             this.$('[data-panel=help]').toggle();
             this.displayHelp = !this.displayHelp;
             $(event.currentTarget).toggleClass('open', this.displayHelp);
+        },
+
+        /**
+         * Renders a component.
+         *
+         * @param {Event} evt The `click` event.
+         */
+        renderComponent: function(evt) {
+            var self = this;
+            var cid = $(evt.currentTarget).data('cid');
+            BDT.page.eval('renderComponent', [cid], function(renderTimesObj, isException) {
+                if (isException) {
+                    var error = 'The element couldn\'t be re-rendered';
+                    BDT.page.eval('console', [error]);
+                } else {
+                    self.updateStructure();
+                }
+            });
         }
     });
 })();

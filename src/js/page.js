@@ -173,6 +173,17 @@
             return currentModule;
         },
 
+        renderComponent: function(cid) {
+            var comp = App.debug.getComponent(cid);
+            comp.render();
+
+            return;
+        },
+
+        getLayoutStructure: function() {
+            return App.controller.layout.getComponentInfo();
+        },
+
         isBackboneDebugReachable: function() {
             return window.Backbone && window.Backbone.debug && true;
         },
