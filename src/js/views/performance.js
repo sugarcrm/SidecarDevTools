@@ -114,9 +114,12 @@
             var module = this.module === 'base' ? null : this.module;
             var iterations = this.$('select[name=iterations]').val();
             var template = this.$('select[name=template]').val();
-            var attributes = this.$('[data-field=jsonAttributes]').val();
-            attributes = attributes ? JSON.parse(attributes) : null;
-            BDT.page.eval('measureRenderTime', [module, fieldType, iterations, template, attributes], function(totalTime, isException) {
+            var modelAttributes = this.$('[data-field=jsonAttributes]').val();
+            modelAttributes = modelAttributes ? JSON.parse(attributes) : null;
+            var viewDef = this.$('[data-field=viewDef]').val();
+            viewDef = viewDef ? JSON.parse(viewDef) : {};
+            BDT.page.eval('measureRenderTime', [module, fieldType, iterations,
+                template, modelAttributes, viewDef], function(totalTime, isException) {
                 if (isException) {
                 }
                 else {
