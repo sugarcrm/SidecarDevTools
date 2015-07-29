@@ -257,11 +257,14 @@
                 var tooltip_html = '<h5>' + this.cid + '</h5>';
 
                 tooltip_html += '<ul class="unstyled">';
-                tooltip_html += '<li>Name: '+ this.name + '</li>';
-                tooltip_html += '<li>Action: '+ this.action + '</li>';
-                tooltip_html += '<li>Model: '+ ( (_.isUndefined(this.model)) ? 'none' : this.model.module + '/' + this.model.id) + '</li>';
+                tooltip_html += '<li>Name: ' + this.name + '</li>';
+                tooltip_html += '<li>Action: ' + this.action + '</li>';
+                tooltip_html += '<li>Module: ' + this.module + '</li>';
                 tooltip_html += '</ul>';
-                this.$el.tooltip({html: true, title: tooltip_html, viewport: 'div[data-debug-cid=' + this.layout.cid + ']'});
+
+                var $parent = $('div[data-debug-cid=' + this.layout.cid + ']');
+
+                createTooltip(this.$el, $parent, tooltip_html);
             }
         };
 
@@ -287,14 +290,21 @@
 
                 var attributes = _.pick(this.def, 'name', 'type');
 
+                // filter relevant attributes from different field types
                 switch (this.type) {
                     default:
                         break;
                     case 'relate':
-                        attributes = _.extend(attributes, _.pick(this.def, 'link', 'id_name', 'module'));
+                        attributes = _.extend(attributes, _.pick(this.def, 'link', 'id_name', 'module'),
+                            {'link_record': this.model.get(this.def.id_name)});
                         break;
                     case 'currency':
-                        attributes = _.extend(attributes, _.pick(this.model.attributes || {}, 'currency_id', 'base_rate'));
+                        // show currencies in a
+                        var currencyId = this.model.get('currency_id') || -99;
+                        attributes = _.extend(attributes, {
+                            currency: App.metadata.getCurrency(currencyId).iso4217 + ' (' + currencyId + ')',
+                            base_rate: this.model.get('base_rate') || 1.0
+                        });
                         break;
                     case 'enum':
                         attributes = _.extend(attributes, _.pick(this.def, 'options', 'isMultiSelect'));
@@ -303,13 +313,25 @@
                 _.each(attributes, function (value, key) {
                     tooltip_html += '<li>' + key + ': ' + value + '</li>';
                 });
-                tooltip_html += '<li>Model: ' + ( (_.isUndefined(this.model)) ? 'none' : this.model.module + '/' + this.model.id) + '</li>';
+
+                tooltip_html += '<li>Module: ' + this.module + '</li>';
+
+                tooltip_html += '<li>Model: ' + ( (_.isUndefined(this.model.id)) ? 'none' : this.model.module + '/' + this.model.id) + '</li>';
+
                 tooltip_html += '</ul>';
-                this.$el.tooltip({
-                    html: true,
-                    title: tooltip_html,
-                    viewport: 'div[data-debug-cid=' + this.view.cid + ']'
-                });
+
+                var $el = this.$el;
+
+                // workaround for mouse opacity on inline edit wrapper
+                // uses the record cell instead of the actual field
+                if(this.view && this.view.name == 'record') {
+                    //$el = this.$el.closest('div[data-name="' + this.name + '"], span[data-name="' + this.name + '"]');
+                    $el = this.$el.closest('[data-name="' + this.name + '"]');
+                }
+
+                var $parent = $('div[data-debug-cid=' + this.view.cid + ']');
+
+                createTooltip($el, $parent, tooltip_html);
             }
         };
 
@@ -357,6 +379,42 @@
         Debug.prototype.getComponentRenderTime = function(cid) {
             return _components[cid].performance;
         };
+
+        /**
+         * Creates a custom Bootstrap tooltip for displaying component info.
+         * @param $el The tooltip target as a jQuery object
+         * @param $parent The parent of $el as a jQuery object
+         * @param html
+         */
+        function createTooltip($el, $parent, html) {
+            $el.tooltip({
+                html: true,
+                title: html,
+                template: '<div class="tooltip sdt-tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>',
+                container: '#sugarcrm',
+                sdt: true,
+                placement: function(tip, element) {
+                    var position = $(element).position(),
+                        offset = $(element).offset(),
+                        placement = 'auto top';
+
+                    if(position.left > ($parent.width() / 2)) {
+                        placement = 'left';
+                    }
+
+                    if(position.top < ($parent.height() / 2)) {
+                        placement = 'bottom';
+                    }
+
+                    return placement;
+                }
+            }).on("show.bs.tooltip", function(e) {
+                if(_.isUndefined($(this).data('bs.tooltip').options.sdt)) {
+                    return;
+                }
+                $('.tooltip').not(this).hide();
+            });
+        }
 
         function formatDate(date) {
             var hours = date.getHours();
