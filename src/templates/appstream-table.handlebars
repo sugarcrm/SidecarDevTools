@@ -1,23 +1,35 @@
 <div class="panel filters-panel" data-role="selection">
     <p><strong>Filters</strong></p>
-    {{#each filters}}
-        <label>
-        {{#eq type "checkbox"}}
-        <input type="checkbox" name="toggle-{{@key}}"{{#if display}} checked="checked"{{/if}}> {{label}}
-        {{/eq}}
-        {{#eq type "dropdown"}}
-            {{label}}
-            <select name="{{@key}}">
-                {{#each options}}
-                    <option name="{{this}}">{{this}}</option>
-                {{/each}}
-            </select>
-        {{/eq}}
-        {{#eq type "text"}}
-            {{label}} <input type="text" name="{{@key}}">
-        {{/eq}}
-        </label>
-    {{/each}}
+
+    <div class="row">
+        <div class="small-8 columns">
+            {{#each filters}}
+                <div class="row">
+                        {{#eq type "checkbox"}}
+                        <label>
+                            <input type="checkbox" id="{{@key}}" name="toggle-{{@key}}"{{#if display}}
+                                   checked="checked"{{/if}}>
+                            {{label}}
+                        </label>
+                        {{/eq}}
+                        {{#eq type "dropdown"}}
+                            <label>{{label}}
+                                <select id="{{@key}}" name="{{@key}}">
+                                    {{#each options}}
+                                        <option name="{{this}}">{{this}}</option>
+                                    {{/each}}
+                                </select>
+                            </label>
+                        {{/eq}}
+                        {{#eq type "text"}}
+                            <label>{{label}}
+                                <input type="text" id="{{@key}}" name="{{@key}}">
+                            </label>
+                        {{/eq}}
+                </div>
+            {{/each}}
+        </div>
+    </div>
 </div>
 <div data-role="tablelist">
- </div>
+</div>

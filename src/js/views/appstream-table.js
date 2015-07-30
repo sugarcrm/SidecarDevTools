@@ -66,10 +66,12 @@
 
         initialize: function(options) {
             // reuse activity type filter keys for convenience
-            var activity_types = _.keys(this.activityTypeFilter);
-            _.each(activity_types, function(value) {
-                this.filters.activity_type.options.push(value);
-            }, this);
+            if(this.filters.activity_type.options.length <= 1) {
+                var activity_types = _.keys(this.activityTypeFilter);
+                _.each(activity_types, function(value) {
+                    this.filters.activity_type.options.push(value);
+                }, this);
+            }
         },
 
         /**
@@ -99,7 +101,11 @@
             var $tableList = this.$('[data-role=tablelist]');
             _.each(activities, function(activity, key) {
                 activity.reverse();
-                $tableList.prepend(this.itemTemplate({date: key, items: this._addDisplayFlag(activity)}));
+                var items = this._addDisplayFlag(activity);
+
+                var display = _.find(items, function(item) { return (item.display == true); }) || false;
+
+                $tableList.prepend(this.itemTemplate({date: key, items: items, display: display}));
             }, this);
         },
 
@@ -122,7 +128,7 @@
                 }
 
                 // sidecar component names
-                var component_name_filter = this.filters['component_name'].value
+                var component_name_filter = this.filters['component_name'].value;
 
                 if(component_name_filter != ''
                     && item.name.toLowerCase().indexOf(component_name_filter.toLowerCase()) == -1)
