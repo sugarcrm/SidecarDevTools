@@ -6,3 +6,11 @@
     z-index: 100000;
     opacity: 0.4;
 }
+
+.sdt-tooltip {
+    z-index: 100000 !important;
+}
+
+.sdt-tooltip .tooltip-inner {
+    text-align: left;
+}

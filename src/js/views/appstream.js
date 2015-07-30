@@ -152,6 +152,7 @@
             switch (act.type) {
                 case 'layout.initialize':
                     var name = this.getEscapedValue(act.layout.name);
+                    act.name = name;
                     act.label = 'Layout <strong>' + name + '</strong> initialized.';
                     act.label = new Handlebars.SafeString(act.label);
                     act.css_class = 'activity-layout';
@@ -159,6 +160,7 @@
                     break;
                 case 'layout.render':
                     var name = this.getEscapedValue(act.layout.name);
+                    act.name = name;
                     act.label = 'Layout <strong>' + name + '</strong> rendered.';
                     act.label = new Handlebars.SafeString(act.label);
                     act.css_class = 'activity-layout';
@@ -167,6 +169,7 @@
                 case 'layout.trigger':
                     var name = this.getEscapedValue(act.layout.name);
                     var event = this.getEscapedValue(act.event);
+                    act.name = name;
                     act.label = 'Layout <strong>' + name + '</strong> triggered event <strong>' + event + '</strong>.';
                     act.label = new Handlebars.SafeString(act.label);
                     act.label_class = 'activity-layout';
@@ -174,6 +177,7 @@
                     break;
                 case 'view.initialize':
                     var name = this.getEscapedValue(act.view.name);
+                    act.name = name;
                     act.label = 'View <strong>' + name + '</strong> initialized.';
                     act.label = new Handlebars.SafeString(act.label);
                     act.css_class = 'activity-view';
@@ -183,6 +187,7 @@
                     var name = this.getEscapedValue(act.view.name);
                     var tplName = this.getEscapedValue(act.view.tplName);
                     var action = this.getEscapedValue(act.view.action);
+                    act.name = name;
                     act.label = 'View <strong>' + name + '</strong> rendered (template: <strong>' + tplName + '</strong>, action: <strong>' + action + '</strong>).';
                     act.label = new Handlebars.SafeString(act.label);
                     act.css_class = 'activity-view';
@@ -191,6 +196,7 @@
                 case 'view.trigger':
                     var name = this.getEscapedValue(act.view.name);
                     var event = this.getEscapedValue(act.event);
+                    act.name = name;
                     act.label = 'View <strong>' + name + '</strong> triggered event <strong>' + event + '</strong>.';
                     act.label = new Handlebars.SafeString(act.label);
                     act.label_class = 'activity-view';
@@ -199,6 +205,7 @@
                 case 'field.initialize':
                     var name = this.getEscapedValue(act.field.name);
                     var type = this.getEscapedValue(act.field.type);
+                    act.name = name;
                     act.label = 'Field (name: <strong>' + name + '</strong>, type: <strong>' + type + '</strong>) initialized.';
                     act.label = new Handlebars.SafeString(act.label);
                     act.css_class = 'activity-field';
@@ -209,6 +216,7 @@
                     var type = this.getEscapedValue(act.field.type);
                     var tplName = this.getEscapedValue(act.field.tplName);
                     var action = this.getEscapedValue(act.field.action);
+                    act.name = name;
                     act.label = 'Field <strong>' + name + '</strong> rendered (template: <strong>' + tplName + '</strong>, action: <strong>' + action + '</strong>).';
                     act.label = new Handlebars.SafeString(act.label);
                     act.label_class = 'activity-field';
@@ -217,6 +225,7 @@
                 case 'field.trigger':
                     var name = this.getEscapedValue(act.field.name);
                     var event = this.getEscapedValue(act.event);
+                    act.name = name;
                     act.label = 'Field <strong>' + name + '</strong> triggered event <strong>' + event + '</strong>.';
                     act.label = new Handlebars.SafeString(act.label);
                     act.label_class = 'activity-field';
@@ -228,6 +237,7 @@
                     act.module ||
                     act.type;
                     act.label_class = act.type;
+                    act.name = act.label;
                     if (act.event === 'data:sync:start') {
                         act.label = act.label + ', operation: ' + act.operation;
                     }

@@ -11,19 +11,7 @@
      *   page.
      */
     Sidecar.view.Layout.prototype.getComponentInfo = function() {
-        var renderTime = App.debug.getComponentRenderTime(this.cid);
-        var path;
-        var type = this.type || this.name;
-        if (App.metadata.getModule(this.module) &&
-            App.metadata.getModule(this.module).layouts &&
-            App.metadata.getModule(this.module).layouts[type] &&
-            App.metadata.getModule(this.module).layouts[type].path
-        ) {
-            path = App.metadata.getModule(this.module).layouts[type].path;
-        } else {
-            path = App.metadata.getStrings('layouts')[type] ?
-                App.metadata.getStrings('layouts')[type].path : '';
-        }
+        var path = this.getJSPath();
         var def = {
             cid: this.cid,
             name: this.name,
@@ -49,19 +37,7 @@
      *   view.
      */
     Sidecar.view.View.prototype.getComponentInfo = function() {
-        var renderTime = App.debug.getComponentRenderTime(this.cid);
-        var path;
-        var type = this.type || this.name;
-        if (App.metadata.getModule(this.module) &&
-            App.metadata.getModule(this.module).views &&
-            App.metadata.getModule(this.module).views[type] &&
-            App.metadata.getModule(this.module).views[type].path
-        ) {
-            path = App.metadata.getModule(this.module).views[type].path;
-        } else {
-            path = App.metadata.getStrings('views')[type] ?
-                App.metadata.getStrings('views')[type].path : '';
-        }
+        var path = this.getJSPath();
         var def = {
             cid: this.cid,
             contextId: this.context.cid,
@@ -75,7 +51,40 @@
             path: path || ''
         };
         return def;
-    }
+    };
+
+    /**
+     * Searches the metadata for a JS source file on the current component.
+     *
+     * @return {String} path    The JS source file path
+     */
+    Sidecar.view.Component.prototype.getJSPath = function() {
+        var name = this.type || this.name,
+            type = this.debugType,
+            module_prop, // property for App.metadata.getModule() output
+            module = this.module,
+            path;
+
+        if(type == 'field') {
+            module_prop = 'fieldTemplates';
+        } else {
+            module_prop = type + 's';
+        }
+        type = type + 's';
+
+        if (App.metadata.getModule(module) &&
+            App.metadata.getModule(module)[module_prop] &&
+            App.metadata.getModule(module)[module_prop][name] &&
+            App.metadata.getModule(module)[module_prop][name].path
+        ) {
+            path = App.metadata.getModule(module)[module_prop][name].path;
+        } else {
+            path = App.metadata.getStrings(type)[name] ?
+                App.metadata.getStrings(type)[name].path : '';
+        }
+
+        return path;
+    };
 
     Sidecar.view.Layout.prototype.setRenderTime =
     Sidecar.view.View.prototype.setRenderTime = function(time, operation) {
@@ -251,10 +260,39 @@
                     action: this.action
                 }
             });
+
+            if(window.sessionStorage['_backbone_debug_tooltips'] === 'enabled') {
+                // add view info widget
+                var tooltip_html = '<h5>' + this.cid + '</h5>';
+
+                var attributes = _.pick(this, 'name', 'action', 'module');
+
+                attributes.path = this.getJSPath();
+
+                tooltip_html += '<ul class="unstyled">';
+                _.each(attributes, function (value, key) {
+                    tooltip_html += '<li><strong>' + key + ':</strong> ' + value + '</li>';
+                });
+                tooltip_html += '</ul>';
+
+                var $parent = $('div[data-debug-cid=' + this.layout.cid + ']');
+
+                createTooltip(this.$el, $parent, tooltip_html);
+            }
         };
 
         Debug.prototype._onHookFieldRender = function(performance) {
             this.$el.attr('data-debug-cid', this.cid);
+            // subtract subfield performances from a fieldset
+            if(this.type == 'fieldset') {
+                _.each(this.fields, function(subfield) {
+                    var field_stream_item = Sidecar.debug.AppStream.get('field.render.' + subfield.cid);
+                    if(!(field_stream_item)) return;
+
+                    performance -= field_stream_item.get("performance");
+                });
+            }
+
             Sidecar.debug.AppStream.add({
                 'type': 'field.render',
                 instance: this,
@@ -266,6 +304,106 @@
                     action: this.action
                 }
             });
+            
+            var self = this;
+            if(window.sessionStorage['_backbone_debug_tooltips'] === 'enabled') {
+                var _createFieldTooltip = function() {
+                    // add field info widget
+                    var tooltip_html = '<h5>' + self.cid + '</h5>';
+
+                    tooltip_html += '<ul class="unstyled">';
+
+                    var attributes = _.extend({},
+                        _.pick(self.def, 'name', 'vname', 'type'),
+                        {
+                            module: self.module,
+                            model: ( (_.isUndefined(self.model.id)) ? 'none' : self.model.module + '/' + self.model.id)
+                        }
+                    );
+
+                    attributes.path = self.getJSPath();
+
+                    // check for all sugar action types (*action)
+                    if(/(action|button)/.test(self.type)) {
+                        attributes = _.extend(attributes, _.pick(self.def, 'action', 'event', 'tooltip', 'acl_action'))
+                    }
+
+                    // get value if it exists on the model
+                    if(!_.isUndefined(self.model.attributes[self.name])) {
+                        var value = self.model.attributes[self.name];
+
+                        attributes = _.extend(attributes, {value: value});
+                    }
+
+                    // filter relevant attributes from different field types
+                    switch (self.type) {
+                        default:
+                            break;
+                        case 'teamset':
+                            var team_ids = [];
+                            var primary_team = false;
+                            if(value instanceof Array) {
+                                _.each(value, function(team) {
+                                    team_ids.push(team.id);
+                                    if(team.primary) {
+                                        primary_team = team.id;
+                                    }
+                                });
+                            }
+                            attributes.value = '[' + team_ids.join(', ') + ']';
+                            if(primary_team) {
+                                attributes = _.extend(attributes, {primary_team: primary_team});
+                            }
+                            break;
+                        case 'relate': // relate and relationship fields
+                            attributes = _.extend(attributes, _.pick(self.def, 'link', 'id_name', 'module'),
+                                {
+                                    'link_module': self.def.module,
+                                    'link_record': self.model.get(self.def.id_name)
+                                }
+                            );
+                            break;
+                        case 'parent': // flex relate
+                            var type_name = self.def.type_name,
+                                id_name = self.def.id_name;
+                            attributes = _.extend(attributes, _.pick(self.def, 'options'));
+                            attributes[type_name] = self.model.get(self.def.type_name);
+                            attributes[id_name] = self.model.get(self.def.id_name);
+                            break;
+                        case 'currency':
+                            // show currencies in a
+                            var currencyId = self.model.get('currency_id') || -99;
+                            attributes = _.extend(attributes, {
+                                currency: App.metadata.getCurrency(currencyId).iso4217 + ' (' + currencyId + ')',
+                                base_rate: self.model.get('base_rate') || 1.0
+                            });
+                            break;
+                        case 'enum':
+                            attributes = _.extend(attributes, _.pick(self.def, 'options', 'isMultiSelect'));
+                            break;
+                    }
+                    _.each(attributes, function (value, key) {
+                        tooltip_html += '<li><strong>' + key + ':</strong> ' + value + '</li>';
+                    });
+
+                    tooltip_html += '</ul>';
+
+                    var $el = self.$el;
+
+                    // workaround for mouse opacity on inline edit wrapper
+                    // uses the record cell instead of the actual field
+                    if(self.view && self.view.name == 'record') {
+                        //$el = self.$el.closest('div[data-name="' + self.name + '"], span[data-name="' + self.name + '"]');
+                        $el = self.$el.closest('[data-name="' + self.name + '"]');
+                    }
+
+                    var $parent = $('div[data-debug-cid=' + self.view.cid + ']');
+
+                    createTooltip($el, $parent, tooltip_html);
+                };
+                _createFieldTooltip.apply();
+                self.model.on('change:' + this.name, _createFieldTooltip);
+            }
         };
 
         Debug.prototype._onHookComponentTrigger = function() {
@@ -313,6 +451,44 @@
             return _components[cid].performance;
         };
 
+        /**
+         * Creates a custom Bootstrap tooltip for displaying component info.
+         * @param $el The tooltip target as a jQuery object
+         * @param $parent The parent of $el as a jQuery object
+         * @param html
+         */
+        function createTooltip($el, $parent, html) {
+            $el.tooltip('destroy');
+            $el.tooltip({
+                html: true,
+                title: html,
+                template: '<div class="tooltip sdt-tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>',
+                container: '#sidecar',
+                sdt: true,
+                placement: function(tip, element) {
+                    var position = $(element).position(),
+                        offset = $(element).offset(),
+                        placement = 'top';
+                    
+                    if(offset.top > (window.innerHeight / 3)) {
+                        if(offset.left > (window.innerWidth / 2) && offset.top < (window.innerHeight * 2/3)) {
+                            placement = 'left';
+                        }
+                    } else {
+                        placement = 'bottom';
+                    }
+
+                    return placement;
+                }
+            }).on("show.bs.tooltip", function(e) {
+                var tooltip = $(this).data('bs.tooltip');
+                if(_.isUndefined(tooltip.options.sdt)) {
+                    return;
+                }
+                $('.tooltip').not(tooltip.$tip).hide();
+            });
+        }
+
         function formatDate(date) {
             var hours = date.getHours();
             var minutes = date.getMinutes();
@@ -331,7 +507,13 @@
             initialize: function(attributes) {
                 var now = new Date();
                 this.set('_createdAt', now.getTime(), {silent: true});
-                this.set('id', this.cid);
+
+                // map id to event type and component's cid for easier retrieval
+                if(!_.isUndefined(attributes.instance)) {
+                    this.set('id', attributes.type + '.' + attributes.instance.cid);
+                } else {
+                    this.set('id', attributes.type + '.' + this.cid);
+                }
                 this.createdAt = formatDate(now);
             },
 

@@ -1,10 +1,10 @@
-<table>
-    <tr data-role="itemset" data-date="{{date}}" class="activities-date">
-        <td colspan="5">{{date}}</td>
-    </tr>
+<table {{#unless display}} style="display: none;"{{/unless}}>
+  <tr data-role="itemset" data-date="{{date}}" class="activities-date">
+    <td colspan="5">{{date}}</td>
+  </tr>
     {{#each items}}
-        <tr data-type="{{type}}" data-filterType="{{filterType}}"{{#unless display}} style="display: none;"{{/unless}}>
-            <td class="td-label">
+    <tr data-type="{{type}}" data-filterType="{{filterType}}"{{#if name}} data-component-name="{{name}}"{{/if}}{{#unless display}} style="display: none;"{{/unless}}>
+      <td class="td-label">
         <span
                 class="label radius secondary label-{{label_class}}">{{type}}</span>
             </td>

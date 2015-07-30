@@ -183,4 +183,7 @@ select, input[type="number"], textarea {
   .help-button.open {
     color: #b6edff; }
 
+.red {
+  color: #ff0000; }
+
 /*# sourceMappingURL=panel.css.map */

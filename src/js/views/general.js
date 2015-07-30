@@ -9,6 +9,7 @@
 
     events: {
       'change [name="inject"]': 'toggleInjection',
+      'change [name="tooltips"]': 'toggleTooltips',
       'change [name="timeout"]': 'updateTimeout'
     },
 
@@ -22,6 +23,10 @@
           }
         })
       });
+
+      BDT.page.eval('areTooltipsEnabled', [], function(enabled) {
+        $('[name="tooltips"]').prop('checked', enabled);
+      });
       return this;
     },
 
@@ -34,6 +39,18 @@
         function() {
           chrome.devtools.inspectedWindow.reload();
         }
+      );
+    },
+
+    toggleTooltips: function(evt) {
+      var on = (this.$(evt.currentTarget).is(':checked'));
+
+      BDT.page.eval(
+          on ? 'enableTooltips' : 'disableTooltips',
+          [],
+          function() {
+            chrome.devtools.inspectedWindow.reload();
+          }
       );
     },
 
