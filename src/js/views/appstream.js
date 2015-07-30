@@ -228,6 +228,9 @@
                     act.module ||
                     act.type;
                     act.label_class = act.type;
+                    if (act.event === 'data:sync:start') {
+                        act.label = act.label + ', operation: ' + act.operation;
+                    }
             }
             act.hasPerformance = act.performance >= 0;
             act.is0ms = act.performance === 0;

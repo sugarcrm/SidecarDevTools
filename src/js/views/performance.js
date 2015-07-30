@@ -9,7 +9,8 @@
             'click #simulate': 'simulateRenderTime',
             'click #simulateAll': 'simulateAllRenderTimes',
             'click #clearAll': 'clearTable',
-            'click i[data-action=toggleHelp]': 'toggleHelpPanel'
+            'click i[data-action=toggleHelp]': 'toggleHelpPanel',
+            'change [data-action=selectModule]': 'selectModule'
         },
 
         /**
@@ -18,6 +19,13 @@
         initialize: function() {
             this.fields = [];
             this.rows = [];
+            this.module = 'base';
+            /**
+             * Array to contain the list of available modules.
+             *
+             * @property {array} modules
+             */
+            this.modules = [];
             /**
              * Indicates if we should show the help panel or not.
              *
@@ -27,15 +35,41 @@
 
             var self = this;
             chrome.devtools.inspectedWindow.eval(
-                'Object.keys(App.metadata.get().fields)',
+                'App.metadata.getModuleNames()',
+                function(result, isException) {
+                    if (isException) {
+                        console.log('An error occurred retrieving module names');
+                    } else if (result) {
+                        result.unshift('base');
+                        self.modules = result;
+
+                        self.populateFields();
+                    }
+                }
+            );
+        },
+
+        /**
+         * Populates the fields to be displayed, based on the selected module
+         */
+        populateFields: function() {
+            var self = this;
+            var cmd;
+            if (this.module === 'base') {
+                cmd = 'Object.keys(_.isFunction(App.metadata.get) ? ' +
+                'App.metadata.get().fields : App.metadata.getStrings(\'fields\'))';
+            } else {
+                cmd = 'Object.keys(App.metadata.getModule(\'' + this.module + '\').fields)';
+            }
+
+            chrome.devtools.inspectedWindow.eval(
+                cmd,
                 function(result, isException) {
                     if (isException) {
                     }
-                    else {
-                        if (result) {
-                            self.fields = result;
-                            self.render();
-                        }
+                    else if (result) {
+                        self.fields = result;
+                        self.render();
                     }
                 }
             );
@@ -54,6 +88,14 @@
         },
 
         /**
+         * Updates the module and displayed fields to reflect the selected module
+         */
+        selectModule: function() {
+            this.module = this.$('[data-action=selectModule]').val();
+            this.populateFields();
+        },
+
+        /**
          * Simulates a render for the selected field and prints the duration of
          * rendering in the table.
          */
@@ -69,9 +111,15 @@
         getRenderTime: function(fieldType) {
             var result;
             var self = this;
+            var module = this.module === 'base' ? null : this.module;
             var iterations = this.$('select[name=iterations]').val();
             var template = this.$('select[name=template]').val();
-            BDT.page.eval('measureRenderTime', [fieldType, iterations, template], function(totalTime, isException) {
+            var modelAttributes = this.$('[data-field=jsonAttributes]').val();
+            modelAttributes = modelAttributes ? JSON.parse(attributes) : null;
+            var viewDef = this.$('[data-field=viewDef]').val();
+            viewDef = viewDef ? JSON.parse(viewDef) : {};
+            BDT.page.eval('measureRenderTime', [module, fieldType, iterations,
+                template, modelAttributes, viewDef], function(totalTime, isException) {
                 if (isException) {
                 }
                 else {

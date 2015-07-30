@@ -12,17 +12,31 @@
      */
     Sidecar.view.Layout.prototype.getComponentInfo = function() {
         var renderTime = App.debug.getComponentRenderTime(this.cid);
+        var path;
+        var type = this.type || this.name;
+        if (App.metadata.getModule(this.module) &&
+            App.metadata.getModule(this.module).layouts &&
+            App.metadata.getModule(this.module).layouts[type] &&
+            App.metadata.getModule(this.module).layouts[type].path
+        ) {
+            path = App.metadata.getModule(this.module).layouts[type].path;
+        } else {
+            path = App.metadata.getStrings('layouts')[type] ?
+                App.metadata.getStrings('layouts')[type].path : '';
+        }
         var def = {
             cid: this.cid,
             name: this.name,
             type: this.type,
+            module: this.module,
             contextId: this.context.cid,
             context: JSON.stringify(this.context),
             compType: 'layout',
             performance: renderTime,
             components: _.map(this._components, function(comp) {
                 return comp.getComponentInfo();
-            })
+            }),
+            path: path || ''
         };
         return def;
     }
@@ -36,6 +50,18 @@
      */
     Sidecar.view.View.prototype.getComponentInfo = function() {
         var renderTime = App.debug.getComponentRenderTime(this.cid);
+        var path;
+        var type = this.type || this.name;
+        if (App.metadata.getModule(this.module) &&
+            App.metadata.getModule(this.module).views &&
+            App.metadata.getModule(this.module).views[type] &&
+            App.metadata.getModule(this.module).views[type].path
+        ) {
+            path = App.metadata.getModule(this.module).views[type].path;
+        } else {
+            path = App.metadata.getStrings('views')[type] ?
+                App.metadata.getStrings('views')[type].path : '';
+        }
         var def = {
             cid: this.cid,
             contextId: this.context.cid,
@@ -43,7 +69,10 @@
             name: this.name,
             type: this.type,
             compType: 'view',
-            performance: renderTime
+            performance: renderTime,
+            module: this.module,
+            compType: 'view',
+            path: path || ''
         };
         return def;
     }
@@ -79,7 +108,14 @@
             //Sidecar.app.on('app:sync:complete', this._onSyncComplete, this);
             Sidecar.events.trigger = _.wrap(Sidecar.events.trigger, function(trigger) {
                 var args = Array.prototype.slice.call(arguments, 1);
-                Sidecar.debug.AppStream.add({'event': args[0], 'type': 'app.event', args: _.clone(args)});
+                Sidecar.debug.AppStream.add(
+                    {
+                        'event': args[0],
+                        'operation': args[1] || '',
+                        'type': 'app.event',
+                        args: _.clone(args)
+                    }
+                );
                 var result = trigger.apply(Sidecar.events, args);
                 return result;
             });
@@ -218,6 +254,7 @@
         };
 
         Debug.prototype._onHookFieldRender = function(performance) {
+            this.$el.attr('data-debug-cid', this.cid);
             Sidecar.debug.AppStream.add({
                 'type': 'field.render',
                 instance: this,

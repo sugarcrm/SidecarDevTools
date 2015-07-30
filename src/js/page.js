@@ -74,14 +74,15 @@
             console.log('**************************************');
         },
 
-        measureRenderTime: function(fieldType, iterations, template) {
+        measureRenderTime: function(module, fieldType, iterations, template, modelAttr, viewDef) {
             var times = [], model, view, def, f, start, end, sum;
 
-            model = App.controller.context.get('model');
-            view = App.view.createView({model: model, name: 'list'});
+            module = module || App.controller.context.get('module');
+            model = App.data.createBean(module, modelAttr);
+            view = App.view.createView({model: model, name: 'list', module: module});
+            def = _.extend({type: fieldType, viewName: template}, viewDef);
             for (var runs = 0; runs < iterations; runs++) {
                 start = window.performance.now();
-                def = {type: fieldType, viewName: template};
                 f = App.view.createField({def: def, model: model, view: view});
                 f.render();
                 end = window.performance.now();
