@@ -6,6 +6,8 @@
     padding-right: 105px; }
     .panel-accordion .panel-accordion-navigation > a > .name {
       font-weight: bold; }
+      .panel-accordion .panel-accordion-navigation > a > .name:hover {
+        text-decoration: underline; }
   .panel-accordion .panel-accordion-navigation.layout {
     border-left: 1px solid forestgreen; }
     .panel-accordion .panel-accordion-navigation.layout > a > .name {

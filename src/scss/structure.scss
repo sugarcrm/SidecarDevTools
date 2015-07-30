@@ -7,6 +7,9 @@
       padding-right: 105px;
       > .name {
         font-weight: bold;
+        &:hover {
+          text-decoration: underline;
+        }
       }
     }
     &.layout {

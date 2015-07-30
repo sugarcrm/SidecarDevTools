@@ -11,7 +11,8 @@
             'click #toggleAllCtx': 'toggleAllContexts',
             'click [data-action=toggle-context]': 'toggleContext',
             'click i[data-action=toggleHelp]': 'toggleHelpPanel',
-            'click input[name=render]': 'renderComponent'
+            'click input[name=render]': 'renderComponent',
+            'click [data-name=name]': 'logComponentObject'
         },
 
         initialize: function() {
@@ -104,7 +105,7 @@
             // TODO This part should be moved to a template.
             var $el = $('<li class="accordion-navigation panel-accordion-navigation"></li>')
                 .append('<a href="#' + comp.cid + '" class="comp-link" name="' + comp.cid + '">' +
-                    '<span class="name">' + comp.name + '</span>' +
+                    '<span class="name" data-name="name">' + comp.name + '</span>' +
                     ' - type: ' + comp.type +
                     ' - ctx: ' + comp.contextId +
                     ' - cid: ' + comp.cid +
@@ -242,6 +243,18 @@
                     self.updateStructure();
                 }
             });
+        },
+
+        /**
+         * Logs the component object of the clicked component in the console.
+         *
+         * @param {Event} evt The `click` event.
+         */
+        logComponentObject: function(evt) {
+            evt.stopPropagation();
+            evt.preventDefault();
+            var cid = $(evt.currentTarget).closest('a.comp-link').attr('name');
+            BDT.page.eval('logComponent', [cid]);
         }
     });
 })();

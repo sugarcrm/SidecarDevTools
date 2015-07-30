@@ -180,6 +180,10 @@
             return;
         },
 
+        logComponent: function(cid) {
+            console.log(App.debug.getComponent(cid));
+        },
+
         getLayoutStructure: function() {
             return App.controller.layout.getComponentInfo();
         },
