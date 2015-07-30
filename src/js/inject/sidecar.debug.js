@@ -11,6 +11,8 @@
      *   page.
      */
     Sidecar.view.Layout.prototype.getComponentInfo = function() {
+        var renderTime = App.debug.getComponentRenderTime(this.cid);
+        renderTime = Math.round(renderTime*10)/10;
         var path = this.getJSPath();
         var def = {
             cid: this.cid,
@@ -37,6 +39,8 @@
      *   view.
      */
     Sidecar.view.View.prototype.getComponentInfo = function() {
+        var renderTime = App.debug.getComponentRenderTime(this.cid);
+        renderTime = Math.round(renderTime*10)/10;
         var path = this.getJSPath();
         var def = {
             cid: this.cid,
