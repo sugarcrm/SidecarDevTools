@@ -201,14 +201,19 @@
             var full_selector = 'tr[data-type' + activity_selector + '][data-component-name' + component_selector + ']';
 
             if(activity_type != '' || component_name != '') {
-                var $hidden = this.$('tr[data-type]').not(full_selector),
-                    $parent_table = $hidden.closest('table');
+                var $tables = this.$('div[data-role="tablelist"] > table');
 
-                if($parent_table.children('tr').length == ($hidden.length + 1)) {
-                    $parent_table.hide();
-                } else {
-                    $hidden.hide();
-                }
+                // iterate through and conditionally hide AppStream result tables
+                $tables.each(function(index, table) {
+                    var $table_body = $(table).children('tbody'),
+                        $hidden = $table_body.children('tr[data-type]').not(full_selector);
+
+                    if($table_body.children('tr').length == ($hidden.length + 1)) {
+                        $(table).hide();
+                    } else {
+                        $hidden.hide();
+                    }
+                });
             }
             this.$(full_selector).closest('table').show();
             this.$(full_selector).show();
