@@ -304,100 +304,105 @@
                     action: this.action
                 }
             });
-
+            
+            var self = this;
             if(window.sessionStorage['_backbone_debug_tooltips'] === 'enabled') {
-                // add field info widget
-                var tooltip_html = '<h5>' + this.cid + '</h5>';
+                var _createFieldTooltip = function() {
+                    // add field info widget
+                    var tooltip_html = '<h5>' + self.cid + '</h5>';
 
-                tooltip_html += '<ul class="unstyled">';
+                    tooltip_html += '<ul class="unstyled">';
 
-                var attributes = _.extend({},
-                    _.pick(this.def, 'name', 'vname', 'type'),
-                    {
-                        module: this.module,
-                        model: ( (_.isUndefined(this.model.id)) ? 'none' : this.model.module + '/' + this.model.id)
+                    var attributes = _.extend({},
+                        _.pick(self.def, 'name', 'vname', 'type'),
+                        {
+                            module: self.module,
+                            model: ( (_.isUndefined(self.model.id)) ? 'none' : self.model.module + '/' + self.model.id)
+                        }
+                    );
+
+                    attributes.path = self.getJSPath();
+
+                    // check for all sugar action types (*action)
+                    if(/(action|button)/.test(self.type)) {
+                        attributes = _.extend(attributes, _.pick(self.def, 'action', 'event', 'tooltip', 'acl_action'))
                     }
-                );
 
-                attributes.path = this.getJSPath();
+                    // get value if it exists on the model
+                    if(!_.isUndefined(self.model.attributes[self.name])) {
+                        var value = self.model.attributes[self.name];
 
-                // check for all sugar action types (*action)
-                if(/(action|button)/.test(this.type)) {
-                    attributes = _.extend(attributes, _.pick(this.def, 'action', 'event', 'tooltip', 'acl_action'))
-                }
+                        attributes = _.extend(attributes, {value: value});
+                    }
 
-                // get value if it exists on the model
-                if(!_.isUndefined(this.model.attributes[this.name])) {
-                    var value = this.model.attributes[this.name];
-
-                    attributes = _.extend(attributes, {value: value});
-                }
-
-                // filter relevant attributes from different field types
-                switch (this.type) {
-                    default:
-                        break;
-                    case 'teamset':
-                        var team_ids = [];
-                        var primary_team = false;
-                        if(value instanceof Array) {
-                            _.each(value, function(team) {
-                                team_ids.push(team.id);
-                                if(team.primary) {
-                                    primary_team = team.id;
-                                }
-                            });
-                        }
-                        attributes.value = '[' + team_ids.join(', ') + ']';
-                        if(primary_team) {
-                            attributes = _.extend(attributes, {primary_team: primary_team});
-                        }
-                        break;
-                    case 'relate': // relate and relationship fields
-                        attributes = _.extend(attributes, _.pick(this.def, 'link', 'id_name', 'module'),
-                            {
-                                'link_module': this.def.module,
-                                'link_record': this.model.get(this.def.id_name)
+                    // filter relevant attributes from different field types
+                    switch (self.type) {
+                        default:
+                            break;
+                        case 'teamset':
+                            var team_ids = [];
+                            var primary_team = false;
+                            if(value instanceof Array) {
+                                _.each(value, function(team) {
+                                    team_ids.push(team.id);
+                                    if(team.primary) {
+                                        primary_team = team.id;
+                                    }
+                                });
                             }
-                        );
-                        break;
-                    case 'parent': // flex relate
-                        var type_name = this.def.type_name,
-                            id_name = this.def.id_name;
-                        attributes = _.extend(attributes, _.pick(this.def, 'options'));
-                        attributes[type_name] = this.model.get(this.def.type_name);
-                        attributes[id_name] = this.model.get(this.def.id_name);
-                        break;
-                    case 'currency':
-                        // show currencies in a
-                        var currencyId = this.model.get('currency_id') || -99;
-                        attributes = _.extend(attributes, {
-                            currency: App.metadata.getCurrency(currencyId).iso4217 + ' (' + currencyId + ')',
-                            base_rate: this.model.get('base_rate') || 1.0
-                        });
-                        break;
-                    case 'enum':
-                        attributes = _.extend(attributes, _.pick(this.def, 'options', 'isMultiSelect'));
-                        break;
-                }
-                _.each(attributes, function (value, key) {
-                    tooltip_html += '<li><strong>' + key + ':</strong> ' + value + '</li>';
-                });
+                            attributes.value = '[' + team_ids.join(', ') + ']';
+                            if(primary_team) {
+                                attributes = _.extend(attributes, {primary_team: primary_team});
+                            }
+                            break;
+                        case 'relate': // relate and relationship fields
+                            attributes = _.extend(attributes, _.pick(self.def, 'link', 'id_name', 'module'),
+                                {
+                                    'link_module': self.def.module,
+                                    'link_record': self.model.get(self.def.id_name)
+                                }
+                            );
+                            break;
+                        case 'parent': // flex relate
+                            var type_name = self.def.type_name,
+                                id_name = self.def.id_name;
+                            attributes = _.extend(attributes, _.pick(self.def, 'options'));
+                            attributes[type_name] = self.model.get(self.def.type_name);
+                            attributes[id_name] = self.model.get(self.def.id_name);
+                            break;
+                        case 'currency':
+                            // show currencies in a
+                            var currencyId = self.model.get('currency_id') || -99;
+                            attributes = _.extend(attributes, {
+                                currency: App.metadata.getCurrency(currencyId).iso4217 + ' (' + currencyId + ')',
+                                base_rate: self.model.get('base_rate') || 1.0
+                            });
+                            break;
+                        case 'enum':
+                            attributes = _.extend(attributes, _.pick(self.def, 'options', 'isMultiSelect'));
+                            break;
+                    }
+                    _.each(attributes, function (value, key) {
+                        tooltip_html += '<li><strong>' + key + ':</strong> ' + value + '</li>';
+                    });
 
-                tooltip_html += '</ul>';
+                    tooltip_html += '</ul>';
 
-                var $el = this.$el;
+                    var $el = self.$el;
 
-                // workaround for mouse opacity on inline edit wrapper
-                // uses the record cell instead of the actual field
-                if(this.view && this.view.name == 'record') {
-                    //$el = this.$el.closest('div[data-name="' + this.name + '"], span[data-name="' + this.name + '"]');
-                    $el = this.$el.closest('[data-name="' + this.name + '"]');
-                }
+                    // workaround for mouse opacity on inline edit wrapper
+                    // uses the record cell instead of the actual field
+                    if(self.view && self.view.name == 'record') {
+                        //$el = self.$el.closest('div[data-name="' + self.name + '"], span[data-name="' + self.name + '"]');
+                        $el = self.$el.closest('[data-name="' + self.name + '"]');
+                    }
 
-                var $parent = $('div[data-debug-cid=' + this.view.cid + ']');
+                    var $parent = $('div[data-debug-cid=' + self.view.cid + ']');
 
-                createTooltip($el, $parent, tooltip_html);
+                    createTooltip($el, $parent, tooltip_html);
+                };
+                _createFieldTooltip.apply();
+                self.model.on('change:' + this.name, _createFieldTooltip);
             }
         };
 
@@ -453,32 +458,34 @@
          * @param html
          */
         function createTooltip($el, $parent, html) {
+            $el.tooltip('destroy');
             $el.tooltip({
                 html: true,
                 title: html,
                 template: '<div class="tooltip sdt-tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>',
-                container: '#sugarcrm',
+                container: '#sidecar',
                 sdt: true,
                 placement: function(tip, element) {
                     var position = $(element).position(),
                         offset = $(element).offset(),
-                        placement = 'auto top';
-
-                    if(position.left > ($parent.width() / 2) && offset.top < window.innerWidth * 0.8) {
-                        placement = 'left';
-                    }
-
-                    if(position.top < ($parent.height() / 2) && offset.top < window.innerWidth * 0.8) {
+                        placement = 'top';
+                    
+                    if(offset.top > (window.innerHeight / 3)) {
+                        if(offset.left > (window.innerWidth / 2) && offset.top < (window.innerHeight * 2/3)) {
+                            placement = 'left';
+                        }
+                    } else {
                         placement = 'bottom';
                     }
 
                     return placement;
                 }
             }).on("show.bs.tooltip", function(e) {
-                if(_.isUndefined($(this).data('bs.tooltip').options.sdt)) {
+                var tooltip = $(this).data('bs.tooltip');
+                if(_.isUndefined(tooltip.options.sdt)) {
                     return;
                 }
-                $('.tooltip').not(this).hide();
+                $('.tooltip').not(tooltip.$tip).hide();
             });
         }
 
