@@ -182,7 +182,11 @@
         },
 
         logComponent: function(cid) {
-            console.log(App.debug.getComponent(cid));
+            var componentInfos = App.debug.getComponent(cid).getComponentInfo();
+            console.log('Name: ' + componentInfos.name);
+            console.log('Module: ' + componentInfos.module);
+            console.log('File path: ' + componentInfos.path);
+            console.log('Component object:', App.debug.getComponent(cid));
         },
 
         getLayoutStructure: function() {

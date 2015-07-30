@@ -109,8 +109,6 @@
                     ' - type: ' + comp.type +
                     ' - ctx: ' + comp.contextId +
                     ' - cid: ' + comp.cid +
-                    ' - module: ' + comp.module +
-                    ' - file path: ' + comp.path +
                     '</a>' +
 //                    '<input type="checkbox" class="comp-checkbox" name="' + comp.cid + '" data-context-id="' + comp.contextId + '" data-type="' + comp.compType + '" data-action="toggle-context">');
                     '<div class="render-block">' +
