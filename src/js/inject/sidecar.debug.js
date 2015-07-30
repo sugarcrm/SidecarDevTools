@@ -11,19 +11,7 @@
      *   page.
      */
     Sidecar.view.Layout.prototype.getComponentInfo = function() {
-        var renderTime = App.debug.getComponentRenderTime(this.cid);
-        var path;
-        var type = this.type || this.name;
-        if (App.metadata.getModule(this.module) &&
-            App.metadata.getModule(this.module).layouts &&
-            App.metadata.getModule(this.module).layouts[type] &&
-            App.metadata.getModule(this.module).layouts[type].path
-        ) {
-            path = App.metadata.getModule(this.module).layouts[type].path;
-        } else {
-            path = App.metadata.getStrings('layouts')[type] ?
-                App.metadata.getStrings('layouts')[type].path : '';
-        }
+        var path = this.getJSPath();
         var def = {
             cid: this.cid,
             name: this.name,
@@ -49,19 +37,7 @@
      *   view.
      */
     Sidecar.view.View.prototype.getComponentInfo = function() {
-        var renderTime = App.debug.getComponentRenderTime(this.cid);
-        var path;
-        var type = this.type || this.name;
-        if (App.metadata.getModule(this.module) &&
-            App.metadata.getModule(this.module).views &&
-            App.metadata.getModule(this.module).views[type] &&
-            App.metadata.getModule(this.module).views[type].path
-        ) {
-            path = App.metadata.getModule(this.module).views[type].path;
-        } else {
-            path = App.metadata.getStrings('views')[type] ?
-                App.metadata.getStrings('views')[type].path : '';
-        }
+        var path = this.getJSPath();
         var def = {
             cid: this.cid,
             contextId: this.context.cid,
@@ -75,7 +51,40 @@
             path: path || ''
         };
         return def;
-    }
+    };
+
+    /**
+     * Searches the metadata for a JS source file on the current component.
+     *
+     * @return {String} path    The JS source file path
+     */
+    Sidecar.view.Component.prototype.getJSPath = function() {
+        var name = this.type || this.name,
+            type = this.debugType,
+            module_prop, // property for App.metadata.getModule() output
+            module = this.module,
+            path;
+
+        if(type == 'field') {
+            module_prop = 'fieldTemplates';
+        } else {
+            module_prop = type + 's';
+        }
+        type = type + 's';
+
+        if (App.metadata.getModule(module) &&
+            App.metadata.getModule(module)[module_prop] &&
+            App.metadata.getModule(module)[module_prop][name] &&
+            App.metadata.getModule(module)[module_prop][name].path
+        ) {
+            path = App.metadata.getModule(module)[module_prop][name].path;
+        } else {
+            path = App.metadata.getStrings(type)[name] ?
+                App.metadata.getStrings(type)[name].path : '';
+        }
+
+        return path;
+    };
 
     Sidecar.view.Layout.prototype.setRenderTime =
     Sidecar.view.View.prototype.setRenderTime = function(time, operation) {
@@ -258,6 +267,8 @@
 
                 var attributes = _.pick(this, 'name', 'action', 'module');
 
+                attributes.path = this.getJSPath();
+
                 tooltip_html += '<ul class="unstyled">';
                 _.each(attributes, function (value, key) {
                     tooltip_html += '<li><strong>' + key + ':</strong> ' + value + '</li>';
@@ -307,6 +318,8 @@
                         model: ( (_.isUndefined(this.model.id)) ? 'none' : this.model.module + '/' + this.model.id)
                     }
                 );
+
+                attributes.path = this.getJSPath();
 
                 // check for all sugar action types (*action)
                 if(/(action|button)/.test(this.type)) {
