@@ -272,6 +272,16 @@
 
         Debug.prototype._onHookFieldRender = function(performance) {
             this.$el.attr('data-debug-cid', this.cid);
+            // subtract subfield performances from a fieldset
+            if(this.type == 'fieldset') {
+                _.each(this.fields, function(subfield) {
+                    var field_stream_item = Sidecar.debug.AppStream.get('field.render.' + subfield.cid);
+                    if(!(field_stream_item)) return;
+
+                    performance -= field_stream_item.get("performance");
+                });
+            }
+
             Sidecar.debug.AppStream.add({
                 'type': 'field.render',
                 instance: this,
@@ -477,7 +487,13 @@
             initialize: function(attributes) {
                 var now = new Date();
                 this.set('_createdAt', now.getTime(), {silent: true});
-                this.set('id', this.cid);
+
+                // map id to event type and component's cid for easier retrieval
+                if(!_.isUndefined(attributes.instance)) {
+                    this.set('id', attributes.type + '.' + attributes.instance.cid);
+                } else {
+                    this.set('id', attributes.type + '.' + this.cid);
+                }
                 this.createdAt = formatDate(now);
             },
 
