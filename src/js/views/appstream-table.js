@@ -9,25 +9,45 @@
         events: {
             'click [data-console]': 'consoleArgs',
             'click [data-consolecomp]': 'consoleComponent',
-            'click [type="checkbox"]': 'toggleActivityType'
+            'click [type="checkbox"]': 'toggleActivityType',
+            'change select[name="activity_type"]': 'onChangeActivityType',
+            'keyup input[name="component_name"]': 'throttledComponentNameSearch',
+            'paste input[name="component_name"]': 'throttledComponentNameSearch'
         },
 
         filters: {
             'appevents': {
                 display: true,
-                label: 'Global app events'
+                label: 'Global app events',
+                type: 'checkbox'
             },
             'initialize': {
                 display: true,
-                label: 'Components initializing'
+                label: 'Components initializing',
+                type: 'checkbox'
             },
             'render': {
                 display: true,
-                label: 'Components rendering'
+                label: 'Components rendering',
+                type: 'checkbox'
             },
             'trigger': {
                 display: true,
-                label: 'Events triggered by components'
+                label: 'Events triggered by components',
+                type: 'checkbox'
+            },
+            'activity_type': {
+                label: 'Activity type',
+                type: 'dropdown',
+                options: [
+                    ''
+                ],
+                value: ''
+            },
+            'component_name': {
+                label: 'View/Field name',
+                type: 'text',
+                value: ''
             }
         },
 
@@ -42,6 +62,14 @@
             'layout.trigger': 'trigger',
             'view.trigger': 'trigger',
             'field.trigger': 'trigger'
+        },
+
+        initialize: function(options) {
+            // reuse activity type filter keys for convenience
+            var activity_types = _.keys(this.activityTypeFilter);
+            _.each(activity_types, function(value) {
+                this.filters.activity_type.options.push(value);
+            }, this);
         },
 
         /**
@@ -87,6 +115,20 @@
                 var filterType = this.activityTypeFilter[item.type];
                 item.display = filterType && (_.isUndefined(this.filters[filterType]) || this.filters[filterType].display);
                 item.filterType = filterType;
+
+                if(this.filters['activity_type'].value != '' && item.type != this.filters['activity_type'].value)
+                {
+                    item.display = false;
+                }
+
+                // sidecar component names
+                var component_name_filter = this.filters['component_name'].value
+
+                if(component_name_filter != ''
+                    && item.name.toLowerCase().indexOf(component_name_filter.toLowerCase()) == -1)
+                {
+                    item.display = false;
+                }
                 return item;
             }, this);
         },
@@ -118,6 +160,58 @@
                 this.$('[data-filterType="' + type + '"]').toggle();
                 this.filters[type].display = !this.filters[type].display;
             }
+        },
+
+        onChangeActivityType: function(event) {
+            var value = $(event.currentTarget).val();
+
+            this.filters['activity_type'].value = value;
+            this.applyFilters();
+        },
+
+        /**
+         * Lazy debounce for searching component names in the AppStream
+         * @param event
+         */
+        throttledComponentNameSearch: _.debounce(function(event) {
+            this.onChangeComponentName(event);
+        }, 400),
+
+        onChangeComponentName: function(event) {
+            var value = $(event.currentTarget).val();
+
+            this.filters['component_name'].value = value;
+            this.applyFilters();
+        },
+
+        applyFilters: function() {
+            var activity_type = this.filters['activity_type'].value,
+                component_name = this.filters['component_name'].value,
+                activity_selector = '',
+                component_selector = '';
+
+            if(activity_type != '') {
+                activity_selector = '="' + activity_type + '"';
+            }
+
+            if(component_name != '') {
+                component_selector = '*="' + component_name + '"';
+            }
+
+            var full_selector = 'tr[data-type' + activity_selector + '][data-component-name' + component_selector + ']';
+
+            if(activity_type != '' || component_name != '') {
+                var $hidden = this.$('tr[data-type]').not(full_selector),
+                    $parent_table = $hidden.closest('table');
+
+                if($parent_table.children('tr').length == ($hidden.length + 1)) {
+                    $parent_table.hide();
+                } else {
+                    $hidden.hide();
+                }
+            }
+            this.$(full_selector).closest('table').show();
+            this.$(full_selector).show();
         }
     });
 })();

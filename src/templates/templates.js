@@ -4,48 +4,55 @@ this["Handlebars"]["templates"] = this["Handlebars"]["templates"] || {};
 this["Handlebars"]["templates"]["appstream-item"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
     var stack1, helper, alias1=helpers.helperMissing, alias2="function", alias3=this.escapeExpression;
 
-  return "        <tr data-type=\""
+  return "    <tr data-type=\""
     + alias3(((helper = (helper = helpers.type || (depth0 != null ? depth0.type : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"type","hash":{},"data":data}) : helper)))
     + "\" data-filterType=\""
     + alias3(((helper = (helper = helpers.filterType || (depth0 != null ? depth0.filterType : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"filterType","hash":{},"data":data}) : helper)))
     + "\""
-    + ((stack1 = helpers.unless.call(depth0,(depth0 != null ? depth0.display : depth0),{"name":"unless","hash":{},"fn":this.program(2, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "")
-    + ">\n            <td class=\"td-label\">\n        <span\n                class=\"label radius secondary label-"
+    + ((stack1 = helpers['if'].call(depth0,(depth0 != null ? depth0.name : depth0),{"name":"if","hash":{},"fn":this.program(2, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers.unless.call(depth0,(depth0 != null ? depth0.display : depth0),{"name":"unless","hash":{},"fn":this.program(4, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "")
+    + ">\n      <td class=\"td-label\">\n        <span\n                class=\"label radius secondary label-"
     + alias3(((helper = (helper = helpers.label_class || (depth0 != null ? depth0.label_class : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"label_class","hash":{},"data":data}) : helper)))
     + "\">"
     + alias3(((helper = (helper = helpers.type || (depth0 != null ? depth0.type : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"type","hash":{},"data":data}) : helper)))
     + "</span>\n            </td>\n            <td class=\"td-time"
-    + ((stack1 = helpers.unless.call(depth0,(depth0 != null ? depth0.is0ms : depth0),{"name":"unless","hash":{},"fn":this.program(4, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers.unless.call(depth0,(depth0 != null ? depth0.is0ms : depth0),{"name":"unless","hash":{},"fn":this.program(6, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "")
     + "\">\n                "
-    + ((stack1 = helpers['if'].call(depth0,(depth0 != null ? depth0.hasPerformance : depth0),{"name":"if","hash":{},"fn":this.program(6, data, 0),"inverse":this.program(8, data, 0),"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers['if'].call(depth0,(depth0 != null ? depth0.hasPerformance : depth0),{"name":"if","hash":{},"fn":this.program(8, data, 0),"inverse":this.program(10, data, 0),"data":data})) != null ? stack1 : "")
     + "\n            </td>\n            <td class=\"td-text "
     + alias3(((helper = (helper = helpers.css_class || (depth0 != null ? depth0.css_class : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"css_class","hash":{},"data":data}) : helper)))
     + "\">\n                "
     + alias3(((helper = (helper = helpers.label || (depth0 != null ? depth0.label : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"label","hash":{},"data":data}) : helper)))
     + "\n            </td>\n            <td class=\"td-args\">\n                "
-    + ((stack1 = helpers['if'].call(depth0,(depth0 != null ? depth0.instance : depth0),{"name":"if","hash":{},"fn":this.program(10, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers['if'].call(depth0,(depth0 != null ? depth0.instance : depth0),{"name":"if","hash":{},"fn":this.program(12, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "")
     + "\n            </td>\n            <td class=\"td-args\">\n                "
-    + ((stack1 = helpers['if'].call(depth0,(depth0 != null ? depth0.args : depth0),{"name":"if","hash":{},"fn":this.program(12, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers['if'].call(depth0,(depth0 != null ? depth0.args : depth0),{"name":"if","hash":{},"fn":this.program(14, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "")
     + "\n            </td>\n        </tr>\n";
 },"2":function(depth0,helpers,partials,data) {
-    return " style=\"display: none;\"";
+    var helper;
+
+  return " data-component-name=\""
+    + this.escapeExpression(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0,{"name":"name","hash":{},"data":data}) : helper)))
+    + "\"";
 },"4":function(depth0,helpers,partials,data) {
-    return " td-has-time";
+    return " style=\"display: none;\"";
 },"6":function(depth0,helpers,partials,data) {
+    return " td-has-time";
+},"8":function(depth0,helpers,partials,data) {
     var helper;
 
   return "("
     + this.escapeExpression(((helper = (helper = helpers.performance || (depth0 != null ? depth0.performance : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0,{"name":"performance","hash":{},"data":data}) : helper)))
     + "ms)";
-},"8":function(depth0,helpers,partials,data) {
-    return "&nbsp;";
 },"10":function(depth0,helpers,partials,data) {
+    return "&nbsp;";
+},"12":function(depth0,helpers,partials,data) {
     var helper;
 
   return "<a data-consolecomp=\""
     + this.escapeExpression(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0,{"name":"id","hash":{},"data":data}) : helper)))
     + "\">component</a>";
-},"12":function(depth0,helpers,partials,data) {
+},"14":function(depth0,helpers,partials,data) {
     var helper;
 
   return "<a data-console=\""
@@ -64,17 +71,51 @@ this["Handlebars"]["templates"]["appstream-item"] = Handlebars.template({"1":fun
 },"useData":true});
 
 this["Handlebars"]["templates"]["appstream-table"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
+    var stack1, alias1=helpers.helperMissing;
+
+  return "        <label>\n"
+    + ((stack1 = (helpers.eq || (depth0 && depth0.eq) || alias1).call(depth0,(depth0 != null ? depth0.type : depth0),"checkbox",{"name":"eq","hash":{},"fn":this.program(2, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = (helpers.eq || (depth0 && depth0.eq) || alias1).call(depth0,(depth0 != null ? depth0.type : depth0),"dropdown",{"name":"eq","hash":{},"fn":this.program(5, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = (helpers.eq || (depth0 && depth0.eq) || alias1).call(depth0,(depth0 != null ? depth0.type : depth0),"text",{"name":"eq","hash":{},"fn":this.program(8, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "")
+    + "        </label>\n";
+},"2":function(depth0,helpers,partials,data) {
     var stack1, helper, alias1=helpers.helperMissing, alias2="function", alias3=this.escapeExpression;
 
-  return "        <label><input type=\"checkbox\" name=\"toggle-"
+  return "        <input type=\"checkbox\" name=\"toggle-"
     + alias3(((helper = (helper = helpers.key || (data && data.key)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"key","hash":{},"data":data}) : helper)))
     + "\""
-    + ((stack1 = helpers['if'].call(depth0,(depth0 != null ? depth0.display : depth0),{"name":"if","hash":{},"fn":this.program(2, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers['if'].call(depth0,(depth0 != null ? depth0.display : depth0),{"name":"if","hash":{},"fn":this.program(3, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "")
     + "> "
     + alias3(((helper = (helper = helpers.label || (depth0 != null ? depth0.label : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"label","hash":{},"data":data}) : helper)))
-    + "</label>\n";
-},"2":function(depth0,helpers,partials,data) {
+    + "\n";
+},"3":function(depth0,helpers,partials,data) {
     return " checked=\"checked\"";
+},"5":function(depth0,helpers,partials,data) {
+    var stack1, helper, alias1=helpers.helperMissing, alias2="function", alias3=this.escapeExpression;
+
+  return "            "
+    + alias3(((helper = (helper = helpers.label || (depth0 != null ? depth0.label : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"label","hash":{},"data":data}) : helper)))
+    + "\n            <select name=\""
+    + alias3(((helper = (helper = helpers.key || (data && data.key)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"key","hash":{},"data":data}) : helper)))
+    + "\">\n"
+    + ((stack1 = helpers.each.call(depth0,(depth0 != null ? depth0.options : depth0),{"name":"each","hash":{},"fn":this.program(6, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "")
+    + "            </select>\n";
+},"6":function(depth0,helpers,partials,data) {
+    var alias1=this.lambda, alias2=this.escapeExpression;
+
+  return "                    <option name=\""
+    + alias2(alias1(depth0, depth0))
+    + "\">"
+    + alias2(alias1(depth0, depth0))
+    + "</option>\n";
+},"8":function(depth0,helpers,partials,data) {
+    var helper, alias1=helpers.helperMissing, alias2="function", alias3=this.escapeExpression;
+
+  return "            "
+    + alias3(((helper = (helper = helpers.label || (depth0 != null ? depth0.label : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"label","hash":{},"data":data}) : helper)))
+    + " <input type=\"text\" name=\""
+    + alias3(((helper = (helper = helpers.key || (data && data.key)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"key","hash":{},"data":data}) : helper)))
+    + "\">\n";
 },"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
     var stack1;
 
