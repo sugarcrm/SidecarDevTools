@@ -2,8 +2,7 @@
 
   var htmlTag = document.documentElement;
 
-  var baseUrl = htmlTag.getAttribute('bdt-path');
-  htmlTag.removeAttribute('bdt-path');
+  var baseUrl = htmlTag.getAttribute('sdt-path');
 
   // a simple security check
   if (!/^chrome-extension:\/\/\w+\/js\/inject\/$/.test(baseUrl)) {
