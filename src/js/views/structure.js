@@ -103,6 +103,12 @@
          */
         printComponent: function(comp) {
             // TODO This part should be moved to a template.
+            var compPerf = '(' + comp.performance + ' ms)';
+            if (comp.performance > 50 && comp.performance < 100) {
+                compPerf = '<span class="slow">' + compPerf + '</span>';
+            } else if (comp.performance > 100) {
+                compPerf = '<span class="very-slow">' + compPerf + '</span>';
+            }
             var $el = $('<li class="accordion-navigation panel-accordion-navigation"></li>')
                 .append('<a href="#' + comp.cid + '" class="comp-link" name="' + comp.cid + '">' +
                     '<span class="name" data-name="name">' + comp.name + '</span>' +
@@ -112,7 +118,7 @@
                     '</a>' +
 //                    '<input type="checkbox" class="comp-checkbox" name="' + comp.cid + '" data-context-id="' + comp.contextId + '" data-type="' + comp.compType + '" data-action="toggle-context">');
                     '<div class="render-block">' +
-                        '<span class="time" data-performance="renderTime">(' + comp.performance + ' ms)</span>' +
+                        '<span class="time" data-performance="renderTime">' + compPerf + '</span>' +
                         '<input name="render" type="button" value="render" data-cid="' + comp.cid + '">' +
                     '</div>');
 

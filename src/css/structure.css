@@ -25,6 +25,10 @@
     right: 5px; }
     .panel-accordion .panel-accordion-navigation .render-block .time {
       margin-right: 5px; }
+    .panel-accordion .panel-accordion-navigation .render-block .slow {
+      color: orange; }
+    .panel-accordion .panel-accordion-navigation .render-block .very-slow {
+      color: red; }
 
 .panel-layout-button-bar {
   margin-left: 1em; }
