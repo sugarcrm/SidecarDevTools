@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2015 SugarCRM Inc.
+ */
+
 //Handle request from devtools
 chrome.extension.onConnect.addListener(function(port) {
 

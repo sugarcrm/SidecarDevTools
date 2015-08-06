@@ -1,5 +1,8 @@
-// Load this file immediately after backbone.debug.js
+/*
+ * Copyright (c) 2015 SugarCRM Inc.
+ */
 
+// Load this file immediately after backbone.debug.js
 (function() {
 
     var instanceType = function(object) {
@@ -156,14 +159,4 @@
             this.add();
         }
     });
-
-    //window.Backbone.debug.logger = new SDTLogger();
-    //
-    //BDTLogger.log = _.wrap(BDTLogger.log, function(log, type, object, details) {
-    //    log(type,object,details);
-    //    var attrs = _.last(this.data[type]);
-    //    window.SUGAR.App.debug.logger.log(attrs);
-    //
-    //});
-
 })();

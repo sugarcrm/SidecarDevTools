@@ -1,3 +1,6 @@
+/*
+ * Copyright (c) 2015 SugarCRM Inc.
+ */
 (function() {
 
     // attach.js needs this url to get the other files

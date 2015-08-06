@@ -1,3 +1,6 @@
+/*
+ * Copyright (c) 2015 SugarCRM Inc.
+ */
 (function() {
 
     var BDT = window.BDT;
