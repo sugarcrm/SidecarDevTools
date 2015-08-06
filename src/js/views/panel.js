@@ -23,9 +23,6 @@
     viewMap: {
       '#general':     BDT.views.General,
       '#events':      BDT.views.Events,
-      '#views':       BDT.views.Views,
-      '#syncs':       BDT.views.Syncs,
-      '#instances':   BDT.views.Instances,
       '#structure':   BDT.views.Structure,
       '#performance':   BDT.views.Performance,
       '#generate':   BDT.views.Generate,

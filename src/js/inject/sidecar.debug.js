@@ -524,7 +524,7 @@
                 this.createdAt = formatDate(now);
             },
 
-            toJSON: function(number) {
+            toJSON: function() {
                 var orig = Backbone.Model.prototype.toJSON.call(this);
                 orig.createdAt = this.createdAt;
                 orig.args = !!orig.args;

@@ -118,7 +118,7 @@
             this.beforeFetch1 = this.activities.all[0];
 
             chrome.devtools.inspectedWindow.eval(
-                'App.debug.AppStream.toJSON().slice(-999)',
+                'App.debug.AppStream.toJSON().slice(-300)',
                 function(result, isException) {
                     if (isException) {
                         options.error && options.error();
