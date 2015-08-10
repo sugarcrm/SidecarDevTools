@@ -98,11 +98,12 @@
         },
 
         generateRecords: function(module, attributes, numberOfRecords, options, addToCollection) {
-            var bean, isAttributesArray, isOptionsArray, attrs, opts, isIterator, strReplace, leadZ, strReplace, newNumber;
+            var bean, isAttributesArray, isOptionsArray, attrs, opts;
             var collection = App.controller.context.get('collection');
-			var splitter = "|";
-			attributes = _.isEmpty(attributes) ? [] : JSON.parse(attributes);
-			
+            var splitter = "*";
+
+            attributes = _.isEmpty(attributes) ? [] : JSON.parse(attributes);
+
             if (attributes.length > 0) {
                 numberOfRecords = attributes.length;
             }
@@ -110,46 +111,27 @@
 
             options = _.isEmpty(options) ? {} : JSON.parse(options);
             isOptionsArray = _.isArray(options);
-				
+
+            // Initializing the arguments to pass to the createBean method.
+            attrs = _.clone(attributes);
+            opts = _.clone(options);
+
             for (var i = 0; i < numberOfRecords; i++) {
-					
                 if (isAttributesArray) {
                     attrs = _.isUndefined(attributes[i]) ? {} : attributes[i];
                     if (isOptionsArray) {
                         opts = _.isUndefined(options[i]) ? {} : options[i];
                     }
                 } else {
-					attrs = $.extend(true,{},attributes);
-				
-					for(var item in attrs){						
-						
-						isIterator = attributes[item].lastIndexOf(splitter);
-						if(isIterator >= 0){
-							leadZ = attributes[item].substr(isIterator+1);
-							strReplace = attributes[item].substr(isIterator);
-							leadZ = leadZ === '' ? NaN : leadZ;
-							
-							if (isNaN(leadZ)){
-								strReplace = splitter;
-								newNumber = i;
-							}else{
-								var zeros = "";
-								for (var j = leadZ; j > String(i).length ; j--)
-									zeros += "0";
-								zeros += i;
-								newNumber = zeros;
-							}
-							
-							attrs[item] = attrs[item].replace(strReplace, newNumber);
-						}						
-					}
-					
-                    //attrs = attributes;
-                    opts = options;
+                    // Incrementing attributes for those .
+                    _.each(attributes, function(val, key) {
+                        if (val.slice(-1) === splitter) {
+                            attrs[key] = val.slice(0, -1) + i;
+                        }
+                    });
                 }
 
                 bean = App.data.createBean(module, attrs, opts);
-
                 bean.save();
                 console.log(bean);
                 if (addToCollection) {
@@ -159,58 +141,38 @@
         },
 
         generateRelatedRecords: function(module, subpanel, attributes, numberOfRecords) {
-            var bean, isAttributesArray, attrs, isIterator, strReplace, leadZ, strReplace, newNumber;
+            var bean, isAttributesArray, attrs;
             var context = App.controller.context;
             var model = context.get('model');
             var collection = model._relatedCollections[subpanel];
             var link = context.get('model')._relatedCollections[subpanel].link.name;
             var options = {relate: true};
-			var splitter = "|";
+            var splitter = "*";
+
             attributes = _.isEmpty(attributes) ? [] : JSON.parse(attributes);
             isAttributesArray = _.isArray(attributes);
 
-            for (var i = 0; i < numberOfRecords; i++) {
+            // Initializing the arguments to pass to the createBean method.
+            attrs = _.clone(attributes);
 
+            for (var i = 0; i < numberOfRecords; i++) {
                 if (isAttributesArray) {
                     attrs = _.isUndefined(attributes[i]) ? {} : attributes[i];
-                    bean = App.data.createRelatedBean(model, null, link, attributes[i]);
                 } else {
-					
-					attrs = $.extend(true,{},attributes);
-				
-					for(var item in attrs){						
-						
-						isIterator = attributes[item].lastIndexOf(splitter);
-						if(isIterator >= 0){
-							leadZ = attributes[item].substr(isIterator+1);
-							strReplace = attributes[item].substr(isIterator);
-							leadZ = leadZ === '' ? NaN : leadZ;
-							
-							if (isNaN(leadZ)){
-								strReplace = splitter;
-								newNumber = i;
-							}else{
-								var zeros = "";
-								for (var j = leadZ; j > String(i).length ; j--)
-									zeros += "0";
-								zeros += i;
-								newNumber = zeros;
-							}
-							
-							attrs[item] = attrs[item].replace(strReplace, newNumber);
-							
-						}						
-					}
-                    //attrs = attributes;
-					
-					
+                    // Incrementing attributes for those .
+                    _.each(attributes, function(val, key) {
+                        if (val.slice(-1) === splitter) {
+                            attrs[key] = val.slice(0, -1) + i;
+                        }
+                    });
                 }
+
                 bean = App.data.createRelatedBean(model, null, link, attrs);
                 bean.save({}, options);
                 collection.add(bean);
-				console.log(bean);
+                console.log(bean);
+                context.trigger('panel-top:refresh', link);
             }
-            context.trigger('panel-top:refresh', link);
         },
 
         getComponentMethods: function(type, compClassName) {
