@@ -27,6 +27,18 @@
         color: orange;
       }
     }
+    &.field {
+      border-left: 1px solid cornflowerblue;
+      > a > .name {
+        color: cornflowerblue;
+      }
+      &.fieldset {
+        border-left: 1px solid blue;
+        > a > .name {
+          color: blue;
+        }
+      }
+    }
     > .content {
       padding: 0.5em;
       padding-right: 0;

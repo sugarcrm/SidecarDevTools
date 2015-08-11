@@ -106,11 +106,14 @@
          */
         printComponent: function(comp) {
             // TODO This part should be moved to a template.
-            var compPerf = '(' + comp.performance + ' ms)';
-            if (comp.performance > 50 && comp.performance < 100) {
-                compPerf = '<span class="slow">' + compPerf + '</span>';
-            } else if (comp.performance > 100) {
-                compPerf = '<span class="very-slow">' + compPerf + '</span>';
+            var compPerf = '';
+            if (comp.performance) {
+                compPerf = '(' + comp.performance + ' ms)';
+                if (comp.performance > 50 && comp.performance < 100) {
+                    compPerf = '<span class="slow">' + compPerf + '</span>';
+                } else if (comp.performance > 100) {
+                    compPerf = '<span class="very-slow">' + compPerf + '</span>';
+                }
             }
             var $el = $('<li class="accordion-navigation panel-accordion-navigation"></li>')
                 .append('<a href="#' + comp.cid + '" class="comp-link" name="' + comp.cid + '">' +
@@ -121,14 +124,13 @@
                     '</a>' +
 //                    '<input type="checkbox" class="comp-checkbox" name="' + comp.cid + '" data-context-id="' + comp.contextId + '" data-type="' + comp.compType + '" data-action="toggle-context">');
                     '<div class="render-block">' +
-                        '<span class="time" data-performance="renderTime">' + compPerf + '</span>' +
-                        '<input name="render" type="button" value="render" data-cid="' + comp.cid + '">' +
+                    '<span class="time" data-performance="renderTime">' + compPerf + '</span>' +
+                    '<input name="render" type="button" value="render" data-cid="' + comp.cid + '">' +
                     '</div>');
 
-            if (comp.compType === 'layout') {
-                $el.addClass('layout');
-            } else {
-                $el.addClass('view');
+            $el.addClass(comp.compType);
+            if (comp.fieldset) {
+                $el.addClass('fieldset');
             }
 
             if (comp.components && comp.components.length > 0) {
@@ -136,6 +138,12 @@
                 $el.find('#'.concat(comp.cid)).append('<ul class="accordion panel-accordion" data-accordion></ul>');
                 for (var i in comp.components) {
                     $el.find('#'.concat(comp.cid) + '> .accordion').append(this.printComponent(comp.components[i]));
+                }
+            } else if (comp.fields && comp.fields.length > 0) {
+                $el.append('<div id="' + comp.cid + '" class="content"></div>');
+                $el.find('#'.concat(comp.cid)).append('<ul class="accordion panel-accordion" data-accordion></ul>');
+                for (var i in comp.fields) {
+                    $el.find('#'.concat(comp.cid) + '> .accordion').append(this.printComponent(comp.fields[i]));
                 }
             }
             return $el;

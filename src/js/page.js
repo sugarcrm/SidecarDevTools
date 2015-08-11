@@ -207,6 +207,7 @@
         logComponent: function(cid) {
             var componentInfos = App.debug.getComponent(cid).getComponentInfo();
             console.log('Name: ' + componentInfos.name);
+            console.log('Comp type: ' + componentInfos.compType);
             console.log('Module: ' + componentInfos.module);
             console.log('File path: ' + componentInfos.path);
             console.log('Component object:', App.debug.getComponent(cid));

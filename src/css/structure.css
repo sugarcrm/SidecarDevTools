@@ -19,6 +19,14 @@
     border-left: 1px solid orange; }
     .panel-accordion .panel-accordion-navigation.view > a > .name {
       color: orange; }
+  .panel-accordion .panel-accordion-navigation.field {
+    border-left: 1px solid cornflowerblue; }
+    .panel-accordion .panel-accordion-navigation.field > a > .name {
+      color: cornflowerblue; }
+    .panel-accordion .panel-accordion-navigation.field.fieldset {
+      border-left: 1px solid blue; }
+      .panel-accordion .panel-accordion-navigation.field.fieldset > a > .name {
+        color: blue; }
   .panel-accordion .panel-accordion-navigation > .content {
     padding: 0.5em;
     padding-right: 0; }
