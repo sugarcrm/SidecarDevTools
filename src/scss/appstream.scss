@@ -1,0 +1,56 @@
+/*
+ * Copyright (c) 2015 SugarCRM Inc.
+ */
+.appstream {
+  [data-view="table"] {
+    .label {
+      display: block;
+    }
+    table tr {
+      &:nth-child(odd) {
+        background-color: white;
+      }
+      &.activities-date {
+        background-color: rgba(0, 0, 0, 0.05) !important;
+        font-weight: bold;
+      }
+    }
+    .td-label{ width: 100px; }
+    .td-time { width: 50px; color: rgba(0,0,0,.3); }
+    .td-has-time { color: rgba(0,0,0,1); }
+    .td-text { width: auto; max-width: 450px; white-space: inherit; }
+    .td-args { width: 70px; }
+
+  }
+
+  .label-activity-layout {
+    background-color: rgb(31, 119, 180) !important;
+  }
+
+  .label-activity-view {
+    background-color: rgb(174, 199, 232) !important;
+  }
+
+  .label-activity-field {
+    background-color: rgb(255, 187, 120) !important;
+  }
+
+  .label-controller {
+    background-color: #3de2ff !important;
+  }
+
+  .activity-layout {
+    padding-left: 1em;
+  }
+
+  .activity-view {
+    padding-left: 2em;
+  }
+
+  .activity-field {
+    padding-left: 3em;
+  }
+  .filters-panel {
+    clear:both;
+  }
+}

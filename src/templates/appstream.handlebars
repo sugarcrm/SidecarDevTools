@@ -4,58 +4,6 @@
     This panel logs the activities of the app in real-time. It shows the events that are triggered, as well as the initialize and render of each component.
     For each activity, you can log in the console the component object and the passed arguments simply by clicking on 'component' or 'arguments'.
 </div>
-<!--<div class="text-right">-->
 <button data-action="clear" type="button" class="secondary round right">Clear activity</button>
-<!--</div>-->
 
 <div data-view="table"></div>
-<style>
-  [data-view="table"] .label {
-    display: block;
-  }
-  [data-view="table"] table tr:nth-child(odd) {
-    background-color: white;
-  }
-
-  [data-view="table"] .td-label{ width: 100px; }
-  [data-view="table"] .td-time { width: 50px; color: rgba(0,0,0,.3); }
-  [data-view="table"] .td-has-time { color: rgba(0,0,0,1); }
-  [data-view="table"] .td-text { width: auto; max-width: 450px; white-space: inherit; }
-  [data-view="table"] .td-args { width: 70px; }
-
-  [data-view="table"] table tr.activities-date {
-    background-color: rgba(0, 0, 0, 0.05) !important;
-    font-weight: bold;
-  }
-
-  .label-activity-layout {
-    background-color: rgb(31, 119, 180) !important;
-  }
-
-  .label-activity-view {
-    background-color: rgb(174, 199, 232) !important;
-  }
-
-  .label-activity-field {
-    background-color: rgb(255, 187, 120) !important;
-  }
-
-  .label-controller {
-    background-color: #3de2ff !important;
-  }
-
-  .activity-layout {
-    padding-left: 1em;
-  }
-
-  .activity-view {
-    padding-left: 2em;
-  }
-
-  .activity-field {
-    padding-left: 3em;
-  }
-  .filters-panel {
-      clear:both;
-  }
-</style>
