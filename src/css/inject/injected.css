@@ -1,8 +1,5 @@
 .context-overlay{
-    position:absolute;
-    width:100%;
-    top:0;
-    left:0;
+    position: fixed;
     z-index: 100000;
     opacity: 0.4;
 }

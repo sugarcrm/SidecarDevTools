@@ -12,7 +12,8 @@
             'click #expandAll': 'expandAll',
             'click #collapseAll': 'collapseAll',
             'click #toggleAllCtx': 'toggleAllContexts',
-            'click [data-action=toggle-context]': 'toggleContext',
+            'mouseover a.comp-link': 'toggleContext',
+            'mouseout a.comp-link': 'toggleContext',
             'click i[data-action=toggleHelp]': 'toggleHelpPanel',
             'click input[name=render]': 'renderComponent',
             'click [data-name=name]': 'logComponentObject'
@@ -106,29 +107,30 @@
          */
         printComponent: function(comp) {
             // TODO This part should be moved to a template.
-            var compPerf = '(' + comp.performance + ' ms)';
-            if (comp.performance > 50 && comp.performance < 100) {
-                compPerf = '<span class="slow">' + compPerf + '</span>';
-            } else if (comp.performance > 100) {
-                compPerf = '<span class="very-slow">' + compPerf + '</span>';
+            var compPerf = '';
+            if (comp.performance) {
+                compPerf = '(' + comp.performance + ' ms)';
+                if (comp.performance > 50 && comp.performance < 100) {
+                    compPerf = '<span class="slow">' + compPerf + '</span>';
+                } else if (comp.performance > 100) {
+                    compPerf = '<span class="very-slow">' + compPerf + '</span>';
+                }
             }
             var $el = $('<li class="accordion-navigation panel-accordion-navigation"></li>')
-                .append('<a href="#' + comp.cid + '" class="comp-link" name="' + comp.cid + '">' +
+                .append('<a href="#' + comp.cid + '" class="comp-link" name="' + comp.cid + '" data-context-id="' + comp.contextId + '">' +
                     '<span class="name" data-name="name">' + comp.name + '</span>' +
                     ' - type: ' + comp.type +
                     ' - ctx: ' + comp.contextId +
                     ' - cid: ' + comp.cid +
                     '</a>' +
-//                    '<input type="checkbox" class="comp-checkbox" name="' + comp.cid + '" data-context-id="' + comp.contextId + '" data-type="' + comp.compType + '" data-action="toggle-context">');
                     '<div class="render-block">' +
-                        '<span class="time" data-performance="renderTime">' + compPerf + '</span>' +
-                        '<input name="render" type="button" value="render" data-cid="' + comp.cid + '">' +
+                    '<span class="time" data-performance="renderTime">' + compPerf + '</span>' +
+                    '<input name="render" type="button" value="render" data-cid="' + comp.cid + '">' +
                     '</div>');
 
-            if (comp.compType === 'layout') {
-                $el.addClass('layout');
-            } else {
-                $el.addClass('view');
+            $el.addClass(comp.compType);
+            if (comp.fieldset) {
+                $el.addClass('fieldset');
             }
 
             if (comp.components && comp.components.length > 0) {
@@ -136,6 +138,12 @@
                 $el.find('#'.concat(comp.cid)).append('<ul class="accordion panel-accordion" data-accordion></ul>');
                 for (var i in comp.components) {
                     $el.find('#'.concat(comp.cid) + '> .accordion').append(this.printComponent(comp.components[i]));
+                }
+            } else if (comp.fields && comp.fields.length > 0) {
+                $el.append('<div id="' + comp.cid + '" class="content"></div>');
+                $el.find('#'.concat(comp.cid)).append('<ul class="accordion panel-accordion" data-accordion></ul>');
+                for (var i in comp.fields) {
+                    $el.find('#'.concat(comp.cid) + '> .accordion').append(this.printComponent(comp.fields[i]));
                 }
             }
             return $el;
@@ -183,9 +191,9 @@
          * @param {Event} event The click event.
          */
         toggleContext: function(event) {
-            var $checkbox = $(event.target);
-            var isChecked = $checkbox.is(':checked');
-            this.colorizeContext({cid: $checkbox.prop('name'), contextId: $checkbox.data('context-id'), clearContext: !isChecked}, false);
+            var $target = $(event.target);
+            var clearContext = event.type === 'mouseout';
+            this.colorizeContext({cid: $target.prop('name'), contextId: $target.data('context-id'), clearContext: clearContext}, false);
         },
 
         /**

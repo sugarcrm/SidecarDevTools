@@ -54,9 +54,42 @@
             compType: 'view',
             performance: renderTime,
             module: this.module,
-            compType: 'view',
-            path: path || ''
+            path: path || '',
+            fields: _.map(this.fields, function(comp) {
+                return comp.getComponentInfo();
+            })
         };
+        return def;
+    };
+
+    /**
+     * Adds a method to the `View.Field` class to get information on the current
+     * field.
+     *
+     * @return {Object} def The object containing information on the current
+     *   field.
+     */
+    Sidecar.view.Field.prototype.getComponentInfo = function() {
+        var renderTime = App.debug.getComponentRenderTime(this.cid);
+        renderTime = Math.round(renderTime*10)/10;
+        var path = this.getJSPath();
+        var def = {
+            cid: this.cid,
+            contextId: this.context.cid,
+            context: JSON.stringify(this.context),
+            name: !_.isEmpty(this.fields) ? this.type : this.name,
+            type: this.type,
+            compType: 'field',
+            performance: renderTime,
+            module: this.module,
+            path: path || '',
+            fields: _.map(this.fields, function(comp) {
+                return comp.getComponentInfo();
+            })
+        };
+        if (!_.isEmpty(this.fields)) {
+            def.fieldset = true;
+        }
         return def;
     };
 
@@ -94,7 +127,8 @@
     };
 
     Sidecar.view.Layout.prototype.setRenderTime =
-    Sidecar.view.View.prototype.setRenderTime = function(time, operation) {
+    Sidecar.view.View.prototype.setRenderTime =
+    Sidecar.view.Field.prototype.setRenderTime = function(time, operation) {
         if (!time) {
             return;
         }
@@ -108,16 +142,15 @@
             default:
                 this.performance = time;
         }
-        if (this.layout) {
-            this.layout.setRenderTime(time, operation);
+        var parent = this.parent || this.view || this.layout;
+        if (parent) {
+            parent.setRenderTime(time, operation);
         }
     };
 
     Sidecar.Debug = (function() {
 
         var _components = {};
-        var renderTimes;
-        var _stream = {};
 
         function Debug() {
             //Sidecar.app.on('app:sync', this._onSyncStart, this);
@@ -185,7 +218,6 @@
         };
 
         Debug.prototype._onHookLayoutInitialize = function(options, performance) {
-            this.$el.attr('data-debug-cid', this.cid);
             this.debugType = 'layout';
             _components[this.cid] = this;
             Sidecar.debug.AppStream.add({
@@ -201,7 +233,6 @@
         };
 
         Debug.prototype._onHookViewInitialize = function(options, performance) {
-            this.$el.attr('data-debug-cid', this.cid);
             this.debugType = 'view';
             _components[this.cid] = this;
             Sidecar.debug.AppStream.add({
@@ -216,7 +247,6 @@
         };
 
         Debug.prototype._onHookFieldInitialize = function(options, performance) {
-            this.$el.attr('data-debug-cid', this.cid);
             this.debugType = 'field';
             _components[this.cid] = this;
             Sidecar.debug.AppStream.add({
@@ -232,6 +262,8 @@
         };
 
         Debug.prototype._onHookLayoutRender = function() {
+            this.$el.attr('data-debug-cid', this.cid);
+
             var performance = Array.prototype.slice.call(arguments, -1).pop();
             var lastRenderTime = _components[this.cid].performance;
             this.layout && this.layout.setRenderTime(lastRenderTime, 'subtract');
@@ -251,6 +283,8 @@
         };
 
         Debug.prototype._onHookViewRender = function() {
+            this.$el.attr('data-debug-cid', this.cid);
+
             var performance = Array.prototype.slice.call(arguments, -1).pop();
             var lastRenderTime = _components[this.cid].performance;
             this.layout.setRenderTime(lastRenderTime, 'subtract');
@@ -288,22 +322,23 @@
             }
         };
 
-        Debug.prototype._onHookFieldRender = function(performance) {
-            this.$el.attr('data-debug-cid', this.cid);
-            // subtract subfield performances from a fieldset
-            if(this.type == 'fieldset') {
-                _.each(this.fields, function(subfield) {
-                    var field_stream_item = Sidecar.debug.AppStream.get('field.render.' + subfield.cid);
-                    if(!(field_stream_item)) return;
+        Debug.prototype._onHookFieldRender = function() {
+            var parent = this.parent ? 'parent' : 'view';
+            var performance = Array.prototype.slice.call(arguments, -1).pop();
 
-                    performance -= field_stream_item.get("performance");
-                });
-            }
+            this.$el.attr('data-debug-cid', this.cid);
+
+            var lastRenderTime = _components[this.cid].performance;
+            this[parent].setRenderTime(lastRenderTime, 'subtract');
+            _components[this.cid].performance = performance;
+            this[parent].setRenderTime(performance, 'add');
+
+            _components[this.cid].performance = performance;
 
             Sidecar.debug.AppStream.add({
                 'type': 'field.render',
                 instance: this,
-                performance: Array.prototype.slice.call(arguments, -1).pop(),
+                performance: performance,
                 'field': {
                     name: this.name,
                     type: this.type,
