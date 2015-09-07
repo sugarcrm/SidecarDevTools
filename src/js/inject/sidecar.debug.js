@@ -218,7 +218,6 @@
         };
 
         Debug.prototype._onHookLayoutInitialize = function(options, performance) {
-            this.$el.attr('data-debug-cid', this.cid);
             this.debugType = 'layout';
             _components[this.cid] = this;
             Sidecar.debug.AppStream.add({
@@ -234,7 +233,6 @@
         };
 
         Debug.prototype._onHookViewInitialize = function(options, performance) {
-            this.$el.attr('data-debug-cid', this.cid);
             this.debugType = 'view';
             _components[this.cid] = this;
             Sidecar.debug.AppStream.add({
@@ -249,7 +247,6 @@
         };
 
         Debug.prototype._onHookFieldInitialize = function(options, performance) {
-            this.$el.attr('data-debug-cid', this.cid);
             this.debugType = 'field';
             _components[this.cid] = this;
             Sidecar.debug.AppStream.add({
@@ -265,6 +262,8 @@
         };
 
         Debug.prototype._onHookLayoutRender = function() {
+            this.$el.attr('data-debug-cid', this.cid);
+
             var performance = Array.prototype.slice.call(arguments, -1).pop();
             var lastRenderTime = _components[this.cid].performance;
             this.layout && this.layout.setRenderTime(lastRenderTime, 'subtract');
@@ -284,6 +283,8 @@
         };
 
         Debug.prototype._onHookViewRender = function() {
+            this.$el.attr('data-debug-cid', this.cid);
+
             var performance = Array.prototype.slice.call(arguments, -1).pop();
             var lastRenderTime = _components[this.cid].performance;
             this.layout.setRenderTime(lastRenderTime, 'subtract');

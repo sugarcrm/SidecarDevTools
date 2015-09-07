@@ -12,7 +12,8 @@
             'click #expandAll': 'expandAll',
             'click #collapseAll': 'collapseAll',
             'click #toggleAllCtx': 'toggleAllContexts',
-            'click [data-action=toggle-context]': 'toggleContext',
+            'mouseover a.comp-link': 'toggleContext',
+            'mouseout a.comp-link': 'toggleContext',
             'click i[data-action=toggleHelp]': 'toggleHelpPanel',
             'click input[name=render]': 'renderComponent',
             'click [data-name=name]': 'logComponentObject'
@@ -116,13 +117,12 @@
                 }
             }
             var $el = $('<li class="accordion-navigation panel-accordion-navigation"></li>')
-                .append('<a href="#' + comp.cid + '" class="comp-link" name="' + comp.cid + '">' +
+                .append('<a href="#' + comp.cid + '" class="comp-link" name="' + comp.cid + '" data-context-id="' + comp.contextId + '">' +
                     '<span class="name" data-name="name">' + comp.name + '</span>' +
                     ' - type: ' + comp.type +
                     ' - ctx: ' + comp.contextId +
                     ' - cid: ' + comp.cid +
                     '</a>' +
-//                    '<input type="checkbox" class="comp-checkbox" name="' + comp.cid + '" data-context-id="' + comp.contextId + '" data-type="' + comp.compType + '" data-action="toggle-context">');
                     '<div class="render-block">' +
                     '<span class="time" data-performance="renderTime">' + compPerf + '</span>' +
                     '<input name="render" type="button" value="render" data-cid="' + comp.cid + '">' +
@@ -191,9 +191,9 @@
          * @param {Event} event The click event.
          */
         toggleContext: function(event) {
-            var $checkbox = $(event.target);
-            var isChecked = $checkbox.is(':checked');
-            this.colorizeContext({cid: $checkbox.prop('name'), contextId: $checkbox.data('context-id'), clearContext: !isChecked}, false);
+            var $target = $(event.target);
+            var clearContext = event.type === 'mouseout';
+            this.colorizeContext({cid: $target.prop('name'), contextId: $target.data('context-id'), clearContext: clearContext}, false);
         },
 
         /**
