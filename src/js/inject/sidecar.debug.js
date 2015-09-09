@@ -302,7 +302,7 @@
                 }
             });
 
-            if(window.sessionStorage['_backbone_debug_tooltips'] === 'enabled') {
+            if(window.sessionStorage['_sidecar_debug_tooltips'] === 'enabled') {
                 // add view info widget
                 var tooltip_html = '<h5>' + this.cid + '</h5>';
 
@@ -348,7 +348,7 @@
             });
             
             var self = this;
-            if(window.sessionStorage['_backbone_debug_tooltips'] === 'enabled') {
+            if(window.sessionStorage['_sidecar_debug_tooltips'] === 'enabled') {
                 var _createFieldTooltip = function() {
                     // add field info widget
                     var tooltip_html = '<h5>' + self.cid + '</h5>';
