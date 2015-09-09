@@ -55,7 +55,7 @@
     }
   };
 
-  if (window.sessionStorage['_backbone_debug_injection'] === 'enabled') {
+  if (window.sessionStorage['_sidecar_debug_injection'] === 'enabled') {
     document.addEventListener('DOMContentLoaded', inject);
   }
 })();
