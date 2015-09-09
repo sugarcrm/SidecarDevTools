@@ -9,7 +9,7 @@
 
   // a simple security check
   if (!/^chrome-extension:\/\/\w+\/js\/inject\/$/.test(baseUrl)) {
-    console.error('[Backbone Dev Tools] Incorrect extension URL');
+    console.error('[Sidecar Dev Tools] Incorrect extension URL');
     return;
   }
 
@@ -26,18 +26,18 @@
 
   var inject = function() {
     var timeout;
-    if (!window.Backbone) {
-      timeout = parseInt(window.sessionStorage['_backbone_debug_injection_timeout'], 10) || 500;
+    if (!window.SUGAR) {
+      timeout = parseInt(window.sessionStorage['_sidecar_debug_injection_timeout'], 10) || 500;
       // Instead of logging an error immediately, we do the following:
       // (1) Add a listener on `DOMNodeInserted` (which is triggered by require.js)
       // (2) Set a timer for 500ms to log the error
-      // Then, an each `DOMNodeInserted` event, we check for window.Backbone.
+      // Then, an each `DOMNodeInserted` event, we check for window.SUGAR.
       // If found, we clear the error log timer, remove the `DOMNodeInserted`
-      // listener, and inject backbone.debug.js.
+      // listener, and inject sidecar.debug.js.
       document.addEventListener('DOMNodeInserted', tryInject);
       timer = setTimeout(function () {
         document.removeEventListener('DOMNodeInserted', tryInject);
-        console.error('[Backbone Dev Tools] Couldn\'t find Backbone');
+        console.error('[Sidecar Dev Tools] The current app is not SugarCRM');
       }, timeout);
       return;
     }
@@ -55,8 +55,7 @@
     }
   };
 
-  if (window.sessionStorage['_backbone_debug_injection'] === 'enabled') {
+  if (window.sessionStorage['_sidecar_debug_injection'] === 'enabled') {
     document.addEventListener('DOMContentLoaded', inject);
   }
-
 })();
