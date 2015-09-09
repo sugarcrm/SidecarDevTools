@@ -5,9 +5,9 @@
 
   var BDT = window.BDT;
 
-  BDT.views.Sidebar = Backbone.View.extend({
+  BDT.views.Navbar = Backbone.View.extend({
 
-    template: BDT.templates['sidebar'],
+    template: BDT.templates['navbar'],
 
     render: function() {
       this.$el.empty().append(this.template());
@@ -24,7 +24,7 @@
     selectItem: function(evt) {
       evt.preventDefault();
       var anchor = $(evt.currentTarget);
-      anchor.parent().addClass('selected').siblings().removeClass('selected');
+      anchor.addClass('selected').siblings().removeClass('selected');
       this.trigger('select', anchor.attr('href'));
     },
 
