@@ -2,7 +2,6 @@
  * Copyright (c) 2015 SugarCRM Inc.
  */
 (function() {
-
     // attach.js needs this url to get the other files
     var url = chrome.extension.getURL('js/inject/');
     document.documentElement.setAttribute('sdt-path', url);

@@ -19,41 +19,6 @@
             );
         },
 
-        // functions to be executed in the context of inspected page
-
-        getBackboneViews: function() {
-            var tree = {__proto__: null};
-
-            // get jQuery/Zepto
-            var $ = window.Backbone && window.Backbone.$ || window.jQuery || window.Zepto;
-            if (!($ && $0)) return tree;
-
-            // Backbone jQuery extension is required
-            if (typeof $.fn.backbone != 'function') return tree;
-
-            // display elemens as eg. div#todoapp
-            function pretty(elem) {
-                return elem.tagName.toLowerCase() + (elem.id && ("#" + elem.id));
-            }
-
-            // we need to prefix element names if we want to preserve the order
-            var index = 0;
-
-            // start with currently selected DOM Element
-            var elem = $($0);
-            tree[index + ' ' + pretty(elem[0])] = elem.backbone();
-
-            // go up the Backbone Views tree
-            while (true) {
-                var parentView = elem.backbone('parent')
-                if (!parentView) break;
-                elem = parentView.$el;
-                tree[++index + ' ' + pretty(elem[0])] = parentView;
-            }
-
-            return tree;
-        },
-
         set$view: function() {
             // get jQuery/Zepto
             var $ = window.Backbone && window.Backbone.$ || window.jQuery || window.Zepto;
@@ -65,16 +30,18 @@
             var sidecarDomElement = $($0).closest('[data-debug-cid]');
             var cid = sidecarDomElement.data('debug-cid');
             var sidecarComponent = App.debug.getComponent(cid);
-            window.$view = sidecarComponent;
-            console.log('***** Current Sidecar Component *****');
-            console.log('* cid: ' + sidecarComponent.cid);
-            console.log('* component type: ' + sidecarComponent.debugType);
-            console.log('* Name: ' + sidecarComponent.name);
-            if (sidecarComponent.type) {
-                console.log('* Type: ' + sidecarComponent.type);
+            if (sidecarComponent) {
+                window.$view = sidecarComponent;
+                console.log('***** Current Sidecar Component *****');
+                console.log('* cid: ' + sidecarComponent.cid);
+                console.log('* component type: ' + sidecarComponent.debugType);
+                console.log('* Name: ' + sidecarComponent.name);
+                if (sidecarComponent.type) {
+                    console.log('* Type: ' + sidecarComponent.type);
+                }
+                console.log('$view = ', sidecarComponent);
+                console.log('*************************************');
             }
-            console.log('$view = ', sidecarComponent);
-            console.log('**************************************');
         },
 
         measureRenderTime: function(module, fieldType, iterations, template, modelAttr, viewDef) {
@@ -217,52 +184,36 @@
             return App.controller.layout.getComponentInfo();
         },
 
-        isBackboneDebugReachable: function() {
-            return window.Backbone && window.Backbone.debug && true;
-        },
-
-        isLoggerReachable: function() {
-            return typeof window.Backbone.debug.logger.getData === 'function';
-        },
-
-        getData: function(type, fromIndex, limit) {
-            return window.Backbone.debug.logger.getData(type, fromIndex, limit);
-        },
-
-        clearData: function(type) {
-            window.Backbone.debug.logger.clearData(type);
-        },
-
         enableInjection: function() {
-            window.sessionStorage['_backbone_debug_injection'] = 'enabled';
+            window.sessionStorage['_sidecar_debug_injection'] = 'enabled';
         },
 
         disableInjection: function() {
-            window.sessionStorage.removeItem('_backbone_debug_injection');
+            window.sessionStorage.removeItem('_sidecar_debug_injection');
         },
 
         isInjectionEnabled: function() {
-            return window.sessionStorage['_backbone_debug_injection'] === 'enabled';
+            return window.sessionStorage['_sidecar_debug_injection'] === 'enabled';
         },
 
         enableTooltips: function() {
-            window.sessionStorage['_backbone_debug_tooltips'] = 'enabled';
+            window.sessionStorage['_sidecar_debug_tooltips'] = 'enabled';
         },
 
         disableTooltips: function() {
-            window.sessionStorage.removeItem('_backbone_debug_tooltips');
+            window.sessionStorage.removeItem('_sidecar_debug_tooltips');
         },
 
         areTooltipsEnabled: function() {
-            return window.sessionStorage['_backbone_debug_tooltips'] === 'enabled';
+            return window.sessionStorage['_sidecar_debug_tooltips'] === 'enabled';
         },
 
         updateTimeout: function(ms) {
-            window.sessionStorage['_backbone_debug_injection_timeout'] = String(ms);
+            window.sessionStorage['_sidecar_debug_injection_timeout'] = String(ms);
         },
 
         getTimeout: function() {
-            return window.sessionStorage['_backbone_debug_injection_timeout'];
+            return window.sessionStorage['_sidecar_debug_injection_timeout'];
         },
 
         console: function(data) {
@@ -277,8 +228,6 @@
         consoleActivityComponent: function(id) {
             var act = window.SUGAR.App.debug.AppStream.get(id);
             console.log(act.get('instance'));
-        },
-		
+        }
     };
-
 })();
