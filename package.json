@@ -1,7 +1,7 @@
 {
   "name": "sidecar-dev-tools",
   "version": "1.0.0",
-  "description": "Sidecar Debugger Tool: This is an Google Chrome devtools extension that will help you to be more productive when developing on SugarCRM 7.x.",
+  "description": "Sidecar Debugger Tool: This is an Google Chrome devtools extension that will help you to be more productive when developing on Sugar 7.x.",
   "main": "Gruntfile.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

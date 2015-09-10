@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015 SugarCRM Inc.
+ * Copyright (c) 2015 SugarCRM Inc. Licensed by SugarCRM under the Apache 2.0 license.
  */
 (function() {
     // attach.js needs this url to get the other files
