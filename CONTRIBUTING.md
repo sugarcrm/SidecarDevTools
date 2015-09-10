@@ -9,7 +9,7 @@ To contribute,
 Pull requests are accepted under the discretion of the SidecarDevTools maintainer(s). Improve the chances your PR will be merged by following the requirements and guidelines below. For any questions, please e-mail developers@sugarcrm.com.
 
 **REQUIREMENTS**
-- By creating a pull request, you are agreeing to SugarCRM Open Source Contributor terms.
+- By creating a pull request, you are agreeing to [SugarCRM Open Source Contributor terms](CONTRIBUTOR_TERMS.pdf).
 
 **GUIDELINES**
 - Make sure your pull contains quality code. We will certainly provide constructive feedback on works in progress but we will not merge incomplete pull requests.
