@@ -16,7 +16,7 @@ This is an Google Chrome devtools extension that will help you to be more produc
 3. Check the checkbox "Start Sidecar Debug Mode" in the "Settings tab".
 4. Enjoy!
 
-## Contributing
+## Developing the Sidecar Dev Tool
 
 #### Requirement:
 You need to have installed: [node.js](https://nodejs.org/), [handlebars](http://handlebarsjs.com/) and [sass](http://sass-lang.com/)
