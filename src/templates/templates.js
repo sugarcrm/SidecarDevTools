@@ -143,7 +143,7 @@ this["Handlebars"]["templates"]["appstream"] = Handlebars.template({"1":function
 },"useData":true});
 
 this["Handlebars"]["templates"]["general"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-    return "<h2>Sidecar Debugger Tool</h2>\n\n<form>\n    <input type=\"checkbox\" name=\"inject\" id=\"inject_checkbox\" /><label for=\"inject_checkbox\">Start Sidecar Debug Mode<span class=\"red\">*</span></label><br>\n    <input type=\"checkbox\" name=\"tooltips\" id=\"tooltips_checkbox\" /><label for=\"tooltips_checkbox\">Display tooltips on hover with view/field information<span class=\"red\">*</span></label><br>\n</form>\n<p><span class=\"red\">*</span> Requires page reload</p>\n\n<h2>Features</h2>\n<ul>\n    <li>$view console variable after inspecting a DOM Element (it points to the closest parent Sidecar Component).</li>\n    <li>In <strong>SugarDebug Panel</strong>, you will find different several tabs:\n        <ul>\n            <li><strong><i>Application Stream: </i></strong>A timeline of what is happening in the app. It shows the methods that are called and the events that are triggered. For each of them, you have access to the passed arguments and the component object.</li>\n            <li><strong><i>Structure: </i></strong>A hierarchical tree representing the Sugar components of the current page.</li>\n            <li><strong><i>Render times: </i></strong>Allows you to measure the render duration of the different fields.</li>\n            <!--<li><strong><i>Metrics: </i></strong>Allows you to track any method of any sugar component to capture its duration and detect performance lacks.</li>-->\n            <li><strong><i>Generate records: </i></strong>An easy way to generate records in your SugarCRM instance.</li>\n        </ul>\n    </li>\n</ul>\n";
+    return "<h2 class=\"text-center\">Sidecar Debugger Tool</h2>\n\n<form>\n    <input type=\"checkbox\" name=\"inject\" id=\"inject_checkbox\" /><label for=\"inject_checkbox\">Start Sidecar Debug Mode<span class=\"red\">*</span></label><br>\n    <input type=\"checkbox\" name=\"tooltips\" id=\"tooltips_checkbox\" /><label for=\"tooltips_checkbox\">Display tooltips on hover with view/field information<span class=\"red\">*</span></label><br>\n</form>\n<p><span class=\"red\">*</span> Requires page reload</p>\n\n<h2>Features</h2>\n<ul>\n    <li>$view console variable after inspecting a DOM Element (it points to the closest parent Sidecar Component).</li>\n    <li>In <strong>SugarDebug Panel</strong>, you will find different several tabs:\n        <ul>\n            <li><strong><i>Application Stream: </i></strong>A timeline of what is happening in the app. It shows the methods that are called and the events that are triggered. For each of them, you have access to the passed arguments and the component object.</li>\n            <li><strong><i>Structure: </i></strong>A hierarchical tree representing the Sugar components of the current page.</li>\n            <li><strong><i>Render times: </i></strong>Allows you to measure the render duration of the different fields.</li>\n            <!--<li><strong><i>Metrics: </i></strong>Allows you to track any method of any sugar component to capture its duration and detect performance lacks.</li>-->\n            <li><strong><i>Generate records: </i></strong>An easy way to generate records in your SugarCRM instance.</li>\n        </ul>\n    </li>\n</ul>\n\n";
 },"useData":true});
 
 this["Handlebars"]["templates"]["generate"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
@@ -240,6 +240,10 @@ this["Handlebars"]["templates"]["metrics"] = Handlebars.template({"1":function(d
     + "    </tbody>\n</table>";
 },"useData":true});
 
+this["Handlebars"]["templates"]["navbar"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
+    return "<a class=\"selected\" href=\"#general\">Settings</a><a href=\"#appstream\">Application Stream</a><a href=\"#structure\">Structure</a><a href=\"#performance\">Render times</a><a href=\"#generate\">Generate records</a>\n";
+},"useData":true});
+
 this["Handlebars"]["templates"]["performance"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
     return " style=\"display: none;\"";
 },"3":function(depth0,helpers,partials,data,blockParams,depths) {
@@ -286,10 +290,6 @@ this["Handlebars"]["templates"]["performance"] = Handlebars.template({"1":functi
     + "    </tbody>\n</table>\n";
 },"useData":true,"useDepths":true});
 
-this["Handlebars"]["templates"]["sidebar"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-    return "<ul>\n  <li class=\"selected\"><a href=\"#general\">Settings</a></li>\n  <li><a href=\"#appstream\">Application Stream</a></li>\n  <li><a href=\"#structure\">Structure</a></li>\n  <li><a href=\"#performance\">Render times</a></li>\n  <!--<li><a href=\"#metrics\">Metrics</a></li>-->\n  <li><a href=\"#generate\">Generate records</a></li>\n</ul>\n";
-},"useData":true});
-
 this["Handlebars"]["templates"]["structure"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
     return " style=\"display: none;\"";
 },"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
@@ -298,8 +298,4 @@ this["Handlebars"]["templates"]["structure"] = Handlebars.template({"1":function
   return "<h3 class=\"text-center\">Page structure<i class=\"fi-lightbulb help-button\" data-action=\"toggleHelp\"></i></h3>\n\n<div class=\"panel callout radius\""
     + ((stack1 = helpers.unless.call(depth0,(depth0 != null ? depth0.displayHelp : depth0),{"name":"unless","hash":{},"fn":this.program(1, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "")
     + " data-panel=\"help\">\n    This panel shows the hierarchical tree of the Sugar components in the current page. Hovering a component will highlight it on the page.\n    The highlighting colors match the context of the components. Clicking on a component name will log the object in the console.\n</div>\n\n<div class=\"tabs-content\">\n    <div class=\"content active\" id=\"layout\">\n        <div class=\"button-bar panel-layout-button-bar\">\n            <ul class=\"button-group round\">\n                <li><a id=\"expandAll\" class=\"button tiny\">Expand all</a></li>\n                <li><a id=\"collapseAll\" class=\"button tiny\">Collapse all</a></li>\n            </ul>\n        <!--<a id=\"toggleAllCtx\" href=\"#\" class=\"button tiny round\">Display all contexts</a>-->\n        </div>\n        <ul class=\"accordion panel-accordion\" data-accordion>\n        </ul>\n    </div>\n</div>\n";
-},"useData":true});
-
-this["Handlebars"]["templates"]["toolbar"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-    return "<button class=\"clear\" title=\"Clear\"></button>\n";
 },"useData":true});

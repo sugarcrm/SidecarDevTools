@@ -8,16 +8,11 @@
   BDT.views.Panel = Backbone.View.extend({
 
     initialize: function() {
-      this.sidebar = new BDT.views.Sidebar({
-        el: this.$('aside')
+      this.navbar = new BDT.views.Navbar({
+        el: this.$('nav')
       });
-      this.toolbar = new BDT.views.Toolbar({
-        el: this.$('#toolbar'),
-        panel: this
-      });
-      this.listenTo(this.sidebar, 'select', this.displayView);
-      this.sidebar.render();
-      this.toolbar.render();
+      this.listenTo(this.navbar, 'select', this.displayView);
+      this.navbar.render();
     },
 
     viewMap: {
