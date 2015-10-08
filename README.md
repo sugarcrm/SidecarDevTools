@@ -2,7 +2,7 @@ Sidecar Debugger Tool
 ========================
 Copyright 2015 SugarCRM
 
-This is an Google Chrome devtools extension that will help you to be more productive when developing on Sugar 7.x.
+This is an Google Chrome devtools extension that will help you to be more productive when developing on Sugar 7.x.  Based on the [backbone devtools](https://github.com/spect88/backbone-devtools) project by Tomasz Szczęśniak-Szlagowski.
 
 ## Installing
 
