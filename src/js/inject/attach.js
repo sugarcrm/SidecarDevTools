@@ -58,4 +58,21 @@
   if (window.sessionStorage['_sidecar_debug_injection'] === 'enabled') {
     document.addEventListener('DOMContentLoaded', inject);
   }
+
+  if (window.sessionStorage['_sidecar_debug_polygons'] === 'enabled') {
+    (function() {
+      var style = document.createElement("style");
+
+      // Add a media (and/or media query) here if you'd like!
+      // style.setAttribute("media", "screen")
+      // style.setAttribute("media", "only screen and (max-width : 1024px)")
+
+      // WebKit hack :(
+      style.appendChild(document.createTextNode(".polygonHoverView {border: 1px solid #FF0000 !important;}"));
+      style.appendChild(document.createTextNode(".polygonHoverField {border: 1px solid #33800D !important;}"));
+
+      // Add the <style> element to the page
+      document.head.appendChild(style);
+    })();
+  }
 })();

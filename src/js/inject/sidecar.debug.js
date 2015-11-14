@@ -32,7 +32,7 @@
             path: path || ''
         };
         return def;
-    }
+    };
 
     /**
      * Adds a method to the `View.View` class to get information on the current
@@ -52,6 +52,8 @@
             name: this.name,
             type: this.type,
             compType: 'view',
+            tplName: this.tplName,
+            action: this.action,
             performance: renderTime,
             module: this.module,
             path: path || '',
@@ -72,7 +74,7 @@
     Sidecar.view.Field.prototype.getComponentInfo = function() {
         var renderTime = App.debug.getComponentRenderTime(this.cid);
         renderTime = Math.round(renderTime*10)/10;
-        var path = this.getJSPath();
+        var path = this.getJSPath(this.tplName);
         var def = {
             cid: this.cid,
             contextId: this.context.cid,
@@ -80,6 +82,8 @@
             name: !_.isEmpty(this.fields) ? this.type : this.name,
             type: this.type,
             compType: 'field',
+            tplName: this.tplName,
+            action: this.action,
             performance: renderTime,
             module: this.module,
             path: path || '',
@@ -98,12 +102,13 @@
      *
      * @return {String} path    The JS source file path
      */
-    Sidecar.view.Component.prototype.getJSPath = function() {
+    Sidecar.view.Component.prototype.getJSPath = function(tplName) {
         var name = this.type || this.name,
             type = this.debugType,
             module_prop, // property for App.metadata.getModule() output
             module = this.module,
-            path;
+            path,
+            _t;
 
         if(type == 'field') {
             module_prop = 'fieldTemplates';
@@ -119,8 +124,18 @@
         ) {
             path = App.metadata.getModule(module)[module_prop][name].path;
         } else {
-            path = App.metadata.getStrings(type)[name] ?
-                App.metadata.getStrings(type)[name].path : '';
+            _t = App.metadata.getStrings(type)[name];
+            switch (type) {
+                case 'views':
+                    path = (_t && _t['paths'] && _t['paths'][name]) ? _t['paths'][name] : '';
+                    break;
+                case 'fields':
+                    path = (_t && _t['paths'] && _t['paths'][tplName]) ? _t['paths'][tplName] : '';
+                    break;
+                default:
+                    path = _t ? _t.path : '';
+                    break;
+            }
         }
 
         return path;
@@ -304,7 +319,7 @@
 
             if(window.sessionStorage['_sidecar_debug_tooltips'] === 'enabled') {
                 // add view info widget
-                var tooltip_html = '<h5>' + this.cid + '</h5>';
+                var tooltip_html = '<h5>' + this.cid + ' (view)</h5>';
 
                 var attributes = _.pick(this, 'name', 'action', 'module');
 
@@ -319,6 +334,17 @@
                 var $parent = $('div[data-debug-cid=' + this.layout.cid + ']');
 
                 createTooltip(this.$el, $parent, tooltip_html);
+            }
+
+            if(window.sessionStorage['_sidecar_debug_polygons'] === 'enabled') {
+                this.$el.hover(
+                    function() {
+                        $(this).addClass('polygonHoverView');
+                    },
+                    function() {
+                        $(this).removeClass('polygonHoverView');
+                    }
+                );
             }
         };
 
@@ -351,7 +377,7 @@
             if(window.sessionStorage['_sidecar_debug_tooltips'] === 'enabled') {
                 var _createFieldTooltip = function() {
                     // add field info widget
-                    var tooltip_html = '<h5>' + self.cid + '</h5>';
+                    var tooltip_html = '<h5>' + self.cid + ' (field)</h5>';
 
                     tooltip_html += '<ul class="unstyled">';
 
@@ -363,7 +389,7 @@
                         }
                     );
 
-                    attributes.path = self.getJSPath();
+                    attributes.path = self.getJSPath(self.tplName);
 
                     // check for all sugar action types (*action)
                     if(/(action|button)/.test(self.type)) {
@@ -445,6 +471,29 @@
                 };
                 _createFieldTooltip.apply();
                 self.model.on('change:' + this.name, _createFieldTooltip);
+            }
+
+            if(window.sessionStorage['_sidecar_debug_polygons'] === 'enabled') {
+                var buggyFieldNames = ['salutation', 'first_name', 'last_name', 'name', 'collection-count'],
+                    element = this.$el,
+                    hoverElement;
+
+                if (element.parent().hasClass('fieldset-field') ||
+                    element.children().hasClass('btn') ||
+                    _.indexOf(buggyFieldNames, element.parent().data('fieldname') !== -1)) {
+                    hoverElement = element.children();
+                } else {
+                    hoverElement = element;
+                }
+
+                hoverElement.hover(
+                    function() {
+                        $(this).addClass('polygonHoverField');
+                    },
+                    function() {
+                        $(this).removeClass('polygonHoverField');
+                    }
+                );
             }
         };
 

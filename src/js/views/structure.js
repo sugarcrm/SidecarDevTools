@@ -252,12 +252,18 @@
         renderComponent: function(evt) {
             var self = this;
             var cid = $(evt.currentTarget).data('cid');
-            BDT.page.eval('renderComponent', [cid], function(renderTimesObj, isException) {
-                if (isException) {
-                    var error = 'The element couldn\'t be re-rendered';
-                    BDT.page.eval('console', [error]);
+            BDT.page.eval('isInjectionEnabled', [], function(enabled) {
+                if (enabled) {
+                    BDT.page.eval('renderComponent', [cid], function(renderTimesObj, isException) {
+                        if (isException) {
+                            var error = 'The element couldn\'t be re-rendered';
+                            BDT.page.eval('console', [error]);
+                        } else {
+                            self.updateStructure();
+                        }
+                    });
                 } else {
-                    self.updateStructure();
+                    BDT.page.eval('console', ['Sidecar Debug Mode is disabled']);
                 }
             });
         },
