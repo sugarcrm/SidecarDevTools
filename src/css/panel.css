@@ -28,17 +28,12 @@ html, body {
       color: #f2f2f2; }
     #menu a:hover {
       background-color: #0e0e0e; }
-    #menu a.disabled {
-      color: #8c8c8c; }
-      #menu a.disabled:hover {
-        background-color: inherit; }
 
 #main {
   position: absolute;
   top: 0.4em;
   overflow-x: hidden;
-  overflow-y: auto;
-  margin-bottom: 61px; }
+  overflow-y: auto; }
   #main > div {
     padding-left: 1.6em;
     padding-right: 1.6em; }
@@ -143,8 +138,5 @@ select, input[type="number"], textarea {
 
 .red {
   color: #ff0000; }
-
-.blue {
-  color: #0000ff; }
 
 /*# sourceMappingURL=panel.css.map */

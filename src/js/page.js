@@ -34,13 +34,10 @@
                 window.$view = sidecarComponent;
                 console.log('***** Current Sidecar Component *****');
                 console.log('* cid: ' + sidecarComponent.cid);
-                console.log('* Component type: ' + sidecarComponent.debugType);
+                console.log('* component type: ' + sidecarComponent.debugType);
                 console.log('* Name: ' + sidecarComponent.name);
                 if (sidecarComponent.type) {
                     console.log('* Type: ' + sidecarComponent.type);
-                }
-                if (sidecarComponent.tplName) {
-                    console.log('* Template: ' + sidecarComponent.tplName);
                 }
                 console.log('$view = ', sidecarComponent);
                 console.log('*************************************');
@@ -176,14 +173,11 @@
 
         logComponent: function(cid) {
             var componentInfos = App.debug.getComponent(cid).getComponentInfo();
-            console.log('== Component ==');
-            console.log('Type: ' + componentInfos.compType);
-            console.log('tplName: ' + componentInfos.tplName);
-            console.log('Action: ' + componentInfos.action);
             console.log('Name: ' + componentInfos.name);
+            console.log('Comp type: ' + componentInfos.compType);
             console.log('Module: ' + componentInfos.module);
-            console.log('Path: ' + componentInfos.path);
-            console.log('Object:', App.debug.getComponent(cid));
+            console.log('File path: ' + componentInfos.path);
+            console.log('Component object:', App.debug.getComponent(cid));
         },
 
         getLayoutStructure: function() {
@@ -191,17 +185,11 @@
         },
 
         enableInjection: function() {
-            $('[name="tooltips"]').prop('disabled', false);
-            $('[name="polygons"]').prop('disabled', false);
             window.sessionStorage['_sidecar_debug_injection'] = 'enabled';
         },
 
         disableInjection: function() {
-            $('[name="tooltips"]').prop('disabled', true);
-            $('[name="polygons"]').prop('disabled', true);
             window.sessionStorage.removeItem('_sidecar_debug_injection');
-            window.sessionStorage.removeItem('_sidecar_debug_tooltips');
-            window.sessionStorage.removeItem('_sidecar_debug_polygons');
         },
 
         isInjectionEnabled: function() {
@@ -218,18 +206,6 @@
 
         areTooltipsEnabled: function() {
             return window.sessionStorage['_sidecar_debug_tooltips'] === 'enabled';
-        },
-
-        enablePolygons: function() {
-            window.sessionStorage['_sidecar_debug_polygons'] = 'enabled';
-        },
-
-        disablePolygons: function() {
-            window.sessionStorage.removeItem('_sidecar_debug_polygons');
-        },
-
-        arePolygonsEnabled: function() {
-            return window.sessionStorage['_sidecar_debug_polygons'] === 'enabled';
         },
 
         updateTimeout: function(ms) {

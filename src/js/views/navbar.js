@@ -23,20 +23,7 @@
 
     selectItem: function(evt) {
       evt.preventDefault();
-      var anchor = $(evt.currentTarget),
-          self = this;
-      if (anchor.hasClass('debugOnly')) {
-        BDT.page.eval('isInjectionEnabled', [], function(enabled) {
-          if (enabled) {
-            self.processItem(anchor);
-          }
-        });
-      } else {
-        this.processItem(anchor);
-      }
-    },
-
-    processItem: function(anchor) {
+      var anchor = $(evt.currentTarget);
       anchor.addClass('selected').siblings().removeClass('selected');
       this.trigger('select', anchor.attr('href'));
     },
