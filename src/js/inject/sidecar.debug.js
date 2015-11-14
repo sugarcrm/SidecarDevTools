@@ -626,10 +626,26 @@
         });
 
         Debug.prototype.AppStream = new ActivityStream();
+
+        /**
+         * Override error.handleRenderError method to provide more information on render error.
+         */
+        var _handleRenderError = Sidecar.error.handleRenderError;
+
+        Debug.prototype._handleRenderError = function(component, method, additionalInfo) {
+            console.log('=== handleRenderError Information ===');
+            console.log('Name: ' + additionalInfo.name);
+            console.log('Type: ' + additionalInfo.type);
+            console.log('== ComponentInfo ==', component);
+            console.log('== AdditionalInfo ==', additionalInfo);
+            return _handleRenderError.apply(_handleRenderError, arguments);
+        };
+
         return Debug;
 
     })();
 
     Sidecar.debug = new Sidecar.Debug();
+    Sidecar.error.handleRenderError = Sidecar.error.handleRenderError ? Sidecar.debug._handleRenderError : undefined;
 
 }).call(this);
