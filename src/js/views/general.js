@@ -13,6 +13,7 @@
     events: {
       'change [name="inject"]': 'toggleInjection',
       'change [name="tooltips"]': 'toggleTooltips',
+      'change [name="polygons"]': 'togglePolygons',
       'change [name="timeout"]': 'updateTimeout'
     },
 
@@ -20,11 +21,29 @@
       this.$el.empty().append(this.template());
       BDT.page.eval('isInjectionEnabled', [], function(enabled) {
         $('[name="inject"]').prop('checked', enabled);
+        $('[name="tooltips"]')
+            .prop('disabled', !enabled);
+
+        $('[name="polygons"]')
+            .prop('disabled', !enabled);
+
         BDT.page.eval('getTimeout', [], function(ms){
           if (ms !== undefined) {
             $('[name="timeout"]').val(ms/1000);
           }
-        })
+        });
+
+        BDT.page.eval('arePolygonsEnabled', [], function(enabled) {
+          $('[name="polygons"]').prop('checked', enabled);
+        });
+
+        if (enabled) {
+          $('#menu a.debugOnly')
+              .removeClass('disabled');
+        } else {
+          $('#menu a.debugOnly')
+              .addClass('disabled');
+        }
       });
 
       BDT.page.eval('areTooltipsEnabled', [], function(enabled) {
@@ -35,7 +54,25 @@
 
     toggleInjection: function(evt) {
       var on = (this.$(evt.currentTarget).is(':checked'));
-      
+
+      if (!on) {
+        $('[name="tooltips"]')
+            .prop('checked', false)
+            .prop('disabled', true);
+        $('[name="polygons"]')
+            .prop('checked', false)
+            .prop('disabled', true);
+        $('#menu a.debugOnly')
+            .addClass('disabled');
+      } else {
+        $('[name="tooltips"]')
+            .prop('disabled', false);
+        $('[name="polygons"]')
+            .prop('disabled', false);
+        $('#menu a.debugOnly')
+            .removeClass('disabled');
+      }
+
       BDT.page.eval(
         on ? 'enableInjection' : 'disableInjection',
         [],
@@ -47,9 +84,20 @@
 
     toggleTooltips: function(evt) {
       var on = (this.$(evt.currentTarget).is(':checked'));
-
       BDT.page.eval(
           on ? 'enableTooltips' : 'disableTooltips',
+          [],
+          function() {
+            chrome.devtools.inspectedWindow.reload();
+          }
+      );
+    },
+
+    togglePolygons: function(evt) {
+      var on = (this.$(evt.currentTarget).is(':checked'));
+
+      BDT.page.eval(
+          on ? 'enablePolygons' : 'disablePolygons',
           [],
           function() {
             chrome.devtools.inspectedWindow.reload();

@@ -42,4 +42,11 @@ See [CONTRIBUTING](CONTRIBUTING.md) for how you can contribute changes back into
 
 ## Notes
 
+To setup *path* variable used add the following code in MetaDataFiles.php for getClientFileContents method in case of '.hbs' extension:
+```php
+if (inDeveloperMode()) {
+    $results[$fileInfo['subPath']]['paths'][$layoutName] = $fileInfo['path'];
+}
+```
+
 This extension is based on the [backbone-devtools](https://github.com/spect88/backbone-devtools) extension.
