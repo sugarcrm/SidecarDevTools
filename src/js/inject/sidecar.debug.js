@@ -585,10 +585,12 @@
 
         Debug.prototype._handleRenderError = function(component, method, additionalInfo) {
             console.log('=== handleRenderError Information ===');
-            console.log('Name: ' + additionalInfo.name);
-            console.log('Type: ' + additionalInfo.type);
+            console.log('Component: ' + component.name);
             console.log('== ComponentInfo ==', component);
-            console.log('== AdditionalInfo ==', additionalInfo);
+            if (additionalInfo) {
+                console.log('Name: ' + additionalInfo.name);
+                console.log('== AdditionalInfo ==', additionalInfo);
+            }
             return _handleRenderError.apply(_handleRenderError, arguments);
         };
 
