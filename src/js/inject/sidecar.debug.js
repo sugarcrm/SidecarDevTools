@@ -287,9 +287,9 @@
 
             var performance = Array.prototype.slice.call(arguments, -1).pop();
             var lastRenderTime = _components[this.cid].performance;
-            this.layout.setRenderTime(lastRenderTime, 'subtract');
+            this.layout && this.layout.setRenderTime(lastRenderTime, 'subtract');
             _components[this.cid].performance = performance;
-            this.layout.setRenderTime(performance, 'add');
+            this.layout && this.layout.setRenderTime(performance, 'add');
             Sidecar.debug.AppStream.add({
                 'type': 'view.render',
                 instance: this,
