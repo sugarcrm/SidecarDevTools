@@ -1,0 +1,27 @@
+<h3 class="text-center">Performance report<i class="fi-lightbulb help-button" data-action="toggleHelp"></i></h3>
+
+<div class="panel callout radius"{{#unless displayHelp}} style="display: none;"{{/unless}} data-panel="help">
+    This panel shows a performance report of the elements on the page.
+    It should be used to detect which components are slow to render.
+</div>
+
+<table id="views" class="tablesorter">
+    <thead>
+    <tr>
+        <th>
+            Layout
+        </th>
+        <th>
+            Average render time (ms)
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    {{#each rows}}
+    <tr>
+        <td>{{fieldName}}</td>
+        <td>{{averageTime}}</td>
+    </tr>
+    {{/each}}
+    </tbody>
+</table>
