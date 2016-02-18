@@ -15,6 +15,7 @@
      */
     Sidecar.view.Layout.prototype.getComponentInfo = function() {
         var renderTime = App.debug.getComponentRenderTime(this.cid);
+        var renderCount = App.debug.getComponentRenderCount(this.cid);
         renderTime = Math.round(renderTime*10)/10;
         var path = this.getJSPath();
         var def = {
@@ -26,6 +27,7 @@
             context: JSON.stringify(this.context),
             compType: 'layout',
             performance: renderTime,
+            renderCount: renderCount,
             components: _.map(this._components, function(comp) {
                 return comp.getComponentInfo();
             }),
@@ -43,6 +45,7 @@
      */
     Sidecar.view.View.prototype.getComponentInfo = function() {
         var renderTime = App.debug.getComponentRenderTime(this.cid);
+        var renderCount = App.debug.getComponentRenderCount(this.cid);
         renderTime = Math.round(renderTime*10)/10;
         var path = this.getJSPath();
         var def = {
@@ -53,6 +56,7 @@
             type: this.type,
             compType: 'view',
             performance: renderTime,
+            renderCount: renderCount,
             module: this.module,
             path: path || '',
             fields: _.map(this.fields, function(comp) {
@@ -71,6 +75,7 @@
      */
     Sidecar.view.Field.prototype.getComponentInfo = function() {
         var renderTime = App.debug.getComponentRenderTime(this.cid);
+        var renderCount = App.debug.getComponentRenderCount(this.cid);
         renderTime = Math.round(renderTime*10)/10;
         var path = this.getJSPath();
         var def = {
@@ -81,6 +86,7 @@
             type: this.type,
             compType: 'field',
             performance: renderTime,
+            renderCount: renderCount,
             module: this.module,
             path: path || '',
             fields: _.map(this.fields, function(comp) {
@@ -263,7 +269,7 @@
 
         Debug.prototype._onHookLayoutRender = function() {
             this.$el.attr('data-debug-cid', this.cid);
-
+            _components[this.cid].renderCount = _components[this.cid].renderCount ?_components[this.cid].renderCount++ : 1;
             var performance = Array.prototype.slice.call(arguments, -1).pop();
             var lastRenderTime = _components[this.cid].performance;
             this.layout && this.layout.setRenderTime(lastRenderTime, 'subtract');
@@ -284,6 +290,7 @@
 
         Debug.prototype._onHookViewRender = function() {
             this.$el.attr('data-debug-cid', this.cid);
+            _components[this.cid].renderCount = _components[this.cid].renderCount ?_components[this.cid].renderCount++ : 1;
 
             var performance = Array.prototype.slice.call(arguments, -1).pop();
             var lastRenderTime = _components[this.cid].performance;
@@ -324,6 +331,9 @@
 
         Debug.prototype._onHookFieldRender = function() {
             var parent = this.parent ? 'parent' : 'view';
+
+            _components[this.cid].renderCount = _components[this.cid].renderCount ?_components[this.cid].renderCount++ : 1;
+
             var performance = Array.prototype.slice.call(arguments, -1).pop();
 
             this.$el.attr('data-debug-cid', this.cid);
@@ -491,6 +501,10 @@
          */
         Debug.prototype.getComponentRenderTime = function(cid) {
             return _components[cid].performance;
+        };
+
+        Debug.prototype.getComponentRenderCount = function(cid) {
+            return _components[cid].renderCount;
         };
 
         /**

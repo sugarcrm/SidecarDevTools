@@ -5,23 +5,105 @@
     It should be used to detect which components are slow to render.
 </div>
 
-<table id="views" class="tablesorter">
+<ul class="button-group round even-3">
+    <li><a data-id="fields" class="button active">Fields</a></li>
+    <li><a data-id="views" class="button">Views</a></li>
+    <li><a data-id="layouts  "class="button">Layouts</a></li>
+</ul>
+
+<table data-id="layouts" class="tablesorter hide">
     <thead>
     <tr>
         <th>
-            Layout
+            Layout name
+        </th>
+        <th>
+            Layout type
         </th>
         <th>
             Average render time (ms)
         </th>
+        <th>
+            Number of similar layouts
+        </th>
+        <th>
+            Number of renders
+        </th>
     </tr>
     </thead>
     <tbody>
-    {{#each rows}}
+    {{#each layouts}}
     <tr>
-        <td>{{fieldName}}</td>
-        <td>{{averageTime}}</td>
+        <td>{{name}}</td>
+        <td>{{type}}</td>
+        <td>{{avgPerf}}</td>
+        <td>{{count}}</td>
+        <td>{{renderCount}}</td>
     </tr>
+    {{/each}}
+    </tbody>
+</table>
+<table data-id="views" class="tablesorter hide">
+    <thead>
+    <tr>
+        <th>
+            View name
+        </th>
+        <th>
+            View type
+        </th>
+        <th>
+            Average render time (ms)
+        </th>
+        <th>
+            Number of similar views
+        </th>
+        <th>
+            Number of renders
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    {{#each views}}
+        <tr>
+            <td>{{name}}</td>
+            <td>{{type}}</td>
+            <td>{{avgPerf}}</td>
+            <td>{{count}}</td>
+            <td>{{renderCount}}</td>
+        </tr>
+    {{/each}}
+    </tbody>
+</table>
+<table data-id="fields" class="tablesorter">
+    <thead>
+    <tr>
+        <th>
+            Field name
+        </th>
+        <th>
+            Field type
+        </th>
+        <th>
+            Average render time (ms)
+        </th>
+        <th>
+            Number of similar fields
+        </th>
+        <th>
+            Number of renders
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    {{#each fields}}
+        <tr>
+            <td>{{name}}</td>
+            <td>{{type}}</td>
+            <td>{{avgPerf}}</td>
+            <td>{{count}}</td>
+            <td>{{renderCount}}</td>
+        </tr>
     {{/each}}
     </tbody>
 </table>

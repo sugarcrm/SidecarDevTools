@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": "AAAA;;GAEG;AAGC,2BAAS;EACP,gBAAgB,EAAE,OAAO",
+"sources": ["../scss/perf-report.scss"],
+"names": [],
+"file": "perf-report.css"
+}
