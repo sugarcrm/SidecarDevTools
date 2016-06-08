@@ -1,0 +1,17 @@
+/*
+ * Copyright (c) 2015 SugarCRM Inc. Licensed by SugarCRM under the Apache 2.0 license.
+ */
+.perf-report {
+  .button {
+    &.active {
+      background-color: #007095;
+    }
+  }
+  button {
+    &.refresh {
+      position: absolute;
+      top: 0;
+      right: 1.8em;
+    }
+  }
+}

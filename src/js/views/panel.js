@@ -19,6 +19,7 @@
       '#general':     BDT.views.General,
       '#events':      BDT.views.Events,
       '#structure':   BDT.views.Structure,
+      '#perfReport':   BDT.views.PerfReport,
       '#performance':   BDT.views.Performance,
       '#generate':   BDT.views.Generate,
       '#metrics':   BDT.views.Metrics,

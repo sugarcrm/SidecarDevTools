@@ -241,7 +241,51 @@ this["Handlebars"]["templates"]["metrics"] = Handlebars.template({"1":function(d
 },"useData":true});
 
 this["Handlebars"]["templates"]["navbar"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-    return "<a class=\"selected\" href=\"#general\">Settings</a><a href=\"#appstream\">Application Stream</a><a href=\"#structure\">Structure</a><a href=\"#performance\">Render times</a><a href=\"#generate\">Generate records</a>\n";
+    return "<a class=\"selected\" href=\"#general\">Settings</a><a href=\"#appstream\">Application Stream</a><a href=\"#structure\">Structure</a><a href=\"#perfReport\">Perf report</a><a href=\"#performance\">Render times</a><a href=\"#generate\">Generate records</a>\n";
+},"useData":true});
+
+this["Handlebars"]["templates"]["perf-report"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
+    return " style=\"display: none;\"";
+},"3":function(depth0,helpers,partials,data) {
+    var helper, alias1=helpers.helperMissing, alias2="function", alias3=this.escapeExpression;
+
+  return "    <tr>\n        <td>"
+    + alias3(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"name","hash":{},"data":data}) : helper)))
+    + "</td>\n        <td>"
+    + alias3(((helper = (helper = helpers.type || (depth0 != null ? depth0.type : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"type","hash":{},"data":data}) : helper)))
+    + "</td>\n        <td>"
+    + alias3(((helper = (helper = helpers.avgPerf || (depth0 != null ? depth0.avgPerf : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"avgPerf","hash":{},"data":data}) : helper)))
+    + "</td>\n        <td>"
+    + alias3(((helper = (helper = helpers.count || (depth0 != null ? depth0.count : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"count","hash":{},"data":data}) : helper)))
+    + "</td>\n        <td>"
+    + alias3(((helper = (helper = helpers.renderCount || (depth0 != null ? depth0.renderCount : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"renderCount","hash":{},"data":data}) : helper)))
+    + "</td>\n    </tr>\n";
+},"5":function(depth0,helpers,partials,data) {
+    var helper, alias1=helpers.helperMissing, alias2="function", alias3=this.escapeExpression;
+
+  return "        <tr>\n            <td>"
+    + alias3(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"name","hash":{},"data":data}) : helper)))
+    + "</td>\n            <td>"
+    + alias3(((helper = (helper = helpers.type || (depth0 != null ? depth0.type : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"type","hash":{},"data":data}) : helper)))
+    + "</td>\n            <td>"
+    + alias3(((helper = (helper = helpers.avgPerf || (depth0 != null ? depth0.avgPerf : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"avgPerf","hash":{},"data":data}) : helper)))
+    + "</td>\n            <td>"
+    + alias3(((helper = (helper = helpers.count || (depth0 != null ? depth0.count : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"count","hash":{},"data":data}) : helper)))
+    + "</td>\n            <td>"
+    + alias3(((helper = (helper = helpers.renderCount || (depth0 != null ? depth0.renderCount : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"renderCount","hash":{},"data":data}) : helper)))
+    + "</td>\n        </tr>\n";
+},"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
+    var stack1;
+
+  return "<h3 class=\"text-center\">Performance report<i class=\"fi-lightbulb help-button\" data-action=\"toggleHelp\"></i></h3>\n\n<div class=\"panel callout radius\""
+    + ((stack1 = helpers.unless.call(depth0,(depth0 != null ? depth0.displayHelp : depth0),{"name":"unless","hash":{},"fn":this.program(1, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "")
+    + " data-panel=\"help\">\n    This panel shows a performance report of the elements on the page.\n    It should be used to detect which components are slow to render.\n</div>\n<button class=\"fi-refresh refresh round\" data-action=\"refresh\"></button>\n<ul class=\"button-group round even-3\">\n    <li><a data-id=\"fields\" class=\"button active\">Fields</a></li>\n    <li><a data-id=\"views\" class=\"button\">Views</a></li>\n    <li><a data-id=\"layouts  \"class=\"button\">Layouts</a></li>\n</ul>\n\n<table data-id=\"layouts\" class=\"tablesorter hide\">\n    <thead>\n    <tr>\n        <th>\n            Layout name\n        </th>\n        <th>\n            Layout type\n        </th>\n        <th>\n            Average render time (ms)\n        </th>\n        <th>\n            Number of similar layouts\n        </th>\n        <th>\n            Number of renders\n        </th>\n    </tr>\n    </thead>\n    <tbody>\n"
+    + ((stack1 = helpers.each.call(depth0,(depth0 != null ? depth0.layouts : depth0),{"name":"each","hash":{},"fn":this.program(3, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "")
+    + "    </tbody>\n</table>\n<table data-id=\"views\" class=\"tablesorter hide\">\n    <thead>\n    <tr>\n        <th>\n            View name\n        </th>\n        <th>\n            View type\n        </th>\n        <th>\n            Average render time (ms)\n        </th>\n        <th>\n            Number of similar views\n        </th>\n        <th>\n            Number of renders\n        </th>\n    </tr>\n    </thead>\n    <tbody>\n"
+    + ((stack1 = helpers.each.call(depth0,(depth0 != null ? depth0.views : depth0),{"name":"each","hash":{},"fn":this.program(5, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "")
+    + "    </tbody>\n</table>\n<table data-id=\"fields\" class=\"tablesorter\">\n    <thead>\n    <tr>\n        <th>\n            Field name\n        </th>\n        <th>\n            Field type\n        </th>\n        <th>\n            Average render time (ms)\n        </th>\n        <th>\n            Number of similar fields\n        </th>\n        <th>\n            Number of renders\n        </th>\n    </tr>\n    </thead>\n    <tbody>\n"
+    + ((stack1 = helpers.each.call(depth0,(depth0 != null ? depth0.fields : depth0),{"name":"each","hash":{},"fn":this.program(5, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "")
+    + "    </tbody>\n</table>\n";
 },"useData":true});
 
 this["Handlebars"]["templates"]["performance"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
