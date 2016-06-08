@@ -184,18 +184,6 @@
             return App.controller.layout.getComponentInfo();
         },
 
-        enableInjection: function() {
-            window.sessionStorage['_sidecar_debug_injection'] = 'enabled';
-        },
-
-        disableInjection: function() {
-            window.sessionStorage.removeItem('_sidecar_debug_injection');
-        },
-
-        isInjectionEnabled: function() {
-            return window.sessionStorage['_sidecar_debug_injection'] === 'enabled';
-        },
-
         enableTooltips: function() {
             window.sessionStorage['_sidecar_debug_tooltips'] = 'enabled';
         },
@@ -210,10 +198,6 @@
 
         updateTimeout: function(ms) {
             window.sessionStorage['_sidecar_debug_injection_timeout'] = String(ms);
-        },
-
-        getTimeout: function() {
-            return window.sessionStorage['_sidecar_debug_injection_timeout'];
         },
 
         console: function(data) {
