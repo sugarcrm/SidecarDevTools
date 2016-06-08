@@ -164,6 +164,10 @@
             return currentModule;
         },
 
+        getModuleFields: function(module) {
+            return App.metadata.getModule(module).fields;
+        },
+
         renderComponent: function(cid) {
             var comp = App.debug.getComponent(cid);
             comp.render();
@@ -200,8 +204,8 @@
             window.sessionStorage['_sidecar_debug_injection_timeout'] = String(ms);
         },
 
-        console: function(data) {
-            console.log(data);
+        console: function(level, data) {
+            console[level](data);
         },
 
         consoleActivityArgs: function(id) {

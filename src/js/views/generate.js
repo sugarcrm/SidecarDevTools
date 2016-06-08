@@ -11,7 +11,8 @@
         events: {
             'click input[name=submitGenerate]' : 'generateRecords',
             'click input[id=currentContext]' : 'setCurrentContext',
-            'click i[data-action=toggleHelp]': 'toggleHelpPanel'
+            'click i[data-action=toggleHelp]': 'toggleHelpPanel',
+            'click a[data-id]': 'toggleSection',
         },
 
         /**
@@ -21,6 +22,15 @@
             this.modules = [];
             this.subpanels = [];
             this.useCurrentContext = false;
+
+            /**
+             * Indicates if the records should be generated using dummy data or
+             * with manually input data.
+             *
+             * @type {boolean} `true` to generate with dummy data.
+             */
+            this.generateAuto = true;
+
             /**
              * Indicates if we should show the help panel or not.
              *
@@ -60,21 +70,25 @@
          * Generates records according to the values filled in the form.
          */
         generateRecords: function() {
-            var module = this.$('select[name=Module]').val();
-            var numberOfRecords = this.$('input[name=numberOfRecords]').val();
-            var attributes = this.$('textarea[name=attributes]').val();
-            _.isEmpty(attributes) ? [] : attributes;
-            var options = this.$('textarea[name=options]').val();
-            _.isEmpty(options) ? [] : options;
-
-            if (this.useCurrentContext) {
-                if (this.$('select[name=Subpanel]').val()) {
-                    this._generateRelatedRecords(module, attributes, numberOfRecords);
-                } else {
-                    this._generateRecords(module, attributes, numberOfRecords, options, true);
-                }
+            if (this.generateAuto) {
+                this.generateRecordsAuto();
             } else {
-                this._generateRecords(module, attributes, numberOfRecords, options, false);
+                var module = this.$('#generateAuto, #generateManual').not('.hide').find('select[name=Module]').val();
+                var numberOfRecords = this.$('#generateAuto, #generateManual').not('.hide').find('input[name=numberOfRecords]').val();
+                var attributes = this.$('textarea[name=attributes]').val();
+                _.isEmpty(attributes) ? [] : attributes;
+                var options = this.$('textarea[name=options]').val();
+                _.isEmpty(options) ? [] : options;
+
+                if (this.useCurrentContext) {
+                    if (this.$('select[name=Subpanel]').val()) {
+                        this._generateRelatedRecords(module, attributes, numberOfRecords);
+                    } else {
+                        this._generateRecords(module, attributes, numberOfRecords, options, true);
+                    }
+                } else {
+                    this._generateRecords(module, attributes, numberOfRecords, options, false);
+                }
             }
         },
 
@@ -98,6 +112,36 @@
                     chrome.devtools.inspectedWindow.eval(error);
                 } else {
                     if (result) {
+                    }
+                }
+            });
+        },
+
+        /**
+         * Generates records automatically populated with dummy data
+         * (using faker.js)
+         */
+        generateRecordsAuto: function() {
+            var module = this.$('#generateAuto, #generateManual').not('.hide').find('select[name=Module]').val();
+            var numberOfRecords = this.$('#generateAuto, #generateManual').not('.hide').find('input[name=numberOfRecords]').val();
+
+            BDT.page.eval('getModuleFields', [module], (fields, isException) => {
+                if (isException) {
+                    BDT.page.eval('console', ['error', '`getModuleFields` could not get the results.']);
+                } else {
+                    if (fields) {
+                        let attributesArray = [];
+                        for (let i=0; i < numberOfRecords; i++) {
+                            let attributes = {};
+                            _.each(fields, (meta, fieldName) => {
+                                if (BDT.dataMap[fieldName]) {
+                                    let fakerField = BDT.dataMap[fieldName].split('.');
+                                    attributes[fieldName] = faker[fakerField[0]][fakerField[1]]();
+                                }
+                            });
+                            attributesArray.push(attributes);
+                        }
+                        this._generateRecords(module, JSON.stringify(attributesArray), numberOfRecords, [], false);
                     }
                 }
             });
@@ -153,6 +197,25 @@
                     }
                 }
             );
-        }
+        },
+
+        /**
+         * Displays the corresponding section content.
+         *
+         * @param {Event} The `click` event.
+         */
+        toggleSection: function(event) {
+            var mode = $(event.currentTarget).data('id');
+
+            this.generateAuto = mode === 'generateAuto';
+
+            // Update buttons background
+            $('a[data-id]').removeClass('active');
+            $(event.currentTarget).addClass('active');
+
+            // Show the relevant section.
+            $('#generateAuto, #generateManual').addClass('hide');
+            $('div[id='+ mode + ']').removeClass('hide');
+        },
     });
 })();
