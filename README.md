@@ -13,9 +13,8 @@ This is an Google Chrome devtools extension that will help you to be more produc
 
 ## Using
 
-1. Once in your SugarCRM instance, open Chrome devtools.
-2. Click on the new tab called SugarDebug.
-3. Check the checkbox "Start Sidecar Debug Mode" in the "Settings tab".
+1. Once in your SugarCRM instance, click on the `Sidecar Developer Tool` icon.
+2. Open Chrome Developer Tools and select the new tab called `SugarDebug`.
 4. Enjoy!
 
 ## Developing the Sidecar Dev Tool
