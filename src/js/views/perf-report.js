@@ -11,14 +11,13 @@
         events: {
             'click i[data-action=toggleHelp]': 'toggleHelpPanel',
             'click a[data-id]': 'displayTable',
+            'click button[data-action=refresh]': 'getTable'
         },
+
         /**
          * Sets the available field types and calls render.
          */
         initialize: function() {
-            this.fields = {};
-            this.views = {};
-            this.layouts = {};
             /**
              * Indicates if we should show the help panel or not.
              *
@@ -26,21 +25,36 @@
              */
             this.displayHelp = false;
 
+            this.getTable();
+        },
+
+        /**
+         * Gets the table data and populates the table.
+         */
+        getTable: function() {
+            this.fields = {};
+            this.views = {};
+            this.layouts = {};
+
             var self = this;
             BDT.page.eval('getLayoutStructure', null, function(result, isException) {
                 if (isException) {
                 } else {
                     if (result) {
-                        //self.component = result;
                         self.populateComponents(result);
                         self.render();
                     }
                 }
             });
-
-
         },
 
+        /**
+         * Populates the properties `fields`, `layouts` and `views` with the
+         * info containing the render times and the number of renders.
+         *
+         * @param {Object} component The parent component containing all the
+         * components of the current page.
+         */
         populateComponents: function(component) {
             switch (component.compType) {
                 case 'layout':
@@ -64,10 +78,16 @@
             }
         },
 
-        updateComponentPerf: function(bucket, component) {
-            var formattedComp = this[bucket][component.name];
+        /**
+         * Updates the performance data of a component.
+         *
+         * @param {string} compType The component type (`field`, `view` or `layout`)
+         * @param {Object} component The component data.
+         */
+        updateComponentPerf: function(compType, component) {
+            var formattedComp = this[compType][component.name];
             if (_.isUndefined(formattedComp)) {
-                this[bucket][component.name] = {
+                this[compType][component.name] = {
                     type: component.type,
                     name: component.name,
                     avgPerf: component.performance,
@@ -79,7 +99,7 @@
                 if (formattedComp.totalPerf && _.isNumber(component.performance)) {
                     formattedComp.count++;
                     formattedComp.totalPerf += component.performance;
-                    formattedComp.avgPerf = formattedComp.totalPerf/formattedComp.count;
+                    formattedComp.avgPerf = Math.round((formattedComp.totalPerf/formattedComp.count)*10)/10;
                     formattedComp.renderCount += component.renderCount;
                 }
             }
@@ -96,6 +116,11 @@
             $(event.currentTarget).toggleClass('open', this.displayHelp);
         },
 
+        /**
+         * Displays the table corresponding to the clicked component type.
+         *
+         * @param {Event} The `click` event.
+         */
         displayTable: function(event) {
             $('table[data-id]').addClass('hide');
             $('a[data-id]').removeClass('active');
@@ -105,9 +130,9 @@
         },
 
         /**
-         * Renders the view printing the structure.
+         * Renders the table.
          *
-         * @return {window.BDT.views.Structure}
+         * @return {window.BDT.views.PerfReport}
          */
         render: function() {
             this.$el.empty().append(this.template(this));

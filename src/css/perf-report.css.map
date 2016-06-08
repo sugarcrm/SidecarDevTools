@@ -1,6 +1,6 @@
 {
 "version": 3,
-"mappings": "AAAA;;GAEG;AAGC,2BAAS;EACP,gBAAgB,EAAE,OAAO",
+"mappings": "AAAA;;GAEG;AAGC,2BAAS;EACP,gBAAgB,EAAE,OAAO;AAI3B,2BAAU;EACR,QAAQ,EAAE,QAAQ;EAClB,GAAG,EAAE,CAAC;EACN,KAAK,EAAE,KAAK",
 "sources": ["../scss/perf-report.scss"],
 "names": [],
 "file": "perf-report.css"

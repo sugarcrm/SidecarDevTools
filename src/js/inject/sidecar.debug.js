@@ -269,7 +269,7 @@
 
         Debug.prototype._onHookLayoutRender = function() {
             this.$el.attr('data-debug-cid', this.cid);
-            _components[this.cid].renderCount = _components[this.cid].renderCount ?_components[this.cid].renderCount++ : 1;
+            _components[this.cid].renderCount = _components[this.cid].renderCount ? ++_components[this.cid].renderCount : 1;
             var performance = Array.prototype.slice.call(arguments, -1).pop();
             var lastRenderTime = _components[this.cid].performance;
             this.layout && this.layout.setRenderTime(lastRenderTime, 'subtract');
@@ -290,7 +290,7 @@
 
         Debug.prototype._onHookViewRender = function() {
             this.$el.attr('data-debug-cid', this.cid);
-            _components[this.cid].renderCount = _components[this.cid].renderCount ?_components[this.cid].renderCount++ : 1;
+            _components[this.cid].renderCount = _components[this.cid].renderCount ? ++_components[this.cid].renderCount : 1;
 
             var performance = Array.prototype.slice.call(arguments, -1).pop();
             var lastRenderTime = _components[this.cid].performance;
@@ -332,7 +332,7 @@
         Debug.prototype._onHookFieldRender = function() {
             var parent = this.parent ? 'parent' : 'view';
 
-            _components[this.cid].renderCount = _components[this.cid].renderCount ?_components[this.cid].renderCount++ : 1;
+            _components[this.cid].renderCount = _components[this.cid].renderCount ?++_components[this.cid].renderCount : 1;
 
             var performance = Array.prototype.slice.call(arguments, -1).pop();
 

@@ -3,5 +3,9 @@
  */
 .perf-report .button.active {
   background-color: #007095; }
+.perf-report button.refresh {
+  position: absolute;
+  top: 0;
+  right: 1.8em; }
 
 /*# sourceMappingURL=perf-report.css.map */

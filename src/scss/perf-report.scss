@@ -7,4 +7,11 @@
       background-color: #007095;
     }
   }
+  button {
+    &.refresh {
+      position: absolute;
+      top: 0;
+      right: 1.8em;
+    }
+  }
 }
