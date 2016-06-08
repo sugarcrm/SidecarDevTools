@@ -8,9 +8,16 @@
         "128": "img/sugarcube.png"
     },
 
+    "browser_action": {
+        "default_icon": "img/sugarcube.png"
+    },
+
     "devtools_page": "html/devtools.html",
 
     "permissions": [
+        "webRequest",
+        "*://*/*/sidecar.js*",
+        "*://*/*/sidecar.min.js*",
         "tabs"
     ],
 
@@ -31,7 +38,6 @@
     ],
 
     "web_accessible_resources": [
-        "js/inject/attach.js",
         "js/inject/sidecar.debug.js"
     ],
 
