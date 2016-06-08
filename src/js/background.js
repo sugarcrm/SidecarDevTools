@@ -56,7 +56,7 @@ hasAPIs && chrome.webRequest.onCompleted.addListener((details) => {
     }
 
     chrome.tabs.executeScript(details.tabId, {
-        file: 'js/inject/attach.js',
+        file: 'js/debug-mode-injector.js',
     });
 
 }, {urls: ['*://*/*/sidecar.js*', '*://*/*/sidecar.min.js*']});
