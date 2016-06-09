@@ -6,6 +6,8 @@
 
     BDT.views.Generate = Backbone.View.extend({
 
+        blackListedModules: ['Calls', 'Opportunities', 'RevenueLineItems', 'Forecasts',
+            'pmse_inbox','pmse_Project', 'pmse_Business_Rules', 'pmse_Emails_Templates'],
         className: 'generate',
         template: BDT.templates['generate'],
         events: {
@@ -39,21 +41,17 @@
             this.displayHelp = false;
 
             var self = this;
-            chrome.devtools.inspectedWindow.eval(
-                'App.metadata.getModuleNames(\'enabled\')',
-                function(result, isException) {
-                    if (isException) {
-                    }
-                    else {
-                        if (result) {
-                            self.modules = result;
-                            self.render();
-                        }
+            BDT.page.eval('getModulesForGenerate', [], (result, isException) => {
+                if (isException) {
+                }
+                else {
+                    if (result) {
+                        self.modules = _.difference(result, self.blackListedModules);
+                        self.render();
                     }
                 }
-            );
+            });
         },
-
 
         /**
          * Renders the form.
@@ -134,11 +132,30 @@
                         for (let i=0; i < numberOfRecords; i++) {
                             let attributes = {};
                             _.each(fields, (meta, fieldName) => {
-                                if (BDT.dataMap[fieldName]) {
-                                    let fakerField = BDT.dataMap[fieldName].split('.');
-                                    attributes[fieldName] = faker[fakerField[0]][fakerField[1]]();
+                                let value;
+
+                                // Set the specific value if we have one defined
+                                // in the data-mapper.
+                                if (BDT.dataMap.fixedValues[module] && BDT.dataMap.fixedValues[module][fieldName]) {
+                                    value = BDT.dataMap.fixedValues[module][fieldName];
+                                    // Else, generate a value using faker.js.
+                                } else {
+                                    let fakerField = BDT.dataMap.fieldNames[fieldName];
+                                    // If the field name is not defined in the
+                                    // mapping, fallback to the 'type' mapping.
+                                    if (_.isEmpty(fakerField) && !BDT.dataMap.blackList[fieldName]) {
+                                        fakerField = BDT.dataMap.fieldTypes[meta.type];
+                                    }
+
+                                    if (fakerField) {
+                                        let fakerFieldArray = fakerField.split('.');
+                                        value = faker[fakerFieldArray[0]][fakerFieldArray[1]]();
+                                    }
                                 }
+
+                                attributes[fieldName] = value;
                             });
+
                             attributesArray.push(attributes);
                         }
                         this._generateRecords(module, JSON.stringify(attributesArray), numberOfRecords, [], false);
