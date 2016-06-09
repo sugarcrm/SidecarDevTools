@@ -11,7 +11,7 @@
         className: 'generate',
         template: BDT.templates['generate'],
         events: {
-            'click input[name=submitGenerate]' : 'generateRecords',
+            'click button[name=submitGenerate]' : 'generateRecords',
             'click input[id=currentContext]' : 'setCurrentContext',
             'click i[data-action=toggleHelp]': 'toggleHelpPanel',
             'click a[data-id]': 'toggleSection',
@@ -128,24 +128,24 @@
                     BDT.page.eval('console', ['error', '`getModuleFields` could not get the results.']);
                 } else {
                     if (fields) {
+                        fields = _.omit(fields, BDT.generate.blackList);
+
                         let attributesArray = [];
                         for (let i=0; i < numberOfRecords; i++) {
                             let attributes = {};
                             _.each(fields, (meta, fieldName) => {
+                                let dataMap = BDT.generate.dataMap;
                                 let value;
 
                                 // Set the specific value if we have one defined
                                 // in the data-mapper.
-                                if (BDT.dataMap.fixedValues[module] && BDT.dataMap.fixedValues[module][fieldName]) {
-                                    value = BDT.dataMap.fixedValues[module][fieldName];
+                                if (dataMap.fixedValues[module] && dataMap.fixedValues[module][fieldName]) {
+                                    value = dataMap.fixedValues[module][fieldName];
                                     // Else, generate a value using faker.js.
                                 } else {
-                                    let fakerField = BDT.dataMap.fieldNames[fieldName];
                                     // If the field name is not defined in the
                                     // mapping, fallback to the 'type' mapping.
-                                    if (_.isEmpty(fakerField) && !BDT.dataMap.blackList[fieldName]) {
-                                        fakerField = BDT.dataMap.fieldTypes[meta.type];
-                                    }
+                                    let fakerField = dataMap.fieldNames[fieldName] || dataMap.fieldTypes[meta.type];
 
                                     if (fakerField) {
                                         let fakerFieldArray = fakerField.split('.');
