@@ -164,6 +164,39 @@
             return currentModule;
         },
 
+        /**
+         * Returns a list of module in which we can generate records.
+         * @return {Array} The list of modules.
+         */
+        getModulesForGenerate: function() {
+            var sidecarModules= [];
+            _.each(App.metadata.getModules(), function(moduleMeta, moduleName) {
+
+                // Exclude BWC modules.
+                if (moduleMeta.isBwcEnabled) {
+                    return;
+                }
+
+                // Exclude modules that does not have fields.
+                if (_.isEqual(_.keys(moduleMeta.fields), ['_hash'])) {
+                    return;
+                }
+
+                // Exclude modules that are not available for the user
+                if (!_.contains(App.user.get('module_list'), moduleName)) {
+                    return
+                }
+
+                sidecarModules.push(moduleName);
+            });
+
+            return sidecarModules
+        },
+
+        getModuleFields: function(module) {
+            return App.metadata.getModule(module).fields;
+        },
+
         renderComponent: function(cid) {
             var comp = App.debug.getComponent(cid);
             comp.render();
@@ -200,8 +233,8 @@
             window.sessionStorage['_sidecar_debug_injection_timeout'] = String(ms);
         },
 
-        console: function(data) {
-            console.log(data);
+        console: function(level, data) {
+            console[level](data);
         },
 
         consoleActivityArgs: function(id) {

@@ -254,8 +254,8 @@
             var cid = $(evt.currentTarget).data('cid');
             BDT.page.eval('renderComponent', [cid], function(renderTimesObj, isException) {
                 if (isException) {
-                    var error = 'The element couldn\'t be re-rendered';
-                    BDT.page.eval('console', [error]);
+                    var error = 'Sidecar dev tools: The element couldn\'t be re-rendered in the structure page.';
+                    BDT.page.eval('console', ['error', error]);
                 } else {
                     self.updateStructure();
                 }

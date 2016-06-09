@@ -3,6 +3,11 @@
  */
 
 .generate {
+  .button {
+    &.active {
+      background-color: #007095;
+    }
+  }
   select {
     display: block;
   }

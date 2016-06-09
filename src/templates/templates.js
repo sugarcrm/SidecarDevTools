@@ -149,37 +149,53 @@ this["Handlebars"]["templates"]["general"] = Handlebars.template({"compiler":[6,
 this["Handlebars"]["templates"]["generate"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
     return " style=\"display: none;\"";
 },"3":function(depth0,helpers,partials,data) {
-    return " checked";
-},"5":function(depth0,helpers,partials,data,blockParams,depths) {
+    return " active";
+},"5":function(depth0,helpers,partials,data) {
+    return "hide";
+},"7":function(depth0,helpers,partials,data,blockParams,depths) {
     return " disabled=\"disabled\" value=\""
     + this.escapeExpression(this.lambda((depths[1] != null ? depths[1].currentModule : depths[1]), depth0))
     + "\"";
-},"7":function(depth0,helpers,partials,data) {
+},"9":function(depth0,helpers,partials,data) {
     var alias1=this.lambda, alias2=this.escapeExpression;
 
-  return "        <option value=\""
+  return "            <option value=\""
     + alias2(alias1(depth0, depth0))
     + "\">"
     + alias2(alias1(depth0, depth0))
     + "</option>\n";
-},"9":function(depth0,helpers,partials,data) {
+},"11":function(depth0,helpers,partials,data) {
+    return " checked";
+},"13":function(depth0,helpers,partials,data) {
     return " disabled=\"disabled\"";
 },"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data,blockParams,depths) {
     var stack1;
 
   return "<h3 class=\"text-center\">Generate records<i class=\"fi-lightbulb help-button\" data-action=\"toggleHelp\"></i></h3>\n\n<div class=\"panel callout radius\""
     + ((stack1 = helpers.unless.call(depth0,(depth0 != null ? depth0.displayHelp : depth0),{"name":"unless","hash":{},"fn":this.program(1, data, 0, blockParams, depths),"inverse":this.noop,"data":data})) != null ? stack1 : "")
-    + " data-panel=\"help\">\n    This panel allows you to generate records in your instance easily.\n</div>\n\n<input type=\"checkbox\" id=\"currentContext\" "
-    + ((stack1 = helpers['if'].call(depth0,(depth0 != null ? depth0.useCurrentContext : depth0),{"name":"if","hash":{},"fn":this.program(3, data, 0, blockParams, depths),"inverse":this.noop,"data":data})) != null ? stack1 : "")
-    + ">\n<label for=\"currentContext\">Generate in current page</label>\n<hr>\n\n<label>Choose a module :</label>\n<select name=\"Module\" "
-    + ((stack1 = helpers['if'].call(depth0,(depth0 != null ? depth0.useCurrentContext : depth0),{"name":"if","hash":{},"fn":this.program(5, data, 0, blockParams, depths),"inverse":this.noop,"data":data})) != null ? stack1 : "")
+    + " data-panel=\"help\">\n    This panel allows you to generate records in your instance easily.\n</div>\n<ul class=\"button-group round even-3 text-center\">\n    <li><a data-id=\"generateAuto\" class=\"button "
+    + ((stack1 = helpers['if'].call(depth0,(depth0 != null ? depth0.generateAuto : depth0),{"name":"if","hash":{},"fn":this.program(3, data, 0, blockParams, depths),"inverse":this.noop,"data":data})) != null ? stack1 : "")
+    + "\">Auto</a></li>\n    <li><a data-id=\"generateManual\" class=\"button "
+    + ((stack1 = helpers.unless.call(depth0,(depth0 != null ? depth0.generateAuto : depth0),{"name":"unless","hash":{},"fn":this.program(3, data, 0, blockParams, depths),"inverse":this.noop,"data":data})) != null ? stack1 : "")
+    + "\">Manual</a></li>\n</ul>\n<hr>\n<div id=\"generateAuto\" class=\""
+    + ((stack1 = helpers.unless.call(depth0,(depth0 != null ? depth0.generateAuto : depth0),{"name":"unless","hash":{},"fn":this.program(5, data, 0, blockParams, depths),"inverse":this.noop,"data":data})) != null ? stack1 : "")
+    + "\">\n    <label>Choose a module :</label>\n    <select name=\"Module\" "
+    + ((stack1 = helpers['if'].call(depth0,(depth0 != null ? depth0.useCurrentContext : depth0),{"name":"if","hash":{},"fn":this.program(7, data, 0, blockParams, depths),"inverse":this.noop,"data":data})) != null ? stack1 : "")
     + ">\n"
-    + ((stack1 = helpers.each.call(depth0,(depth0 != null ? depth0.modules : depth0),{"name":"each","hash":{},"fn":this.program(7, data, 0, blockParams, depths),"inverse":this.noop,"data":data})) != null ? stack1 : "")
-    + "</select>\n<label>Choose a subpanel :</label>\n<p class=\"format-help\">Possible only if the current page is a record view and\nyou checked 'Generate in current page'.</p>\n<select name=\"Subpanel\""
-    + ((stack1 = helpers.unless.call(depth0,(depth0 != null ? depth0.useCurrentContext : depth0),{"name":"unless","hash":{},"fn":this.program(9, data, 0, blockParams, depths),"inverse":this.noop,"data":data})) != null ? stack1 : "")
-    + ">\n    <option value=\"\">No subpanel</option>\n"
-    + ((stack1 = helpers.each.call(depth0,(depth0 != null ? depth0.subpanels : depth0),{"name":"each","hash":{},"fn":this.program(7, data, 0, blockParams, depths),"inverse":this.noop,"data":data})) != null ? stack1 : "")
-    + "</select>\n<label>How many records to generate?</label>\n<input type=\"number\" name=\"numberOfRecords\" value=\"1\">\n\n<label>Add your own attributes:</label>\n<p class=\"format-help\">It should be an array of objects. Each object being the\nattributes of a record to be created. It should respect JSON format with double quotes.\nIf it's an object instead of an array, it will be use for all the records.\nIn this case, adding <strong>*</strong> at the end of an attribute value will increment\nit with the iteration number.</p>\n<textarea name=\"attributes\"></textarea>\n\n<label>Add options:</label>\n<p class=\"format-help\">It should be an array of objects. Each object being the\nattributes of a record to be created. It should respect JSON format with double quotes.\nIf it's an object instead of an array, it will be use for all the records.</p>\n<textarea name=\"options\"></textarea>\n\n<input type=\"button\" name=\"submitGenerate\" value=\"Generate!\">\n";
+    + ((stack1 = helpers.each.call(depth0,(depth0 != null ? depth0.modules : depth0),{"name":"each","hash":{},"fn":this.program(9, data, 0, blockParams, depths),"inverse":this.noop,"data":data})) != null ? stack1 : "")
+    + "    </select>\n    <label>How many records to generate?</label>\n    <input type=\"number\" name=\"numberOfRecords\" value=\"1\">\n</div>\n<div id=\"generateManual\" class=\""
+    + ((stack1 = helpers['if'].call(depth0,(depth0 != null ? depth0.generateAuto : depth0),{"name":"if","hash":{},"fn":this.program(5, data, 0, blockParams, depths),"inverse":this.noop,"data":data})) != null ? stack1 : "")
+    + "\">\n    <input type=\"checkbox\" id=\"currentContext\" "
+    + ((stack1 = helpers['if'].call(depth0,(depth0 != null ? depth0.useCurrentContext : depth0),{"name":"if","hash":{},"fn":this.program(11, data, 0, blockParams, depths),"inverse":this.noop,"data":data})) != null ? stack1 : "")
+    + ">\n    <label for=\"currentContext\">Generate in current page</label>\n\n    <label>Choose a module :</label>\n    <select name=\"Module\" "
+    + ((stack1 = helpers['if'].call(depth0,(depth0 != null ? depth0.useCurrentContext : depth0),{"name":"if","hash":{},"fn":this.program(7, data, 0, blockParams, depths),"inverse":this.noop,"data":data})) != null ? stack1 : "")
+    + ">\n"
+    + ((stack1 = helpers.each.call(depth0,(depth0 != null ? depth0.modules : depth0),{"name":"each","hash":{},"fn":this.program(9, data, 0, blockParams, depths),"inverse":this.noop,"data":data})) != null ? stack1 : "")
+    + "    </select>\n    <label>Choose a subpanel :</label>\n    <p class=\"format-help\">Possible only if the current page is a record view and\n        you checked 'Generate in current page'.</p>\n    <select name=\"Subpanel\""
+    + ((stack1 = helpers.unless.call(depth0,(depth0 != null ? depth0.useCurrentContext : depth0),{"name":"unless","hash":{},"fn":this.program(13, data, 0, blockParams, depths),"inverse":this.noop,"data":data})) != null ? stack1 : "")
+    + ">\n        <option value=\"\">No subpanel</option>\n"
+    + ((stack1 = helpers.each.call(depth0,(depth0 != null ? depth0.subpanels : depth0),{"name":"each","hash":{},"fn":this.program(9, data, 0, blockParams, depths),"inverse":this.noop,"data":data})) != null ? stack1 : "")
+    + "    </select>\n    <label>How many records to generate?</label>\n    <input type=\"number\" name=\"numberOfRecords\" value=\"1\">\n\n    <label>Add your own attributes:</label>\n    <p class=\"format-help\">It should be an array of objects. Each object being the\n        attributes of a record to be created. It should respect JSON format with double quotes.\n        If it's an object instead of an array, it will be use for all the records.\n        In this case, adding <strong>*</strong> at the end of an attribute value will increment\n        it with the iteration number.</p>\n    <textarea name=\"attributes\"></textarea>\n\n    <label>Add options:</label>\n    <p class=\"format-help\">It should be an array of objects. Each object being the\n        attributes of a record to be created. It should respect JSON format with double quotes.\n        If it's an object instead of an array, it will be use for all the records.</p>\n    <textarea name=\"options\"></textarea>\n</div>\n<input type=\"button\" name=\"submitGenerate\" value=\"Generate!\">\n";
 },"useData":true,"useDepths":true});
 
 this["Handlebars"]["templates"]["metrics"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
