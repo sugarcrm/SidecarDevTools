@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "Sidecar Debugger Tool",
-    "version": "0.1",
+    "version": "0.1.1",
     "description": "Sidecar Debugger Tool extension helps you debugging Sugar7, for a better productivity and faster development.",
 
     "icons": {
@@ -43,7 +43,6 @@
 
     "minimum_chrome_version": "20.0.1132.57",
 
-    "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
+    "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
 
-    "update_url": "http://sugarcrm.github.io/sidecarDevTools/updates.xml"
 }
