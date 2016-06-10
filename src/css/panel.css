@@ -142,4 +142,8 @@ select, input[type="number"], textarea {
 .red {
   color: #ff0000; }
 
+div[data-alert=debugMode] {
+  font-size: 1em;
+  line-height: 1.5em; }
+
 /*# sourceMappingURL=panel.css.map */

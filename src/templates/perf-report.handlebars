@@ -4,106 +4,112 @@
     This panel shows a performance report of the elements on the page.
     It should be used to detect which components are slow to render.
 </div>
-<button class="fi-refresh refresh round" data-action="refresh"></button>
-<ul class="button-group round even-3">
-    <li><a data-id="fields" class="button active">Fields</a></li>
-    <li><a data-id="views" class="button">Views</a></li>
-    <li><a data-id="layouts  "class="button">Layouts</a></li>
-</ul>
+{{#if_debugMode}}
+    <button class="fi-refresh refresh round" data-action="refresh"></button>
+    <ul class="button-group round even-3">
+        <li><a data-id="fields" class="button active">Fields</a></li>
+        <li><a data-id="views" class="button">Views</a></li>
+        <li><a data-id="layouts  "class="button">Layouts</a></li>
+    </ul>
 
-<table data-id="layouts" class="tablesorter hide">
-    <thead>
-    <tr>
-        <th>
-            Layout name
-        </th>
-        <th>
-            Layout type
-        </th>
-        <th>
-            Average render time (ms)
-        </th>
-        <th>
-            Number of similar layouts
-        </th>
-        <th>
-            Number of renders
-        </th>
-    </tr>
-    </thead>
-    <tbody>
-    {{#each layouts}}
-    <tr>
-        <td>{{name}}</td>
-        <td>{{type}}</td>
-        <td>{{avgPerf}}</td>
-        <td>{{count}}</td>
-        <td>{{renderCount}}</td>
-    </tr>
-    {{/each}}
-    </tbody>
-</table>
-<table data-id="views" class="tablesorter hide">
-    <thead>
-    <tr>
-        <th>
-            View name
-        </th>
-        <th>
-            View type
-        </th>
-        <th>
-            Average render time (ms)
-        </th>
-        <th>
-            Number of similar views
-        </th>
-        <th>
-            Number of renders
-        </th>
-    </tr>
-    </thead>
-    <tbody>
-    {{#each views}}
+    <table data-id="layouts" class="tablesorter hide">
+        <thead>
         <tr>
-            <td>{{name}}</td>
-            <td>{{type}}</td>
-            <td>{{avgPerf}}</td>
-            <td>{{count}}</td>
-            <td>{{renderCount}}</td>
+            <th>
+                Layout name
+            </th>
+            <th>
+                Layout type
+            </th>
+            <th>
+                Average render time (ms)
+            </th>
+            <th>
+                Number of similar layouts
+            </th>
+            <th>
+                Number of renders
+            </th>
         </tr>
-    {{/each}}
-    </tbody>
-</table>
-<table data-id="fields" class="tablesorter">
-    <thead>
-    <tr>
-        <th>
-            Field name
-        </th>
-        <th>
-            Field type
-        </th>
-        <th>
-            Average render time (ms)
-        </th>
-        <th>
-            Number of similar fields
-        </th>
-        <th>
-            Number of renders
-        </th>
-    </tr>
-    </thead>
-    <tbody>
-    {{#each fields}}
+        </thead>
+        <tbody>
+        {{#each ../layouts}}
+            <tr>
+                <td>{{name}}</td>
+                <td>{{type}}</td>
+                <td>{{avgPerf}}</td>
+                <td>{{count}}</td>
+                <td>{{renderCount}}</td>
+            </tr>
+        {{/each}}
+        </tbody>
+    </table>
+    <table data-id="views" class="tablesorter hide">
+        <thead>
         <tr>
-            <td>{{name}}</td>
-            <td>{{type}}</td>
-            <td>{{avgPerf}}</td>
-            <td>{{count}}</td>
-            <td>{{renderCount}}</td>
+            <th>
+                View name
+            </th>
+            <th>
+                View type
+            </th>
+            <th>
+                Average render time (ms)
+            </th>
+            <th>
+                Number of similar views
+            </th>
+            <th>
+                Number of renders
+            </th>
         </tr>
-    {{/each}}
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+        {{#each ../views}}
+            <tr>
+                <td>{{name}}</td>
+                <td>{{type}}</td>
+                <td>{{avgPerf}}</td>
+                <td>{{count}}</td>
+                <td>{{renderCount}}</td>
+            </tr>
+        {{/each}}
+        </tbody>
+    </table>
+    <table data-id="fields" class="tablesorter">
+        <thead>
+        <tr>
+            <th>
+                Field name
+            </th>
+            <th>
+                Field type
+            </th>
+            <th>
+                Average render time (ms)
+            </th>
+            <th>
+                Number of similar fields
+            </th>
+            <th>
+                Number of renders
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        {{#each ../fields}}
+            <tr>
+                <td>{{name}}</td>
+                <td>{{type}}</td>
+                <td>{{avgPerf}}</td>
+                <td>{{count}}</td>
+                <td>{{renderCount}}</td>
+            </tr>
+        {{/each}}
+        </tbody>
+    </table>
+{{else}}
+    <div data-alert="debugMode" class="alert-box round">
+        Please activate the debug mode by clicking on the Sugar cube in your browser header bar to access to this feature.
+    </div>
+{{/if_debugMode}}
