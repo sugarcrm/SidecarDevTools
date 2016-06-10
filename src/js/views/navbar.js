@@ -18,47 +18,25 @@
     },
 
     events: {
-      'click a': 'selectItem',
-      'keydown': 'keydown'
+      'click a': 'selectItem'
     },
 
     selectItem: function(evt) {
-      let anchor = this.$('[href=' + this.defaultView + ']');
-      if (evt) {
-        evt.preventDefault();
-        anchor = $(evt.currentTarget);
+      var callback = function(result, isException) {
+        if (isException) {
+        } else {
+            BDT.debugMode = result;
+            let anchor = this.$('[href=' + this.defaultView + ']');
+            if (evt) {
+                evt.preventDefault();
+                anchor = $(evt.currentTarget);
+            }
+            anchor.addClass('selected').siblings().removeClass('selected');
+            this.trigger('select', anchor.attr('href'));
+        }
       }
-      anchor.addClass('selected').siblings().removeClass('selected');
-      this.trigger('select', anchor.attr('href'));
+
+      BDT.page.eval('isDebugMode', [], _.bind(callback, this));
     },
-
-    keydown: function(e) {
-      switch(e.keyCode) {
-        case 74: // j
-        case 40: // down
-          this.nextItem();
-          break;
-        case 75: // k
-        case 38: // up
-          this.previousItem();
-          break;
-      }
-    },
-
-    nextItem: function() {
-      var selected = this.$('.selected');
-      if (selected.next().size() == 0) return;
-      var next = selected.removeClass('selected').next().addClass('selected');
-      this.trigger('select', $('a', next).attr('href'));
-    },
-
-    previousItem: function() {
-      var selected = this.$('.selected');
-      if (selected.prev().size() == 0) return;
-      var prev = selected.removeClass('selected').prev().addClass('selected');
-      this.trigger('select', $('a', prev).attr('href'));
-    }
-
   });
-
 })();
