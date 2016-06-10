@@ -8,11 +8,12 @@
   BDT.views.Navbar = Backbone.View.extend({
 
     template: BDT.templates['navbar'],
+    defaultView: '#general',
 
     render: function() {
       this.$el.empty().append(this.template());
       this.$el.attr('tabindex', 0);
-      this.trigger('select', '#general');
+      this.selectItem();
       return this;
     },
 
@@ -22,8 +23,11 @@
     },
 
     selectItem: function(evt) {
-      evt.preventDefault();
-      var anchor = $(evt.currentTarget);
+      let anchor = this.$('[href=' + this.defaultView + ']');
+      if (evt) {
+        evt.preventDefault();
+        anchor = $(evt.currentTarget);
+      }
       anchor.addClass('selected').siblings().removeClass('selected');
       this.trigger('select', anchor.attr('href'));
     },
