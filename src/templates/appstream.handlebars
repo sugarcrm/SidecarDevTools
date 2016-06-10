@@ -4,6 +4,12 @@
     This panel logs the activities of the app in real-time. It shows the events that are triggered, as well as the initialize and render of each component.
     For each activity, you can log in the console the component object and the passed arguments simply by clicking on 'component' or 'arguments'.
 </div>
-<button data-action="clear" type="button" class="secondary round right">Clear activity</button>
+{{#if_debugMode}}
+    <button data-action="clear" type="button" class="secondary round right">Clear activity</button>
 
-<div data-view="table"></div>
+    <div data-view="table"></div>
+{{else}}
+    <div data-alert="debugMode" class="alert-box round">
+        Please activate the debug mode by clicking on the Sugar cube in your browser header bar to access to this feature.
+    </div>
+{{/if_debugMode}}

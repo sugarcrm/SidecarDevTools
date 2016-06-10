@@ -4,9 +4,15 @@
     This panel shows the hierarchical tree of the Sugar components in the current page. Hovering a component will highlight it on the page.
     The highlighting colors match the context of the components. Clicking on a component name will log the object in the console.
 </div>
+{{#if_debugMode}}
 <div class="tabs-content">
     <div class="content active" id="layout">
         <ul class="accordion panel-accordion" data-accordion>
         </ul>
     </div>
 </div>
+{{else}}
+    <div data-alert="debugMode" class="alert-box round">
+        Please activate the debug mode by clicking on the Sugar cube in your browser header bar to access to this feature.
+    </div>
+{{/if_debugMode}}

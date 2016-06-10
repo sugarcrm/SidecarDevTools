@@ -245,6 +245,16 @@
         consoleActivityComponent: function(id) {
             var act = window.SUGAR.App.debug.AppStream.get(id);
             console.log(act.get('instance'));
+        },
+
+        /**
+         * Checks if the app is in debug mode, which means sidecar.debug.js has
+         * been injected.
+         *
+         * @return {boolean} `true` if we are in debug mode.
+         */
+        isDebugMode: function() {
+            return !_.isUndefined(App.debug);
         }
     };
 })();
