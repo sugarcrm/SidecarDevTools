@@ -352,10 +352,17 @@ this["Handlebars"]["templates"]["performance"] = Handlebars.template({"1":functi
 
 this["Handlebars"]["templates"]["structure"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
     return " style=\"display: none;\"";
+},"3":function(depth0,helpers,partials,data) {
+    return "<div class=\"tabs-content\">\n    <div class=\"content active\" id=\"layout\">\n        <ul class=\"accordion panel-accordion\" data-accordion>\n        </ul>\n    </div>\n</div>\n";
+},"5":function(depth0,helpers,partials,data) {
+    return "    <div data-alert=\"debugMode\" class=\"alert-box round\">\n        Please activate the debug mode by clicking on the Sugar cube in your browser header bar to access to this feature.\n    </div>\n";
 },"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-    var stack1;
-
-  return "<h3 class=\"text-center\">Page structure<i class=\"fi-lightbulb help-button\" data-action=\"toggleHelp\"></i></h3>\n\n<div class=\"panel callout radius\""
+    var stack1, helper, options, buffer = 
+  "<h3 class=\"text-center\">Page structure<i class=\"fi-lightbulb help-button\" data-action=\"toggleHelp\"></i></h3>\n\n<div class=\"panel callout radius\""
     + ((stack1 = helpers.unless.call(depth0,(depth0 != null ? depth0.displayHelp : depth0),{"name":"unless","hash":{},"fn":this.program(1, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "")
-    + " data-panel=\"help\">\n    This panel shows the hierarchical tree of the Sugar components in the current page. Hovering a component will highlight it on the page.\n    The highlighting colors match the context of the components. Clicking on a component name will log the object in the console.\n</div>\n<div class=\"tabs-content\">\n    <div class=\"content active\" id=\"layout\">\n        <ul class=\"accordion panel-accordion\" data-accordion>\n        </ul>\n    </div>\n</div>\n";
+    + " data-panel=\"help\">\n    This panel shows the hierarchical tree of the Sugar components in the current page. Hovering a component will highlight it on the page.\n    The highlighting colors match the context of the components. Clicking on a component name will log the object in the console.\n</div>\n";
+  stack1 = ((helper = (helper = helpers.if_debugMode || (depth0 != null ? depth0.if_debugMode : depth0)) != null ? helper : helpers.helperMissing),(options={"name":"if_debugMode","hash":{},"fn":this.program(3, data, 0),"inverse":this.program(5, data, 0),"data":data}),(typeof helper === "function" ? helper.call(depth0,options) : helper));
+  if (!helpers.if_debugMode) { stack1 = helpers.blockHelperMissing.call(depth0,stack1,options)}
+  if (stack1 != null) { buffer += stack1; }
+  return buffer;
 },"useData":true});
