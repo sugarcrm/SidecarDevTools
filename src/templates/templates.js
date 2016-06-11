@@ -137,7 +137,7 @@ this["Handlebars"]["templates"]["appstream"] = Handlebars.template({"1":function
 },"3":function(depth0,helpers,partials,data) {
     return "    <button data-action=\"clear\" type=\"button\" class=\"secondary round right\">Clear activity</button>\n\n    <div data-view=\"table\"></div>\n";
 },"5":function(depth0,helpers,partials,data) {
-    return "    <div data-alert=\"debugMode\" class=\"alert-box round\">\n        Please activate the debug mode by clicking on the Sugar cube in your browser header bar to access to this feature.\n    </div>\n";
+    return "    <div data-alert=\"debugMode\" class=\"alert-box\">\n        Please activate the debug mode by clicking on the Sugar cube in your browser header bar to access to this feature.\n    </div>\n";
 },"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
     var stack1, helper, options, buffer = 
   "<h3 class=\"text-center\">Application Stream<i class=\"fi-lightbulb help-button\" data-action=\"toggleHelp\"></i></h3>\n\n<div class=\"panel callout radius\""
@@ -149,8 +149,17 @@ this["Handlebars"]["templates"]["appstream"] = Handlebars.template({"1":function
   return buffer;
 },"useData":true});
 
-this["Handlebars"]["templates"]["general"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-    return "<h2 class=\"text-center\">Sidecar Debugger Tool</h2>\n<hr>\n<div class=\"features\">\n    <div class=\"row\">\n        <ul class=\"small-6 columns pricing-table radius\" data-menu=\"#appstream\">\n            <li class=\"title\">Application Stream</li>\n            <li class=\"description\">A timeline of what is happening in the app. It shows the methods that are called and the events that are triggered. For each of them, you have access to the passed arguments and the component object.</li>\n        </ul>\n        <ul class=\"small-6 columns pricing-table radius\" data-menu=\"#perfReport\">\n            <li class=\"title\">Performance reports</li>\n            <li class=\"description\">A table showing the render times and the number of renders of the components on the page</li>\n        </ul>\n    </div>\n    <div class=\"row\">\n        <ul class=\"small-6 columns pricing-table radius\" data-menu=\"#structure\">\n            <li class=\"title\">Structure</li>\n            <li class=\"description\">A hierarchical tree representing the Sugar components of the current page.</li>\n        </ul>\n        <ul class=\"small-6 columns pricing-table radius\" data-menu=\"#generate\">\n            <li class=\"title\">Generate records</li>\n            <li class=\"description\">Generate Sugar records in the one click!</li>\n        </ul>\n    </div>\n    <div class=\"row\">\n        <ul class=\"small-6 columns pricing-table radius\" data-menu=\"#performance\">\n            <li class=\"title\">Render times</li>\n            <li class=\"description\">Measure the render duration of the different fields to detect performance drops.</li>\n        </ul>\n    </div>\n</div>\n\n";
+this["Handlebars"]["templates"]["general"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
+    return "    <div data-alert=\"debugMode\" class=\"alert-box success\">\n        <strong>$view feature activated!</strong> Select a DOM element with the default chrome element selector,\n        the corresponding sidecar component will be set globally in <strong>$view</strong> variable so you can access it from the console.\n    </div>\n";
+},"3":function(depth0,helpers,partials,data) {
+    return "    <div data-alert=\"debugMode\" class=\"alert-box\">\n        Please activate the debug mode by clicking on the Sugar cube in your browser header bar to activate the amazing <strong>$view</strong> feature!\n    </div>\n";
+},"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
+    var stack1, helper, options, buffer = 
+  "<h2 class=\"text-center\">Sidecar Debugger Tool</h2>\n<hr>\n<div class=\"features\">\n    <div class=\"row\">\n        <ul class=\"small-6 columns pricing-table radius\" data-menu=\"#appstream\">\n            <li class=\"title\">Application Stream</li>\n            <li class=\"description\">A timeline of what is happening in the app. It shows the methods that are called and the events that are triggered. For each of them, you have access to the passed arguments and the component object.</li>\n        </ul>\n        <ul class=\"small-6 columns pricing-table radius\" data-menu=\"#perfReport\">\n            <li class=\"title\">Performance reports</li>\n            <li class=\"description\">A table showing the render times and the number of renders of the components on the page</li>\n        </ul>\n    </div>\n    <div class=\"row\">\n        <ul class=\"small-6 columns pricing-table radius\" data-menu=\"#structure\">\n            <li class=\"title\">Structure</li>\n            <li class=\"description\">A hierarchical tree representing the Sugar components of the current page.</li>\n        </ul>\n        <ul class=\"small-6 columns pricing-table radius\" data-menu=\"#generate\">\n            <li class=\"title\">Generate records</li>\n            <li class=\"description\">Generate Sugar records in the one click!</li>\n        </ul>\n    </div>\n    <div class=\"row\">\n        <ul class=\"small-6 columns pricing-table radius\" data-menu=\"#performance\">\n            <li class=\"title\">Render times</li>\n            <li class=\"description\">Measure the render duration of the different fields to detect performance drops.</li>\n        </ul>\n    </div>\n</div>\n<hr>\n";
+  stack1 = ((helper = (helper = helpers.if_debugMode || (depth0 != null ? depth0.if_debugMode : depth0)) != null ? helper : helpers.helperMissing),(options={"name":"if_debugMode","hash":{},"fn":this.program(1, data, 0),"inverse":this.program(3, data, 0),"data":data}),(typeof helper === "function" ? helper.call(depth0,options) : helper));
+  if (!helpers.if_debugMode) { stack1 = helpers.blockHelperMissing.call(depth0,stack1,options)}
+  if (stack1 != null) { buffer += stack1; }
+  return buffer;
 },"useData":true});
 
 this["Handlebars"]["templates"]["generate"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
@@ -264,7 +273,7 @@ this["Handlebars"]["templates"]["metrics"] = Handlebars.template({"1":function(d
 },"useData":true});
 
 this["Handlebars"]["templates"]["navbar"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-    return "<a class=\"selected\" href=\"#general\">Settings</a><a href=\"#appstream\">Application Stream</a><a href=\"#structure\">Structure</a><a href=\"#perfReport\">Perf report</a><a href=\"#performance\">Render times</a><a href=\"#generate\">Generate records</a>\n";
+    return "<a class=\"selected\" href=\"#general\"><img id=\"sugar-cube\" src=\"../img/sugarcube.png\"></a><a href=\"#appstream\">Application Stream</a><a href=\"#structure\">Structure</a><a href=\"#perfReport\">Perf report</a><a href=\"#performance\">Render times</a><a href=\"#generate\">Generate records</a>\n";
 },"useData":true});
 
 this["Handlebars"]["templates"]["perf-report"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
@@ -294,7 +303,7 @@ this["Handlebars"]["templates"]["perf-report"] = Handlebars.template({"1":functi
     + alias3(((helper = (helper = helpers.renderCount || (depth0 != null ? depth0.renderCount : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"renderCount","hash":{},"data":data}) : helper)))
     + "</td>\n            </tr>\n";
 },"6":function(depth0,helpers,partials,data) {
-    return "    <div data-alert=\"debugMode\" class=\"alert-box round\">\n        Please activate the debug mode by clicking on the Sugar cube in your browser header bar to access to this feature.\n    </div>\n";
+    return "    <div data-alert=\"debugMode\" class=\"alert-box\">\n        Please activate the debug mode by clicking on the Sugar cube in your browser header bar to access to this feature.\n    </div>\n";
 },"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data,blockParams,depths) {
     var stack1, helper, options, buffer = 
   "<h3 class=\"text-center\">Performance report<i class=\"fi-lightbulb help-button\" data-action=\"toggleHelp\"></i></h3>\n\n<div class=\"panel callout radius\""
@@ -357,7 +366,7 @@ this["Handlebars"]["templates"]["structure"] = Handlebars.template({"1":function
 },"3":function(depth0,helpers,partials,data) {
     return "<div class=\"tabs-content\">\n    <div class=\"content active\" id=\"layout\">\n        <ul class=\"accordion panel-accordion\" data-accordion>\n        </ul>\n    </div>\n</div>\n";
 },"5":function(depth0,helpers,partials,data) {
-    return "    <div data-alert=\"debugMode\" class=\"alert-box round\">\n        Please activate the debug mode by clicking on the Sugar cube in your browser header bar to access to this feature.\n    </div>\n";
+    return "    <div data-alert=\"debugMode\" class=\"alert-box\">\n        Please activate the debug mode by clicking on the Sugar cube in your browser header bar to access to this feature.\n    </div>\n";
 },"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
     var stack1, helper, options, buffer = 
   "<h3 class=\"text-center\">Page structure<i class=\"fi-lightbulb help-button\" data-action=\"toggleHelp\"></i></h3>\n\n<div class=\"panel callout radius\""

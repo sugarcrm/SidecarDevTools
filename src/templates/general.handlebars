@@ -28,4 +28,14 @@
         </ul>
     </div>
 </div>
-
+<hr>
+{{#if_debugMode}}
+    <div data-alert="debugMode" class="alert-box success">
+        <strong>$view feature activated!</strong> Select a DOM element with the default chrome element selector,
+        the corresponding sidecar component will be set globally in <strong>$view</strong> variable so you can access it from the console.
+    </div>
+{{else}}
+    <div data-alert="debugMode" class="alert-box">
+        Please activate the debug mode by clicking on the Sugar cube in your browser header bar to activate the amazing <strong>$view</strong> feature!
+    </div>
+{{/if_debugMode}}
