@@ -37,6 +37,7 @@ See [CONTRIBUTING](CONTRIBUTING.md) for how you can contribute changes back into
   - ***Application Stream:*** A timeline of what is happening in the app. It shows the methods that are called and the events that are triggered. For each of them, you have access to the passed arguments and the component object.
   - ***Structure:*** A hierarchical tree representing the Sugar components of the current page.
   - ***Render times:*** Allows you to measure the render duration of the different fields.
+  - ***Perf reports:*** A table showing the rendered components on the current page, with the average render times.
   - ***Generate records:*** An easy way to generate records in your SugarCRM instance.
 
 ## Notes
