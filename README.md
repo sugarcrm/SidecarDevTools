@@ -3,11 +3,14 @@ Sidecar Debugger Tool
 This is an Google Chrome devtools extension that will help you to be more productive when developing on SugarCRM 7.x.
 
 ## Installing
-
+### For regular users:
+1. Download it from the [Chrome Web Store](https://chrome.google.com/webstore/detail/sidecar-debugger-tool/dailecjkmhlppgfhilhojhcbikbmhhlb)
+### For contributors:
 1. Clone this repo
 2. Go to *Tools -> Extensions* in Google Chrome
 3. Check *Developer mode* and click *Load unpacked extension*
 4. Go to the cloned repo directory and choose the 'src' folder.
+5. When you make changes to the code, you just need to close the devtools on you Sugar instance, refresh the 'Extensions' page in Chrome and reopen the Sidecar devtools.
 
 ## Using
 
