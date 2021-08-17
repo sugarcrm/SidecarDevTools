@@ -11,7 +11,7 @@ this["Handlebars"]["templates"]["appstream-item"] = Handlebars.template({"1":fun
     + "\" data-filterType=\""
     + alias3(((helper = (helper = helpers.filterType || (depth0 != null ? depth0.filterType : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"filterType","hash":{},"data":data}) : helper)))
     + "\""
-    + ((stack1 = helpers['if'].call(depth0,(depth0 != null ? depth0.name : depth0),{"name":"if","hash":{},"fn":this.program(4, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers["if"].call(depth0,(depth0 != null ? depth0.name : depth0),{"name":"if","hash":{},"fn":this.program(4, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "")
     + ((stack1 = helpers.unless.call(depth0,(depth0 != null ? depth0.display : depth0),{"name":"unless","hash":{},"fn":this.program(1, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "")
     + ">\n      <td class=\"td-label\">\n        <span\n                class=\"label radius secondary label-"
     + alias3(((helper = (helper = helpers.label_class || (depth0 != null ? depth0.label_class : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"label_class","hash":{},"data":data}) : helper)))
@@ -20,15 +20,15 @@ this["Handlebars"]["templates"]["appstream-item"] = Handlebars.template({"1":fun
     + "</span>\n            </td>\n            <td class=\"td-time"
     + ((stack1 = helpers.unless.call(depth0,(depth0 != null ? depth0.is0ms : depth0),{"name":"unless","hash":{},"fn":this.program(6, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "")
     + "\">\n                "
-    + ((stack1 = helpers['if'].call(depth0,(depth0 != null ? depth0.hasPerformance : depth0),{"name":"if","hash":{},"fn":this.program(8, data, 0),"inverse":this.program(10, data, 0),"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers["if"].call(depth0,(depth0 != null ? depth0.hasPerformance : depth0),{"name":"if","hash":{},"fn":this.program(8, data, 0),"inverse":this.program(10, data, 0),"data":data})) != null ? stack1 : "")
     + "\n            </td>\n            <td class=\"td-text "
     + alias3(((helper = (helper = helpers.css_class || (depth0 != null ? depth0.css_class : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"css_class","hash":{},"data":data}) : helper)))
     + "\">\n                "
     + alias3(((helper = (helper = helpers.label || (depth0 != null ? depth0.label : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"label","hash":{},"data":data}) : helper)))
     + "\n            </td>\n            <td class=\"td-args\">\n                "
-    + ((stack1 = helpers['if'].call(depth0,(depth0 != null ? depth0.instance : depth0),{"name":"if","hash":{},"fn":this.program(12, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers["if"].call(depth0,(depth0 != null ? depth0.instance : depth0),{"name":"if","hash":{},"fn":this.program(12, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "")
     + "\n            </td>\n            <td class=\"td-args\">\n                "
-    + ((stack1 = helpers['if'].call(depth0,(depth0 != null ? depth0.args : depth0),{"name":"if","hash":{},"fn":this.program(14, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers["if"].call(depth0,(depth0 != null ? depth0.args : depth0),{"name":"if","hash":{},"fn":this.program(14, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "")
     + "\n            </td>\n        </tr>\n";
 },"4":function(depth0,helpers,partials,data) {
     var helper;
@@ -88,7 +88,7 @@ this["Handlebars"]["templates"]["appstream-table"] = Handlebars.template({"1":fu
     + "\" name=\"toggle-"
     + alias3(((helper = (helper = helpers.key || (data && data.key)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"key","hash":{},"data":data}) : helper)))
     + "\""
-    + ((stack1 = helpers['if'].call(depth0,(depth0 != null ? depth0.display : depth0),{"name":"if","hash":{},"fn":this.program(3, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers["if"].call(depth0,(depth0 != null ? depth0.display : depth0),{"name":"if","hash":{},"fn":this.program(3, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "")
     + ">\n                            "
     + alias3(((helper = (helper = helpers.label || (depth0 != null ? depth0.label : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"label","hash":{},"data":data}) : helper)))
     + "\n                        </label>\n";
@@ -134,16 +134,32 @@ this["Handlebars"]["templates"]["appstream-table"] = Handlebars.template({"1":fu
 
 this["Handlebars"]["templates"]["appstream"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
     return " style=\"display: none;\"";
+},"3":function(depth0,helpers,partials,data) {
+    return "    <button data-action=\"clear\" type=\"button\" class=\"secondary round right\">Clear activity</button>\n\n    <div data-view=\"table\"></div>\n";
+},"5":function(depth0,helpers,partials,data) {
+    return "    <div data-alert=\"debugMode\" class=\"alert-box\">\n        Please activate the debug mode by clicking on the Sugar cube in your browser header bar to access to this feature.\n    </div>\n";
 },"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-    var stack1;
-
-  return "<h3 class=\"text-center\">Application Stream<i class=\"fi-lightbulb help-button\" data-action=\"toggleHelp\"></i></h3>\n\n<div class=\"panel callout radius\""
+    var stack1, helper, options, buffer = 
+  "<h3 class=\"text-center\">Application Stream<i class=\"fi-lightbulb help-button\" data-action=\"toggleHelp\"></i></h3>\n\n<div class=\"panel callout radius\""
     + ((stack1 = helpers.unless.call(depth0,(depth0 != null ? depth0.displayHelp : depth0),{"name":"unless","hash":{},"fn":this.program(1, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "")
-    + " data-panel=\"help\">\n    This panel logs the activities of the app in real-time. It shows the events that are triggered, as well as the initialize and render of each component.\n    For each activity, you can log in the console the component object and the passed arguments simply by clicking on 'component' or 'arguments'.\n</div>\n<button data-action=\"clear\" type=\"button\" class=\"secondary round right\">Clear activity</button>\n\n<div data-view=\"table\"></div>\n";
+    + " data-panel=\"help\">\n    This panel logs the activities of the app in real-time. It shows the events that are triggered, as well as the initialize and render of each component.\n    For each activity, you can log in the console the component object and the passed arguments simply by clicking on 'component' or 'arguments'.\n</div>\n";
+  stack1 = ((helper = (helper = helpers.if_debugMode || (depth0 != null ? depth0.if_debugMode : depth0)) != null ? helper : helpers.helperMissing),(options={"name":"if_debugMode","hash":{},"fn":this.program(3, data, 0),"inverse":this.program(5, data, 0),"data":data}),(typeof helper === "function" ? helper.call(depth0,options) : helper));
+  if (!helpers.if_debugMode) { stack1 = helpers.blockHelperMissing.call(depth0,stack1,options)}
+  if (stack1 != null) { buffer += stack1; }
+  return buffer;
 },"useData":true});
 
-this["Handlebars"]["templates"]["general"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-    return "<h2 class=\"text-center\">Sidecar Debugger Tool</h2>\n\n<form>\n    <input type=\"checkbox\" name=\"tooltips\" id=\"tooltips_checkbox\" /><label for=\"tooltips_checkbox\">Display tooltips on hover with view/field information<span class=\"red\">*</span></label><br>\n</form>\n<p><span class=\"red\">*</span> Requires page reload</p>\n\n<h2>Features</h2>\n<ul>\n    <li>$view console variable after inspecting a DOM Element (it points to the closest parent Sidecar Component).</li>\n    <li>In <strong>SugarDebug Panel</strong>, you will find different several tabs:\n        <ul>\n            <li><strong><i>Application Stream: </i></strong>A timeline of what is happening in the app. It shows the methods that are called and the events that are triggered. For each of them, you have access to the passed arguments and the component object.</li>\n            <li><strong><i>Structure: </i></strong>A hierarchical tree representing the Sugar components of the current page.</li>\n            <li><strong><i>Render times: </i></strong>Allows you to measure the render duration of the different fields.</li>\n            <!--<li><strong><i>Metrics: </i></strong>Allows you to track any method of any sugar component to capture its duration and detect performance lacks.</li>-->\n            <li><strong><i>Generate records: </i></strong>An easy way to generate records in your SugarCRM instance.</li>\n        </ul>\n    </li>\n</ul>\n\n";
+this["Handlebars"]["templates"]["general"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
+    return "    <div data-alert=\"debugMode\" class=\"alert-box success\">\n        <strong>$view feature activated!</strong> Select a DOM element with the default chrome element selector,\n        the corresponding sidecar component will be set globally in <strong>$view</strong> variable so you can access it from the console.\n    </div>\n";
+},"3":function(depth0,helpers,partials,data) {
+    return "    <div data-alert=\"debugMode\" class=\"alert-box\">\n        Please activate the debug mode by clicking on the Sugar cube in your browser header bar to activate the amazing <strong>$view</strong> feature!\n    </div>\n";
+},"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
+    var stack1, helper, options, buffer = 
+  "<h2 class=\"text-center\">Sidecar Debugger Tool</h2>\n<hr>\n<div class=\"features\">\n    <div class=\"row\">\n        <ul class=\"small-6 columns pricing-table radius\" data-menu=\"#appstream\">\n            <li class=\"title\">Application Stream</li>\n            <li class=\"description\">A timeline of what is happening in the app. It shows the methods that are called and the events that are triggered. For each of them, you have access to the passed arguments and the component object.</li>\n        </ul>\n        <ul class=\"small-6 columns pricing-table radius\" data-menu=\"#perfReport\">\n            <li class=\"title\">Performance reports</li>\n            <li class=\"description\">A table showing the render times and the number of renders of the components on the page</li>\n        </ul>\n    </div>\n    <div class=\"row\">\n        <ul class=\"small-6 columns pricing-table radius\" data-menu=\"#structure\">\n            <li class=\"title\">Structure</li>\n            <li class=\"description\">A hierarchical tree representing the Sugar components of the current page.</li>\n        </ul>\n        <ul class=\"small-6 columns pricing-table radius\" data-menu=\"#generate\">\n            <li class=\"title\">Generate records</li>\n            <li class=\"description\">Generate Sugar records in the one click!</li>\n        </ul>\n    </div>\n    <div class=\"row\">\n        <ul class=\"small-6 columns pricing-table radius\" data-menu=\"#performance\">\n            <li class=\"title\">Render times</li>\n            <li class=\"description\">Measure the render duration of the different fields to detect performance drops.</li>\n        </ul>\n    </div>\n</div>\n<hr>\n";
+  stack1 = ((helper = (helper = helpers.if_debugMode || (depth0 != null ? depth0.if_debugMode : depth0)) != null ? helper : helpers.helperMissing),(options={"name":"if_debugMode","hash":{},"fn":this.program(1, data, 0),"inverse":this.program(3, data, 0),"data":data}),(typeof helper === "function" ? helper.call(depth0,options) : helper));
+  if (!helpers.if_debugMode) { stack1 = helpers.blockHelperMissing.call(depth0,stack1,options)}
+  if (stack1 != null) { buffer += stack1; }
+  return buffer;
 },"useData":true});
 
 this["Handlebars"]["templates"]["generate"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
@@ -174,21 +190,21 @@ this["Handlebars"]["templates"]["generate"] = Handlebars.template({"1":function(
   return "<h3 class=\"text-center\">Generate records<i class=\"fi-lightbulb help-button\" data-action=\"toggleHelp\"></i></h3>\n\n<div class=\"panel callout radius\""
     + ((stack1 = helpers.unless.call(depth0,(depth0 != null ? depth0.displayHelp : depth0),{"name":"unless","hash":{},"fn":this.program(1, data, 0, blockParams, depths),"inverse":this.noop,"data":data})) != null ? stack1 : "")
     + " data-panel=\"help\">\n    This panel allows you to generate records in your instance easily.\n</div>\n<ul class=\"button-group round even-3 text-center\">\n    <li><a data-id=\"generateAuto\" class=\"button "
-    + ((stack1 = helpers['if'].call(depth0,(depth0 != null ? depth0.generateAuto : depth0),{"name":"if","hash":{},"fn":this.program(3, data, 0, blockParams, depths),"inverse":this.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers["if"].call(depth0,(depth0 != null ? depth0.generateAuto : depth0),{"name":"if","hash":{},"fn":this.program(3, data, 0, blockParams, depths),"inverse":this.noop,"data":data})) != null ? stack1 : "")
     + "\">Auto</a></li>\n    <li><a data-id=\"generateManual\" class=\"button "
     + ((stack1 = helpers.unless.call(depth0,(depth0 != null ? depth0.generateAuto : depth0),{"name":"unless","hash":{},"fn":this.program(3, data, 0, blockParams, depths),"inverse":this.noop,"data":data})) != null ? stack1 : "")
     + "\">Manual</a></li>\n</ul>\n<hr>\n<div id=\"generateAuto\" class=\""
     + ((stack1 = helpers.unless.call(depth0,(depth0 != null ? depth0.generateAuto : depth0),{"name":"unless","hash":{},"fn":this.program(5, data, 0, blockParams, depths),"inverse":this.noop,"data":data})) != null ? stack1 : "")
     + "\">\n    <label>Choose a module :</label>\n    <select name=\"Module\" "
-    + ((stack1 = helpers['if'].call(depth0,(depth0 != null ? depth0.useCurrentContext : depth0),{"name":"if","hash":{},"fn":this.program(7, data, 0, blockParams, depths),"inverse":this.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers["if"].call(depth0,(depth0 != null ? depth0.useCurrentContext : depth0),{"name":"if","hash":{},"fn":this.program(7, data, 0, blockParams, depths),"inverse":this.noop,"data":data})) != null ? stack1 : "")
     + ">\n"
     + ((stack1 = helpers.each.call(depth0,(depth0 != null ? depth0.modules : depth0),{"name":"each","hash":{},"fn":this.program(9, data, 0, blockParams, depths),"inverse":this.noop,"data":data})) != null ? stack1 : "")
     + "    </select>\n    <label>How many records to generate?</label>\n    <input type=\"number\" name=\"numberOfRecords\" value=\"1\">\n</div>\n<div id=\"generateManual\" class=\""
-    + ((stack1 = helpers['if'].call(depth0,(depth0 != null ? depth0.generateAuto : depth0),{"name":"if","hash":{},"fn":this.program(5, data, 0, blockParams, depths),"inverse":this.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers["if"].call(depth0,(depth0 != null ? depth0.generateAuto : depth0),{"name":"if","hash":{},"fn":this.program(5, data, 0, blockParams, depths),"inverse":this.noop,"data":data})) != null ? stack1 : "")
     + "\">\n    <input type=\"checkbox\" id=\"currentContext\" "
-    + ((stack1 = helpers['if'].call(depth0,(depth0 != null ? depth0.useCurrentContext : depth0),{"name":"if","hash":{},"fn":this.program(11, data, 0, blockParams, depths),"inverse":this.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers["if"].call(depth0,(depth0 != null ? depth0.useCurrentContext : depth0),{"name":"if","hash":{},"fn":this.program(11, data, 0, blockParams, depths),"inverse":this.noop,"data":data})) != null ? stack1 : "")
     + ">\n    <label for=\"currentContext\">Generate in current page</label>\n\n    <label>Choose a module :</label>\n    <select name=\"Module\" "
-    + ((stack1 = helpers['if'].call(depth0,(depth0 != null ? depth0.useCurrentContext : depth0),{"name":"if","hash":{},"fn":this.program(7, data, 0, blockParams, depths),"inverse":this.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers["if"].call(depth0,(depth0 != null ? depth0.useCurrentContext : depth0),{"name":"if","hash":{},"fn":this.program(7, data, 0, blockParams, depths),"inverse":this.noop,"data":data})) != null ? stack1 : "")
     + ">\n"
     + ((stack1 = helpers.each.call(depth0,(depth0 != null ? depth0.modules : depth0),{"name":"each","hash":{},"fn":this.program(9, data, 0, blockParams, depths),"inverse":this.noop,"data":data})) != null ? stack1 : "")
     + "    </select>\n    <label>Choose a subpanel :</label>\n    <p class=\"format-help\">Possible only if the current page is a record view and\n        you checked 'Generate in current page'.</p>\n    <select name=\"Subpanel\""
@@ -206,7 +222,7 @@ this["Handlebars"]["templates"]["metrics"] = Handlebars.template({"1":function(d
   return "            <option value=\""
     + alias3(((helper = (helper = helpers.type || (depth0 != null ? depth0.type : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"type","hash":{},"data":data}) : helper)))
     + "\""
-    + ((stack1 = helpers['if'].call(depth0,(depth0 != null ? depth0.selected : depth0),{"name":"if","hash":{},"fn":this.program(4, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers["if"].call(depth0,(depth0 != null ? depth0.selected : depth0),{"name":"if","hash":{},"fn":this.program(4, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "")
     + ">"
     + alias3(((helper = (helper = helpers.type || (depth0 != null ? depth0.type : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"type","hash":{},"data":data}) : helper)))
     + "</option>\n";
@@ -218,7 +234,7 @@ this["Handlebars"]["templates"]["metrics"] = Handlebars.template({"1":function(d
   return "            <option value=\""
     + alias3(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"name","hash":{},"data":data}) : helper)))
     + "\""
-    + ((stack1 = helpers['if'].call(depth0,(depth0 != null ? depth0.selected : depth0),{"name":"if","hash":{},"fn":this.program(4, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers["if"].call(depth0,(depth0 != null ? depth0.selected : depth0),{"name":"if","hash":{},"fn":this.program(4, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "")
     + ">"
     + alias3(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"name","hash":{},"data":data}) : helper)))
     + "</option>\n";
@@ -257,52 +273,47 @@ this["Handlebars"]["templates"]["metrics"] = Handlebars.template({"1":function(d
 },"useData":true});
 
 this["Handlebars"]["templates"]["navbar"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-    return "<a class=\"selected\" href=\"#general\">Settings</a><a href=\"#appstream\">Application Stream</a><a href=\"#structure\">Structure</a><a href=\"#perfReport\">Perf report</a><a href=\"#performance\">Render times</a><a href=\"#generate\">Generate records</a>\n";
+    return "<a class=\"selected\" href=\"#general\"><img id=\"sugar-cube\" src=\"../img/sugarcube.png\"></a>\n<a href=\"#appstream\">Application Stream</a>\n<a href=\"#structure\">Structure</a>\n<a href=\"#perfReport\">Perf report</a>\n<a href=\"#performance\">Render times</a>\n<a href=\"#generate\">Generate records</a>\n";
 },"useData":true});
 
 this["Handlebars"]["templates"]["perf-report"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
     return " style=\"display: none;\"";
-},"3":function(depth0,helpers,partials,data) {
-    var helper, alias1=helpers.helperMissing, alias2="function", alias3=this.escapeExpression;
-
-  return "    <tr>\n        <td>"
-    + alias3(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"name","hash":{},"data":data}) : helper)))
-    + "</td>\n        <td>"
-    + alias3(((helper = (helper = helpers.type || (depth0 != null ? depth0.type : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"type","hash":{},"data":data}) : helper)))
-    + "</td>\n        <td>"
-    + alias3(((helper = (helper = helpers.avgPerf || (depth0 != null ? depth0.avgPerf : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"avgPerf","hash":{},"data":data}) : helper)))
-    + "</td>\n        <td>"
-    + alias3(((helper = (helper = helpers.count || (depth0 != null ? depth0.count : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"count","hash":{},"data":data}) : helper)))
-    + "</td>\n        <td>"
-    + alias3(((helper = (helper = helpers.renderCount || (depth0 != null ? depth0.renderCount : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"renderCount","hash":{},"data":data}) : helper)))
-    + "</td>\n    </tr>\n";
-},"5":function(depth0,helpers,partials,data) {
-    var helper, alias1=helpers.helperMissing, alias2="function", alias3=this.escapeExpression;
-
-  return "        <tr>\n            <td>"
-    + alias3(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"name","hash":{},"data":data}) : helper)))
-    + "</td>\n            <td>"
-    + alias3(((helper = (helper = helpers.type || (depth0 != null ? depth0.type : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"type","hash":{},"data":data}) : helper)))
-    + "</td>\n            <td>"
-    + alias3(((helper = (helper = helpers.avgPerf || (depth0 != null ? depth0.avgPerf : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"avgPerf","hash":{},"data":data}) : helper)))
-    + "</td>\n            <td>"
-    + alias3(((helper = (helper = helpers.count || (depth0 != null ? depth0.count : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"count","hash":{},"data":data}) : helper)))
-    + "</td>\n            <td>"
-    + alias3(((helper = (helper = helpers.renderCount || (depth0 != null ? depth0.renderCount : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"renderCount","hash":{},"data":data}) : helper)))
-    + "</td>\n        </tr>\n";
-},"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
+},"3":function(depth0,helpers,partials,data,blockParams,depths) {
     var stack1;
 
-  return "<h3 class=\"text-center\">Performance report<i class=\"fi-lightbulb help-button\" data-action=\"toggleHelp\"></i></h3>\n\n<div class=\"panel callout radius\""
-    + ((stack1 = helpers.unless.call(depth0,(depth0 != null ? depth0.displayHelp : depth0),{"name":"unless","hash":{},"fn":this.program(1, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "")
-    + " data-panel=\"help\">\n    This panel shows a performance report of the elements on the page.\n    It should be used to detect which components are slow to render.\n</div>\n<button class=\"fi-refresh refresh round\" data-action=\"refresh\"></button>\n<ul class=\"button-group round even-3\">\n    <li><a data-id=\"fields\" class=\"button active\">Fields</a></li>\n    <li><a data-id=\"views\" class=\"button\">Views</a></li>\n    <li><a data-id=\"layouts  \"class=\"button\">Layouts</a></li>\n</ul>\n\n<table data-id=\"layouts\" class=\"tablesorter hide\">\n    <thead>\n    <tr>\n        <th>\n            Layout name\n        </th>\n        <th>\n            Layout type\n        </th>\n        <th>\n            Average render time (ms)\n        </th>\n        <th>\n            Number of similar layouts\n        </th>\n        <th>\n            Number of renders\n        </th>\n    </tr>\n    </thead>\n    <tbody>\n"
-    + ((stack1 = helpers.each.call(depth0,(depth0 != null ? depth0.layouts : depth0),{"name":"each","hash":{},"fn":this.program(3, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "")
-    + "    </tbody>\n</table>\n<table data-id=\"views\" class=\"tablesorter hide\">\n    <thead>\n    <tr>\n        <th>\n            View name\n        </th>\n        <th>\n            View type\n        </th>\n        <th>\n            Average render time (ms)\n        </th>\n        <th>\n            Number of similar views\n        </th>\n        <th>\n            Number of renders\n        </th>\n    </tr>\n    </thead>\n    <tbody>\n"
-    + ((stack1 = helpers.each.call(depth0,(depth0 != null ? depth0.views : depth0),{"name":"each","hash":{},"fn":this.program(5, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "")
-    + "    </tbody>\n</table>\n<table data-id=\"fields\" class=\"tablesorter\">\n    <thead>\n    <tr>\n        <th>\n            Field name\n        </th>\n        <th>\n            Field type\n        </th>\n        <th>\n            Average render time (ms)\n        </th>\n        <th>\n            Number of similar fields\n        </th>\n        <th>\n            Number of renders\n        </th>\n    </tr>\n    </thead>\n    <tbody>\n"
-    + ((stack1 = helpers.each.call(depth0,(depth0 != null ? depth0.fields : depth0),{"name":"each","hash":{},"fn":this.program(5, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "")
-    + "    </tbody>\n</table>\n";
-},"useData":true});
+  return "    <button class=\"fi-refresh refresh round\" data-action=\"refresh\"></button>\n    <ul class=\"button-group round even-3\">\n        <li><a data-id=\"fields\" class=\"button active\">Fields</a></li>\n        <li><a data-id=\"views\" class=\"button\">Views</a></li>\n        <li><a data-id=\"layouts  \"class=\"button\">Layouts</a></li>\n    </ul>\n\n    <table data-id=\"layouts\" class=\"tablesorter hide\">\n        <thead>\n        <tr>\n            <th>\n                Layout name\n            </th>\n            <th>\n                Layout type\n            </th>\n            <th>\n                Average render time (ms)\n            </th>\n            <th>\n                Number of similar layouts\n            </th>\n            <th>\n                Number of renders\n            </th>\n        </tr>\n        </thead>\n        <tbody>\n"
+    + ((stack1 = helpers.each.call(depth0,(depths[1] != null ? depths[1].layouts : depths[1]),{"name":"each","hash":{},"fn":this.program(4, data, 0, blockParams, depths),"inverse":this.noop,"data":data})) != null ? stack1 : "")
+    + "        </tbody>\n    </table>\n    <table data-id=\"views\" class=\"tablesorter hide\">\n        <thead>\n        <tr>\n            <th>\n                View name\n            </th>\n            <th>\n                View type\n            </th>\n            <th>\n                Average render time (ms)\n            </th>\n            <th>\n                Number of similar views\n            </th>\n            <th>\n                Number of renders\n            </th>\n        </tr>\n        </thead>\n        <tbody>\n"
+    + ((stack1 = helpers.each.call(depth0,(depths[1] != null ? depths[1].views : depths[1]),{"name":"each","hash":{},"fn":this.program(4, data, 0, blockParams, depths),"inverse":this.noop,"data":data})) != null ? stack1 : "")
+    + "        </tbody>\n    </table>\n    <table data-id=\"fields\" class=\"tablesorter\">\n        <thead>\n        <tr>\n            <th>\n                Field name\n            </th>\n            <th>\n                Field type\n            </th>\n            <th>\n                Average render time (ms)\n            </th>\n            <th>\n                Number of similar fields\n            </th>\n            <th>\n                Number of renders\n            </th>\n        </tr>\n        </thead>\n        <tbody>\n"
+    + ((stack1 = helpers.each.call(depth0,(depths[1] != null ? depths[1].fields : depths[1]),{"name":"each","hash":{},"fn":this.program(4, data, 0, blockParams, depths),"inverse":this.noop,"data":data})) != null ? stack1 : "")
+    + "        </tbody>\n    </table>\n";
+},"4":function(depth0,helpers,partials,data) {
+    var helper, alias1=helpers.helperMissing, alias2="function", alias3=this.escapeExpression;
+
+  return "            <tr>\n                <td>"
+    + alias3(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"name","hash":{},"data":data}) : helper)))
+    + "</td>\n                <td>"
+    + alias3(((helper = (helper = helpers.type || (depth0 != null ? depth0.type : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"type","hash":{},"data":data}) : helper)))
+    + "</td>\n                <td>"
+    + alias3(((helper = (helper = helpers.avgPerf || (depth0 != null ? depth0.avgPerf : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"avgPerf","hash":{},"data":data}) : helper)))
+    + "</td>\n                <td>"
+    + alias3(((helper = (helper = helpers.count || (depth0 != null ? depth0.count : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"count","hash":{},"data":data}) : helper)))
+    + "</td>\n                <td>"
+    + alias3(((helper = (helper = helpers.renderCount || (depth0 != null ? depth0.renderCount : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"renderCount","hash":{},"data":data}) : helper)))
+    + "</td>\n            </tr>\n";
+},"6":function(depth0,helpers,partials,data) {
+    return "    <div data-alert=\"debugMode\" class=\"alert-box\">\n        Please activate the debug mode by clicking on the Sugar cube in your browser header bar to access to this feature.\n    </div>\n";
+},"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data,blockParams,depths) {
+    var stack1, helper, options, buffer = 
+  "<h3 class=\"text-center\">Performance report<i class=\"fi-lightbulb help-button\" data-action=\"toggleHelp\"></i></h3>\n\n<div class=\"panel callout radius\""
+    + ((stack1 = helpers.unless.call(depth0,(depth0 != null ? depth0.displayHelp : depth0),{"name":"unless","hash":{},"fn":this.program(1, data, 0, blockParams, depths),"inverse":this.noop,"data":data})) != null ? stack1 : "")
+    + " data-panel=\"help\">\n    This panel shows a performance report of the elements on the page.\n    It should be used to detect which components are slow to render.\n</div>\n";
+  stack1 = ((helper = (helper = helpers.if_debugMode || (depth0 != null ? depth0.if_debugMode : depth0)) != null ? helper : helpers.helperMissing),(options={"name":"if_debugMode","hash":{},"fn":this.program(3, data, 0, blockParams, depths),"inverse":this.program(6, data, 0, blockParams, depths),"data":data}),(typeof helper === "function" ? helper.call(depth0,options) : helper));
+  if (!helpers.if_debugMode) { stack1 = helpers.blockHelperMissing.call(depth0,stack1,options)}
+  if (stack1 != null) { buffer += stack1; }
+  return buffer;
+},"useData":true,"useDepths":true});
 
 this["Handlebars"]["templates"]["performance"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
     return " style=\"display: none;\"";
@@ -352,10 +363,17 @@ this["Handlebars"]["templates"]["performance"] = Handlebars.template({"1":functi
 
 this["Handlebars"]["templates"]["structure"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
     return " style=\"display: none;\"";
+},"3":function(depth0,helpers,partials,data) {
+    return "<div class=\"tabs-content\">\n    <div class=\"content active\" id=\"layout\">\n        <ul class=\"accordion panel-accordion\" data-accordion>\n        </ul>\n    </div>\n</div>\n";
+},"5":function(depth0,helpers,partials,data) {
+    return "    <div data-alert=\"debugMode\" class=\"alert-box\">\n        Please activate the debug mode by clicking on the Sugar cube in your browser header bar to access to this feature.\n    </div>\n";
 },"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-    var stack1;
-
-  return "<h3 class=\"text-center\">Page structure<i class=\"fi-lightbulb help-button\" data-action=\"toggleHelp\"></i></h3>\n\n<div class=\"panel callout radius\""
+    var stack1, helper, options, buffer = 
+  "<h3 class=\"text-center\">Page structure<i class=\"fi-lightbulb help-button\" data-action=\"toggleHelp\"></i></h3>\n\n<div class=\"panel callout radius\""
     + ((stack1 = helpers.unless.call(depth0,(depth0 != null ? depth0.displayHelp : depth0),{"name":"unless","hash":{},"fn":this.program(1, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "")
-    + " data-panel=\"help\">\n    This panel shows the hierarchical tree of the Sugar components in the current page. Hovering a component will highlight it on the page.\n    The highlighting colors match the context of the components. Clicking on a component name will log the object in the console.\n</div>\n\n<div class=\"tabs-content\">\n    <div class=\"content active\" id=\"layout\">\n        <div class=\"button-bar panel-layout-button-bar\">\n            <ul class=\"button-group round\">\n                <li><a id=\"expandAll\" class=\"button tiny\">Expand all</a></li>\n                <li><a id=\"collapseAll\" class=\"button tiny\">Collapse all</a></li>\n            </ul>\n        <!--<a id=\"toggleAllCtx\" href=\"#\" class=\"button tiny round\">Display all contexts</a>-->\n        </div>\n        <ul class=\"accordion panel-accordion\" data-accordion>\n        </ul>\n    </div>\n</div>\n";
+    + " data-panel=\"help\">\n    This panel shows the hierarchical tree of the Sugar components in the current page. Hovering a component will highlight it on the page.\n    The highlighting colors match the context of the components. Clicking on a component name will log the object in the console.\n</div>\n";
+  stack1 = ((helper = (helper = helpers.if_debugMode || (depth0 != null ? depth0.if_debugMode : depth0)) != null ? helper : helpers.helperMissing),(options={"name":"if_debugMode","hash":{},"fn":this.program(3, data, 0),"inverse":this.program(5, data, 0),"data":data}),(typeof helper === "function" ? helper.call(depth0,options) : helper));
+  if (!helpers.if_debugMode) { stack1 = helpers.blockHelperMissing.call(depth0,stack1,options)}
+  if (stack1 != null) { buffer += stack1; }
+  return buffer;
 },"useData":true});
