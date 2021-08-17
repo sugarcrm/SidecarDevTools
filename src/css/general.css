@@ -1,0 +1,18 @@
+/*
+ * Copyright (c) 2015 SugarCRM Inc. Licensed by SugarCRM under the Apache 2.0 license.
+ */
+.general .features .pricing-table {
+  cursor: pointer; }
+  .general .features .pricing-table.columns {
+    padding: 0; }
+  .general .features .pricing-table .title {
+    background-color: #282828;
+    box-shadow: 0 4px 0 #e61718;
+    font-size: 1.2rem; }
+  .general .features .pricing-table .description {
+    margin-top: 4px;
+    font-size: 1rem; }
+.general .features .small-6 {
+  width: 48%; }
+
+/*# sourceMappingURL=general.css.map */

@@ -1,21 +1,41 @@
 <h2 class="text-center">Sidecar Debugger Tool</h2>
-
-<form>
-    <input type="checkbox" name="tooltips" id="tooltips_checkbox" /><label for="tooltips_checkbox">Display tooltips on hover with view/field information<span class="red">*</span></label><br>
-</form>
-<p><span class="red">*</span> Requires page reload</p>
-
-<h2>Features</h2>
-<ul>
-    <li>$view console variable after inspecting a DOM Element (it points to the closest parent Sidecar Component).</li>
-    <li>In <strong>SugarDebug Panel</strong>, you will find different several tabs:
-        <ul>
-            <li><strong><i>Application Stream: </i></strong>A timeline of what is happening in the app. It shows the methods that are called and the events that are triggered. For each of them, you have access to the passed arguments and the component object.</li>
-            <li><strong><i>Structure: </i></strong>A hierarchical tree representing the Sugar components of the current page.</li>
-            <li><strong><i>Render times: </i></strong>Allows you to measure the render duration of the different fields.</li>
-            <!--<li><strong><i>Metrics: </i></strong>Allows you to track any method of any sugar component to capture its duration and detect performance lacks.</li>-->
-            <li><strong><i>Generate records: </i></strong>An easy way to generate records in your SugarCRM instance.</li>
+<hr>
+<div class="features">
+    <div class="row">
+        <ul class="small-6 columns pricing-table radius" data-menu="#appstream">
+            <li class="title">Application Stream</li>
+            <li class="description">A timeline of what is happening in the app. It shows the methods that are called and the events that are triggered. For each of them, you have access to the passed arguments and the component object.</li>
         </ul>
-    </li>
-</ul>
-
+        <ul class="small-6 columns pricing-table radius" data-menu="#perfReport">
+            <li class="title">Performance reports</li>
+            <li class="description">A table showing the render times and the number of renders of the components on the page</li>
+        </ul>
+    </div>
+    <div class="row">
+        <ul class="small-6 columns pricing-table radius" data-menu="#structure">
+            <li class="title">Structure</li>
+            <li class="description">A hierarchical tree representing the Sugar components of the current page.</li>
+        </ul>
+        <ul class="small-6 columns pricing-table radius" data-menu="#generate">
+            <li class="title">Generate records</li>
+            <li class="description">Generate Sugar records in the one click!</li>
+        </ul>
+    </div>
+    <div class="row">
+        <ul class="small-6 columns pricing-table radius" data-menu="#performance">
+            <li class="title">Render times</li>
+            <li class="description">Measure the render duration of the different fields to detect performance drops.</li>
+        </ul>
+    </div>
+</div>
+<hr>
+{{#if_debugMode}}
+    <div data-alert="debugMode" class="alert-box success">
+        <strong>$view feature activated!</strong> Select a DOM element with the default chrome element selector,
+        the corresponding sidecar component will be set globally in <strong>$view</strong> variable so you can access it from the console.
+    </div>
+{{else}}
+    <div data-alert="debugMode" class="alert-box">
+        Please activate the debug mode by clicking on the Sugar cube in your browser header bar to activate the amazing <strong>$view</strong> feature!
+    </div>
+{{/if_debugMode}}

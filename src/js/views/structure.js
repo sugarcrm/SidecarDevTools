@@ -9,23 +9,14 @@
         className: 'structure',
         template: BDT.templates['structure'],
         events: {
-            'click #expandAll': 'expandAll',
-            'click #collapseAll': 'collapseAll',
-            'click #toggleAllCtx': 'toggleAllContexts',
             'mouseover a.comp-link': 'toggleContext',
             'mouseout a.comp-link': 'toggleContext',
             'click i[data-action=toggleHelp]': 'toggleHelpPanel',
-            'click input[name=render]': 'renderComponent',
             'click [data-name=name]': 'logComponentObject'
         },
 
         initialize: function() {
-            /**
-             * Boolean set to `true` when all contexts are displayed on the page.
-             *
-             * @property {boolean} contextsShown
-             */
-            this.contextsShown = false;
+
             /**
              * A hash containing contexts with their matching color.
              *
@@ -125,7 +116,6 @@
                     '</a>' +
                     '<div class="render-block">' +
                     '<span class="time" data-performance="renderTime">' + compPerf + '</span>' +
-                    '<input name="render" type="button" value="render" data-cid="' + comp.cid + '">' +
                     '</div>');
 
             $el.addClass(comp.compType);
@@ -155,34 +145,6 @@
         expandAll: function() {
             this.$('.accordion li').removeClass('active').addClass('active');
             this.$('.accordion li > .content').removeClass('active').addClass('active');
-        },
-
-        /**
-         * Collapses all accordions.
-         */
-        collapseAll: function() {
-            $('.accordion li').removeClass('active');
-            $('.accordion li > .content').removeClass('active');
-        },
-
-        /**
-         * Displays all the different contexts on the page by adding a
-         * colorized overlay on each component (sidecar view or layout).
-         * Each context has one corresponding color.
-         */
-        toggleAllContexts: function() {
-            this.contextsShown = !this.contextsShown;
-
-            if (!this.contextsShown) {
-                this.backgroundPageConnection.postMessage({
-                    tabId: chrome.devtools.inspectedWindow.tabId,
-                    clearAllContext: true
-                });
-                this.$('[data-action=toggle-context]').prop('checked', false);
-            } else {
-                this.colorizeContext(this.component, true);
-                this.$('[data-action=toggle-context]').prop('checked', true);
-            }
         },
 
         /**
@@ -242,24 +204,6 @@
             this.$('[data-panel=help]').toggle();
             this.displayHelp = !this.displayHelp;
             $(event.currentTarget).toggleClass('open', this.displayHelp);
-        },
-
-        /**
-         * Renders a component.
-         *
-         * @param {Event} evt The `click` event.
-         */
-        renderComponent: function(evt) {
-            var self = this;
-            var cid = $(evt.currentTarget).data('cid');
-            BDT.page.eval('renderComponent', [cid], function(renderTimesObj, isException) {
-                if (isException) {
-                    var error = 'Sidecar dev tools: The element couldn\'t be re-rendered in the structure page.';
-                    BDT.page.eval('console', ['error', error]);
-                } else {
-                    self.updateStructure();
-                }
-            });
         },
 
         /**

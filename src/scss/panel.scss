@@ -33,6 +33,9 @@ html, body {
       background-color: #0e0e0e;
     }
   }
+  img#sugar-cube {
+    height: 22px;
+  }
 }
 
 #main {
@@ -175,4 +178,9 @@ select, input[type="number"], textarea {
 
 .red {
   color: #ff0000;
+}
+
+div[data-alert=debugMode] {
+  font-size: 1em;
+  line-height: 1.5em;
 }
