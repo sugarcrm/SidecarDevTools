@@ -269,6 +269,12 @@
 
         Debug.prototype._onHookLayoutRender = function() {
             this.$el.attr('data-debug-cid', this.cid);
+
+            if (!_components[this.cid]) {
+                // ignore components that we aren't mapping
+                return;
+            }
+
             _components[this.cid].renderCount = _components[this.cid].renderCount ? ++_components[this.cid].renderCount : 1;
             var performance = Array.prototype.slice.call(arguments, -1).pop();
             var lastRenderTime = _components[this.cid].performance;
